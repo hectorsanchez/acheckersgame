@@ -1,0 +1,17 @@
+
+Como empezamos:
+
+    Encarar un modo dos jugadores, dentro de una ventana de pygame. Sin
+    detenernos demasiado en la IA que veníamos planteando. Esto con la 
+    intensión de transladar la 'vista' del tablero ASCII a pygame.
+    
+Cambios generales:
+    
+    La primera idea del juego fue pensar las posiciones de las fichas como
+    posiciones en una matriz, pero ahora definimos esto de otra manera: sólo
+    enumeramos las celdas que se pueden utilizar.
+    
+    
+Ejecutar en Linux:
+cd acheckersgame
+

@@ -1,0 +1,22 @@
+    
+Lo que se pudo hacer:
+    
+	estructura de directorios
+	ventana simple
+	ventana con fondo
+	ventana con fichas en la posición que indica la matriz
+        función básica para cargar imagenes
+        
+            Tiene un parámetro que indica el "tema visual", por ejemplo ahora
+            usamos el tema 'classic', pero luego pensamos crear mas temas...
+
+	seleccionar fichas con el mouse:
+
+            "En un futuro habría que usar la clase Mouse, por ahora estamos
+            capturando el evento "MOUSEBUTTONDOWN" para determinar si se pulsó
+            sobre una posición válida del tablero, y en ese caso, si hay una
+            ficha sobre esa celda se retorna."
+
+            "A modo de prueba, cada vez que el usuario pulsa sobre una pieza,
+            esta pieza se translada a la posición 17".
+

@@ -1,0 +1,24 @@
+
+Proximas cosas para implentar:
+
+    Re-factorizar:
+        Quitar código de la clase Word:
+            implementar la clase mouse:
+                que existan dos acciones diferentes para seleccionar 
+                y soltar una pieza (por ahora no usaríamos 'arrastrar-soltar'
+            implementar la clase tablero
+        * mejorar el código en general
+    Planificar la funcionalidad de la primer versión jugable (y las betas para
+        llegar a eso)
+    Crear las validaciones que se necesitan para mover una ficha:
+         1  - posición del tablero válida
+         2  - ficha del jugador en turno
+         3  - ficha con posibilidad de movimiento
+         3a - prioridad para comer ficha (en caso de estar obligado a comer)
+         4  - comer máxima cantidad de fichas
+    Pensar el tema de las damas (en grupos separados o instancias de 
+    diferentes clases?)
+    Crear un administrar de juego para:
+        movimientos permitidos (¿o lo hace el tablero?)
+        anotar un log de juego
+        restricciones de juego como el empate o límite de movimientos sin comer.
