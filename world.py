@@ -2,21 +2,18 @@ import pygame
 import mouse
 from checker import Checker
 from common import *
-
-import pdb
+from config import *
 
 class World:
     
     def __init__(self):
         pygame.display.init()
-        self.screen = pygame.display.set_mode((640, 480))
+        self.screen = pygame.display.set_mode(WINDOW_SIZE)
         self.clock = pygame.time.Clock()
-        pygame.display.set_caption("Another Checkers Game - beta")
-
-        self.theme = 'classic'
+        pygame.display.set_caption(WINDOW_TITLE)
 
         self._create_checkers()
-        self.background = load_image('table.png', self.theme)
+        self.background = load_image(TABLE, THEME)
 
         # REMOVE
         self.screen.blit(self.background, (0, 0))
@@ -27,8 +24,8 @@ class World:
     def _create_checkers(self):
         self.group = pygame.sprite.RenderUpdates()
 
-        p1 = load_image('p1.png', self.theme)
-        p2 = load_image('p2.png', self.theme)
+        p1 = load_image(PIECE1, THEME)
+        p2 = load_image(PIECE2, THEME)
 
         # FIXME: a la variable "p" le pondria "position"
         for p in xrange(1, 13):
