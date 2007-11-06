@@ -15,6 +15,8 @@ class Checker(Sprite):
 
     def _move(self, position):
         self.position = position
+        # FIXME: no es recomendable utilizar el nombre "list" para una variable
+        # ya que estamos pisando la funcion built-in "list"
         list = [1, 2, 3, 4, 9, 10, 11, 12, 17, 18, 19, 20, 25, 26, 27, 28]
 
         if position in list:

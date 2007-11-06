@@ -3,6 +3,8 @@ import mouse
 from checker import Checker
 from common import *
 
+import pdb
+
 class World:
     
     def __init__(self):
@@ -28,6 +30,7 @@ class World:
         p1 = load_image('p1.png', self.theme)
         p2 = load_image('p2.png', self.theme)
 
+        # FIXME: a la variable "p" le pondria "position"
         for p in xrange(1, 13):
             c = Checker(1, p1, p)
             self.group.add(c)
@@ -59,21 +62,14 @@ class World:
             self._update_view()
 
     def _get_checker_at(self, (x,y)):
-        list =[1,3,5,7,8,10,12,14,17,19,21,23,24,26,28,30,33,
-        35,37,39,40,42,44,46,49,51,53,55,56,58,60,62]
-        x = x - 9
-        y = y - 46
-        i = y / 50
-        j = x /50
-        pos = i * 8 + j
-        if pos not in list:
-            return None
-        pos = pos / 2 + 1
-        for c in self.group.sprites():
-            if pos == c.position:
-                print "hay una pieza --  %d" %(pos)
-                return c
+        """Devuelve el sprite que se encuentra en la posicion en la que se
+        hizo click con el mouse"""
+        for sprite in self.group.sprites():
+            if sprite.rect.x < x < (sprite.rect.x + sprite.rect.w):
+                if sprite.rect.y < y < (sprite.rect.y + sprite.rect.h):
+                    return sprite
 
+    
     def _update_view(self):
         self.group.clear(self.screen, self.background)
         pygame.display.update(self.group.draw(self.screen))
