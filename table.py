@@ -50,11 +50,10 @@ class Table:
 
     def forced_jump(self, player, pieces):
         """Indica si ese jugador esta obligado a comer"""
-        increment_pos = self.increment_pos(player)
         for piece in pieces:
+            squares_possible = self.squares_possible(checker, player)
             if piece.player == player:
-                for pos in self.increment_pos:
-                    adjacent_position = checker.position + pos
+                for pos in squares_possible:
                     if square_occupied(adjacent_position):
                         pass
 

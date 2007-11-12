@@ -11,7 +11,7 @@ class Checker(Sprite):
         Sprite.__init__(self)
         self.player = player
         self._load_images(player, THEME)
-        self.show_image(0)
+        self.show_image(NORMAL)
         self.rect = self.image.get_rect()
         self._move(initial_position)
         self.can_drag = True

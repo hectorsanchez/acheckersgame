@@ -3,3 +3,12 @@ sáb nov 10 21:41:30 ART 2007: <hugoruscitti@gmail.com>
     - Implementado el módulo "gui" con dos objetos "Mouse" y "Gui".
     - Nuevas imágenes para las piezas.
     - La carga de imágenes de piezas se transfiera a la clase Checker.
+
+lun nov 12 16:50:28 ART 2007: <humitos@gmail.com>
+    - Implementando las reglas, sólo se puede mover a casilleros que sean
+    adyacentes y no estén ocupados.
+    - Al arrastrar las piezas no pasan "por debajo" de las otras.
+    - Se eliminó el parpadeo al cambiar de un tema a otro.
+    - Chequea si al mover una pieza, esta corona o no.
+    - Agregado 'Manuel Kaufmann' a AUTHORS
+    
