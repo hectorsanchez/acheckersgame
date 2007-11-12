@@ -59,11 +59,15 @@ class Checker(Sprite):
 
         destination_index = self.table.get_index_at(self.rect.center)
 
-        if destination_index and destination_index in self.table.squares_possible(self, self.player):
+        if destination_index and \
+           self.table.my_turn(self.player) and \
+           destination_index in self.table.squares_possible(self, self.player):
+            self.table.change_turn()
             self.rect.topleft = PIECE_POSITIONS[destination_index]
             self.table.positions[self.position] = False
             self.table.positions[destination_index] = True
             self.position = destination_index
+            #self.table.forced_jump(self.player)
             if self.table.crown(self, self.player):
                 # llamar a la funcion de coronar
                 print "Coronaste!"

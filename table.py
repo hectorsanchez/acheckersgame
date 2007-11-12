@@ -5,11 +5,17 @@ import common
 from checker import Checker
 
 class Table:
-    """Posiciones de las fichas que se encuentran contra
-    las paredes. Utilizado para los moviemientos posibles"""
+    # Posiciones de las fichas que se encuentran contra
+    # las paredes. Utilizado para los moviemientos posibles
     wall_left_positions = {29:True, 21:True, 13:True, 5:True}
     wall_right_positions = {28:True, 20:True, 12:True, 4:True}
 
+    # Casilleros en los que coronan los distintos jugadores
+    crown_player1 = [29,30,31,32]
+    crown_player2 = [1,2,3,4]
+
+    # Casilleros en los que las columnas son pares
+    squares_even_column = [1,2,3,4,9,10,11,12,17,18,19,20,25,26,27,28]
 
     def __init__(self, group, theme):
         """Inicializador de la clase"""
@@ -17,6 +23,9 @@ class Table:
         self.image = common.load_image('table.png', theme)
         self._create_collision_rects()
         self._create_checkers()
+
+        # jugador al que le corresponde mover
+        self.player_move = 1
 
         # setea las posiciones iniciales de las
         # piezas ocupadas
@@ -48,21 +57,32 @@ class Table:
         return result
 
 
-    def forced_jump(self, player, pieces):
+    def forced_jump(self, player):
         """Indica si ese jugador esta obligado a comer"""
-        for piece in pieces:
-            squares_possible = self.squares_possible(checker, player)
-            if piece.player == player:
-                for pos in squares_possible:
-                    if square_occupied(adjacent_position):
-                        pass
+        for checker in self.checkers:
+            increment_pos = self.increment_pos(checker, player)
+            if checker.player == player:
+                for pos in increment_pos:
+                    adjacent_position = checker.position + pos
+                    if self.square_occupied(adjacent_position) \
+                       and not self.checker_of_player(adjacent_position, player) \
+                       and not self.square_occupied(adjacent_position + pos):
+                        # la que le sigue no esta ocupada
+                        print "forced_jump"
+
+    def checker_of_player(self, position, player):
+        for checker in self.checkers:
+            if checker.position == position and \
+               checker.player == player:
+                return True
+        return False
 
     def crown(self, checker, player):
         """Devuelve verdadero si corono o falso en otro caso"""
         if player == 1:
-            return checker.position in [29,30,31,32]
+            return checker.position in self.crown_player1
         else:
-            return checker.position in [1,2,3,4]
+            return checker.position in self.crown_player2
 
     def increment_pos(self, checker, player):
         """Devuelve la lista a sumar a la posicion actual de la ficha
@@ -86,7 +106,20 @@ class Table:
                 return [-4, -5]
 
     def even_column(self, checker):
-        return checker.position in [1,2,3,4,9,10,11,12,17,18,19,20,25,26,27,28]
+        return checker.position in self.squares_even_column
+
+    def my_turn(self, player):
+        if player == self.player_move:
+            return True
+        else:
+            print "No es tu turno"
+            return False
+
+    def change_turn(self):
+        if self.player_move == 1:
+            self.player_move = 2
+        else:
+            self.player_move = 1
 
     def change_theme(self, theme):
         self.image = common.load_image('table.png', theme)
