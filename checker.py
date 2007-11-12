@@ -59,8 +59,11 @@ class Checker(Sprite):
 
         destination_index = self.table.get_index_at(self.rect.center)
 
-        if destination_index:
+        if destination_index and destination_index in self.table.squares_possible(self, self.player):
             self.rect.topleft = PIECE_POSITIONS[destination_index]
+            self.table.positions[self.position] = False
+            self.table.positions[destination_index] = True
+            self.position = destination_index
         else:
             # regresa a su posicion inicial
             # TODO: interpolar el movimiento.
