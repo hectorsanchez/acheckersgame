@@ -65,3 +65,4 @@ class Checker(Sprite):
             # regresa a su posicion inicial
             # TODO: interpolar el movimiento.
             self.rect.x, self.rect.y = from_x, from_y
+
