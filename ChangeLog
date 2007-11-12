@@ -1,0 +1,5 @@
+sáb nov 10 21:41:30 ART 2007: <hugoruscitti@gmail.com>
+    - Soporte para arrastrar y soltar.
+    - Implementado el módulo "gui" con dos objetos "Mouse" y "Gui".
+    - Nuevas imágenes para las piezas.
+    - La carga de imágenes de piezas se transfiera a la clase Checker.
