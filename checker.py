@@ -64,6 +64,9 @@ class Checker(Sprite):
             self.table.positions[self.position] = False
             self.table.positions[destination_index] = True
             self.position = destination_index
+            if self.table.crown(self, self.player):
+                # llamar a la funcion de coronar
+                print "Coronaste!"
         else:
             # regresa a su posicion inicial
             # TODO: interpolar el movimiento.

@@ -5,15 +5,21 @@ import common
 from checker import Checker
 
 class Table:
+    """Posiciones de las fichas que se encuentran contra
+    las paredes. Utilizado para los moviemientos posibles"""
+    wall_left_positions = {29:True, 21:True, 13:True, 5:True}
+    wall_right_positions = {28:True, 20:True, 12:True, 4:True}
+
 
     def __init__(self, group, theme):
+        """Inicializador de la clase"""
         self.group = group
         self.image = common.load_image('table.png', theme)
         self._create_collision_rects()
         self._create_checkers()
 
         # setea las posiciones iniciales de las
-        # pieces a ocupado
+        # piezas ocupadas
         self.positions = {}
         pos_player1 = range(1, 13)
         pos_player2 = range(21, 33)
@@ -42,12 +48,6 @@ class Table:
         return result
 
 
-    def wall_left(self, checker):
-        return checker.position in self.wall_left_positions
-
-    def wall_right(self, checker):
-        return checker.position in self.wall_right_positions
-
     def forced_jump(self, player, pieces):
         """Indica si ese jugador esta obligado a comer"""
         increment_pos = self.increment_pos(player)
@@ -58,23 +58,27 @@ class Table:
                     if square_occupied(adjacent_position):
                         pass
 
+    def crown(self, checker, player):
+        """Devuelve verdadero si corono o falso en otro caso"""
+        if player == 1:
+            return checker.position in [29,30,31,32]
+        else:
+            return checker.position in [1,2,3,4]
 
     def increment_pos(self, checker, player):
         """Devuelve la lista a sumar a la posicion actual de la ficha
         del jugador para obtener las posiciones adyacentes"""
-        wall_left_positions = {29:True, 21:True, 13:True, 5:True}
-        wall_right_positions = {28:True, 20:True, 12:True, 4:True}
         if player == 1:
-            if wall_left_positions.get(checker.position, False) \
-            or wall_right_positions.get(checker.position, False):
+            if self.wall_left_positions.get(checker.position, False) \
+            or self.wall_right_positions.get(checker.position, False):
                 print "esta a la izquierda o derecha"
                 return [4]
             if not self.even_column(checker):
                 return [3, 4]
             return [4, 5]
         else:
-            if wall_left_positions.get(checker.position, False) \
-            or wall_right_positions.get(checker.position, False):
+            if self.wall_left_positions.get(checker.position, False) \
+            or self.wall_right_positions.get(checker.position, False):
                 print "esta a la izquierda o derecha"
                 return [-4]
             elif self.even_column(checker):
