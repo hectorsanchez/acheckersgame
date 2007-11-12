@@ -69,4 +69,5 @@ class World:
         self.table.change_theme(THEME)
         self.table.draw(self.background)
         self.screen.blit(self.background, (0, 0))
+        self._update_view()
         pygame.display.flip()
