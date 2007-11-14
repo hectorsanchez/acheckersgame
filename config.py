@@ -4,6 +4,7 @@ TABLE = 'table.png'
 THEME = 'classic'
 WINDOW_TITLE = 'Another Checkers Game - beta'
 WINDOW_SIZE = (640, 480)
+MOTION_STEPS = 4.0
 
 
 PIECE_POSITIONS = {1 : (59, 46),

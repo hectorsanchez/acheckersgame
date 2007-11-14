@@ -2,6 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 from config import PIECE_POSITIONS, THEME
 from common import load_image
+from states import *
 
 NORMAL, OVER, DRAG = 0, 1, 2
 
@@ -17,9 +18,13 @@ class Checker(Sprite):
         self.can_drag = True
         self.can_click = False
         self.table = table
+        self.change_state(Starting(self, initial_position, player))
 
     def update(self):
-        pass
+        self.state.update()
+
+    def change_state(self, new_state):
+        self.state = new_state
 
     def _move(self, position):
         """Mueve la ficha a la posicion indicada por position. Las posiciones
@@ -73,6 +78,4 @@ class Checker(Sprite):
                 print "Coronaste!"
         else:
             # regresa a su posicion inicial
-            # TODO: interpolar el movimiento.
-            self.rect.x, self.rect.y = from_x, from_y
-
+            self.change_state(Moving(self, from_x, from_y))
