@@ -8,13 +8,14 @@ class World:
     
     def __init__(self):
         pygame.display.init()
+        pygame.font.init()
         self.screen = pygame.display.set_mode(WINDOW_SIZE)
         self.clock = pygame.time.Clock()
         self.group = pygame.sprite.OrderedUpdates()
         pygame.display.set_caption(WINDOW_TITLE)
-        self._create_buttons()
+        self._create_ui()
 
-        self.table = Table(self.group, THEME)
+        self.table = Table(self.group, THEME, self.turn)
 
         self.gui = gui.Gui(self.group.sprites())
         self.mouse = gui.Mouse(self.gui)
@@ -49,13 +50,15 @@ class World:
         pygame.display.update(self.group.draw(self.screen))
         self.clock.tick(60)
 
-    def _create_buttons(self):
-        b1 = gui.Button("classic", 520, 45)
-        b2 = gui.Button("beach", 520, 100)
+    def _create_ui(self):
+        b1 = gui.Button("classic", 520, 45, self.on_classic__clicked)
+        b2 = gui.Button("beach", 520, 100, self.on_beach__clicked)
         self.group.add(b1, b2)
 
-        b1.on_mouse_click = self.on_classic__clicked
-        b2.on_mouse_click = self.on_beach__clicked
+        # genera el visor de turnos
+        self.turn = gui.Turn()
+        self.group.add(self.turn)
+
 
     def on_classic__clicked(self):
         self.change_theme("classic")

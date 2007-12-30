@@ -6,16 +6,19 @@ MOTION_SPEED = 5.0
 
 
 def load_image(file, theme):
+    "Carga una imagen dentro del tema indicado."
     image = pygame.image.load('ima/%s/%s' %(theme, file))
     return image.convert_alpha()
 
 def bring_to_front(sprite):
+    "Trae un sprite al frente del grupo."
     for g in sprite.groups():
         g.remove(sprite)
         g.add(sprite)
 
 
 def interpolate((x, y), (to_x, to_y)):
+    "Retorna un generador que aproxima gradualmente un punto a otro."
 
     while True:
         dist_x = to_x - x

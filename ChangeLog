@@ -1,3 +1,11 @@
+dom dic 30 17:27:40 ART 2007: <hugoruscitti@gmail.com>
+    - Nuevo objeto 'Turn' que muestra el jugador que debe mover la siguiente
+    pieza.
+    - Mejoras en el objeto 'Mouse', ahora se puede saber si se permite un
+    movimiento antes de mover. El cursor tiene un pequeño indicador a la
+    derecha del mismo (flecha verde o cruz roja).
+    - Se agrega animación en los botones.
+
 sáb nov 10 21:41:30 ART 2007: <hugoruscitti@gmail.com>
     - Soporte para arrastrar y soltar.
     - Implementado el módulo "gui" con dos objetos "Mouse" y "Gui".

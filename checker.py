@@ -7,6 +7,7 @@ from states import *
 NORMAL, OVER, DRAG = 0, 1, 2
 
 class Checker(Sprite):
+    "Representa un pieza del juego."
     
     def __init__(self, player, initial_position, table):
         Sprite.__init__(self)
@@ -79,3 +80,6 @@ class Checker(Sprite):
         else:
             # regresa a su posicion inicial
             self.change_state(Moving(self, from_x, from_y))
+
+    def can_drag_me_actual_player(self):
+        return self.table.my_turn(self.player)

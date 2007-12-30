@@ -17,7 +17,7 @@ class Table:
     # Casilleros en los que las columnas son pares
     squares_even_column = [1,2,3,4,9,10,11,12,17,18,19,20,25,26,27,28]
 
-    def __init__(self, group, theme):
+    def __init__(self, group, theme, turn):
         """Inicializador de la clase"""
         self.group = group
         self.image = common.load_image('table.png', theme)
@@ -25,7 +25,9 @@ class Table:
         self._create_checkers()
 
         # jugador al que le corresponde mover
-        self.player_move = 1
+        self.turn = turn
+        self.player_move = 2
+        self.change_turn()
 
         # setea las posiciones iniciales de las
         # piezas ocupadas
@@ -52,6 +54,7 @@ class Table:
             adjacent_position = checker.position + pos
             if not self.square_occupied(adjacent_position):
                 result.append(adjacent_position)
+
         print "Posicion de la pieza:", checker.position
         print "Posibles movimientos:", result
         return result
@@ -112,7 +115,7 @@ class Table:
         if player == self.player_move:
             return True
         else:
-            print "No es tu turno"
+            #print "No es tu turno"
             return False
 
     def change_turn(self):
@@ -120,6 +123,8 @@ class Table:
             self.player_move = 2
         else:
             self.player_move = 1
+
+        self.turn.change(self.player_move)
 
     def change_theme(self, theme):
         self.image = common.load_image('table.png', theme)

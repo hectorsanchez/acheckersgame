@@ -35,11 +35,6 @@ class Mouse(Sprite):
 
         callbacks[event.type](event)
 
-
-    def draw(self, screen):
-        if self.visible:
-            screen.blit(self.image, self.rect.topleft)
-
     def on_mouse_button_up(self, event):
         if self.widget_on_drag:
             self.widget_on_drag.on_mouse_drag_end()
@@ -64,7 +59,10 @@ class Mouse(Sprite):
                 if obj.can_click:
                     self.image = self.over_click_image
                 elif obj.can_drag:
-                    self.image = self.over_drag_image
+                    if obj.can_drag_me_actual_player():
+                        self.image = self.over_drag_image
+                    else:
+                        self.image = self.over_cant_image
             else:
                 self.image = self.normal_image
 
@@ -92,8 +90,9 @@ class Mouse(Sprite):
         load = common.load_image
 
         self.normal_image = load("normal.png", 'mouse')
-        self.over_click_image = load("over_click.png", 'mouse')
-        self.over_drag_image = load("over_drag.png", 'mouse')
+        self.over_click_image = load("yes.png", 'mouse')
+        self.over_drag_image = load("yes.png", 'mouse')
+        self.over_cant_image = load("no.png", 'mouse')
         self.click_image = load("click.png", 'mouse')
         self.drag_image = load("drag.png", 'mouse')
         self.hide = load("hide.png", 'mouse')
