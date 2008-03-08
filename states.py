@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 import common
 from config import PIECE_POSITIONS
 

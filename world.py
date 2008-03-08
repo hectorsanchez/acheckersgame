@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 import pygame
 import gui
 from table import Table

@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 PIECE1 = 'p1.png'
 PIECE2 = 'p2.png'
 TABLE = 'table.png'
