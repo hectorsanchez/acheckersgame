@@ -22,9 +22,11 @@ class Checker(Sprite):
         self.change_state(Starting(self, initial_position, player))
 
     def update(self):
+        """Actualiza el estado de la ficha"""
         self.state.update()
 
     def change_state(self, new_state):
+        """Cambia el estado de la ficha"""
         self.state = new_state
 
     def _move(self, position):
@@ -34,16 +36,19 @@ class Checker(Sprite):
         self.rect.x, self.rect.y = PIECE_POSITIONS[position]
 
     def change_theme(self, theme):
+        """Cambia el tema de la ficha"""
         self._load_images(self.player, theme)
         self.show_image(NORMAL)
 
     def _load_images(self, player, theme):
+        """Carga todas las imagenes del tema"""
         prefix = "p%d_" %player
         names =  ['normal', 'over', 'drag']
         filenames = [prefix + name + '.png' for name in names]
         self.images = [load_image(name, theme) for name in filenames]
 
     def show_image(self, index):
+        """Asigna la nueva imagen a la ficha"""
         self.image = self.images[index]
 
     def on_mouse_move(self):

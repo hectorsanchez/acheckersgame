@@ -6,12 +6,6 @@ dom dic 30 17:27:40 ART 2007: <hugoruscitti@gmail.com>
     derecha del mismo (flecha verde o cruz roja).
     - Se agrega animación en los botones.
 
-sáb nov 10 21:41:30 ART 2007: <hugoruscitti@gmail.com>
-    - Soporte para arrastrar y soltar.
-    - Implementado el módulo "gui" con dos objetos "Mouse" y "Gui".
-    - Nuevas imágenes para las piezas.
-    - La carga de imágenes de piezas se transfiera a la clase Checker.
-
 lun nov 12 16:50:28 ART 2007: <humitos@gmail.com>
     - Implementando las reglas, sólo se puede mover a casilleros que sean
     adyacentes y no estén ocupados.
@@ -19,3 +13,17 @@ lun nov 12 16:50:28 ART 2007: <humitos@gmail.com>
     - Se eliminó el parpadeo al cambiar de un tema a otro.
     - Chequea si al mover una pieza, esta corona o no.
     - Agregado 'Manuel Kaufmann' a AUTHORS
+
+sáb nov 10 21:41:30 ART 2007: <hugoruscitti@gmail.com>
+    - Soporte para arrastrar y soltar.
+    - Implementado el módulo "gui" con dos objetos "Mouse" y "Gui".
+    - Nuevas imágenes para las piezas.
+    - La carga de imágenes de piezas se transfiera a la clase Checker.
+
+sáb ago 18 00:43:05 ART 2007: <hugoruscitti@gmail.com>,
+<hsanchez@pressenter.com.ar>
+    - Commit Inicial:
+	- Esquema general del juego
+	- Grafica del tablero
+	- Pantalla inicial y ubicación de fichas en el tablero
+	- Identificación de las fichas en el tablero

@@ -5,7 +5,6 @@ from common import *
 from config import *
 
 class World:
-    
     def __init__(self):
         pygame.display.init()
         pygame.font.init()
@@ -58,7 +57,6 @@ class World:
         # genera el visor de turnos
         self.turn = gui.Turn()
         self.group.add(self.turn)
-
 
     def on_classic__clicked(self):
         self.change_theme("classic")

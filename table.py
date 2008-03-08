@@ -5,6 +5,8 @@ import common
 from checker import Checker
 
 class Table:
+    """ Utilizada para el manejo de las piezas en el tablero y consultas sobre su estado"""    
+    
     # Posiciones de las fichas que se encuentran contra
     # las paredes. Utilizado para los moviemientos posibles
     wall_left_positions = {29:True, 21:True, 13:True, 5:True}
@@ -23,7 +25,7 @@ class Table:
         self.image = common.load_image('table.png', theme)
         self._create_collision_rects()
         self._create_checkers()
-
+        
         # jugador al que le corresponde mover
         self.turn = turn
         self.player_move = 2
@@ -74,6 +76,7 @@ class Table:
                         print "forced_jump"
 
     def checker_of_player(self, position, player):
+        """Chequea si la ficha de la posicion es del jugador"""
         for checker in self.checkers:
             if checker.position == position and \
                checker.player == player:
@@ -109,16 +112,18 @@ class Table:
                 return [-4, -5]
 
     def even_column(self, checker):
+        """Indica si la ficha esta en un columna par"""
         return checker.position in self.squares_even_column
 
     def my_turn(self, player):
+        """Indica si es el turno del jugador"""
         if player == self.player_move:
             return True
         else:
-            #print "No es tu turno"
             return False
 
     def change_turn(self):
+        """Cambia el jugador actual"""
         if self.player_move == 1:
             self.player_move = 2
         else:
@@ -127,12 +132,14 @@ class Table:
         self.turn.change(self.player_move)
 
     def change_theme(self, theme):
+        """Cambia el tema del juego completo"""
         self.image = common.load_image('table.png', theme)
 
         for checker in self.checkers:
             checker.change_theme(theme)
 
     def draw(self, destination):
+        """Dibuja el tablero"""
         destination.blit(self.image, (0, 0))
 
     def get_checker_at(self, (x, y)):
@@ -145,10 +152,8 @@ class Table:
 
     def get_index_at(self, (x, y)):
         """Devuelve el indice de tablero mas cercano a la posición (x,y). 
-
         Puede devolver None si no está cerca de ningún elemento."""
         i = 1
-
         for rect in self.rects:
             if rect.collidepoint(x, y):
                 return i
@@ -159,14 +164,13 @@ class Table:
 
     def _create_collision_rects(self):
         """Genera rectángulos que representan las zonas de tablero."""
-
         #TODO: tal vez esta estructura pueda reemplazar a PIECE_POSITIONS
         #      en un futuro.
-
         self.rects = [pygame.Rect(x, y, 50, 50)
                     for x, y in config.PIECE_POSITIONS.values()]
 
     def _create_checkers(self):
+        """Genera todas las fichas de ambos jugadores"""
         self.checkers = []
 
         for position in xrange(1, 13):
