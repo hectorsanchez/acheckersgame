@@ -1,0 +1,28 @@
+==================
+DAMAS ESPANOLAS
+==================
+
+REGLAS
+--------
+
+- Victoria:
+
+    - Si se quedo sin fichas un jugador, este ha perdido.
+
+    - Si un jugador no tiene movimientos posibles he perdido.
+
+- Empate:
+
+    - Empate en 20 movimientos de damas sin que ninguno halla movido un peon, comer
+      o "entrega de pieza"
+
+    - Si a un jugador le quedan 3 damas y una de ellas esta en la diagonal principal
+      y al otro tan solo una dama, cada uno de ellos tiene 13 movimientos. Luego tablas
+
+- Captura:
+
+    - Ley de cantidad: comer la maxima cantidad de piezas.
+
+    - Ley de calidad: y la cantida es igual, se debe comer la mayor cantidad de damas.
+
+
