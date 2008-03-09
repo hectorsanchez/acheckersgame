@@ -9,8 +9,12 @@ class Table:
     
     # Posiciones de las fichas que se encuentran contra
     # las paredes. Utilizado para los moviemientos posibles
-    wall_left_positions = {29:True, 21:True, 13:True, 5:True}
-    wall_right_positions = {28:True, 20:True, 12:True, 4:True}
+    # TODO: cambiar los diccionarios por listas
+    column1_positions = {29:True, 21:True, 13:True, 5:True}
+    column8_positions = {28:True, 20:True, 12:True, 4:True}
+
+    column2_positions = [1,9,17,25]
+    column7_positions = [8,16,24,32]
 
     # Casilleros en los que coronan los distintos jugadores
     crown_player1 = [29,30,31,32]
@@ -26,8 +30,10 @@ class Table:
         self._create_collision_rects()
         self._create_checkers()
         
-        # jugador al que le corresponde mover
+        # boton que muestra el jugador en turno
         self.turn = turn
+        
+        # jugador al que le corresponde mover
         self.player_move = 2
         self.change_turn()
 
@@ -50,7 +56,7 @@ class Table:
     def squares_possible(self, checker, player):
         """Devuelve los casilleros posibles para el jugador player y
         la pieza checker"""
-        increment_pos = self.increment_pos(checker, player)
+        increment_pos = self.increment_pos(checker.position, player)
         result = []
         for pos in increment_pos:
             adjacent_position = checker.position + pos
@@ -58,22 +64,58 @@ class Table:
                 result.append(adjacent_position)
 
         print "Posicion de la pieza:", checker.position
-        print "Posibles movimientos:", result
+        print "Casillas adyacentes libres:", result
         return result
 
 
     def forced_jump(self, player):
-        """Indica si ese jugador esta obligado a comer"""
+        """Devuelve una lista de piezas que pueden comer"""
+        #print "Comprobando para: ",
+        #print "Blanco" if player == 1 else "Negro"
+        # lista de piezas que pueden comer
+        jump_checkers = []
+        # para cada una de las piezas del jugador en
+        # en el turno
         for checker in self.checkers:
-            increment_pos = self.increment_pos(checker, player)
             if checker.player == player:
+                # obtiene los valores a sumar para adquirir los
+                # adyacentes
+                increment_pos = self.increment_pos(checker.position, player)
                 for pos in increment_pos:
+                    # compruebo que si estoy en la columna dos no puedo comer
+                    # para la izquiera y si estoy en la columna 7 no puedo comer
+                    # a la derecha
+                    if checker.position in self.column2_positions:
+                        if player == 1 and pos == 4:
+                            continue
+                        elif player == 2 and pos == -4:
+                            continue
+                    elif checker.position in self.column7_positions:
+                        if player == 1 and pos == 4:
+                            continue
+                        elif player == 2 and pos == -4:
+                            continue
                     adjacent_position = checker.position + pos
+                    
+                    # comprobar que no se vaya del tablero
+                    #print "adj + pos", adjacent_position + pos
+                    if not adjacent_position + pos in range(1,33):
+                        continue
+                        
+                    # si el casillero adyacente esta ocupado y
+                    # si no es una ficha del jugador en turno y
+                    # si el siguiente adyacente esta libre
+                    # esta ficha se agrega a la lista de fichas que
+                    # pueden comer
                     if self.square_occupied(adjacent_position) \
-                       and not self.checker_of_player(adjacent_position, player) \
-                       and not self.square_occupied(adjacent_position + pos):
-                        # la que le sigue no esta ocupada
-                        print "forced_jump"
+                       and not self.checker_of_player(adjacent_position, player):
+                            if not self.even_column(adjacent_position):
+                                if not self.square_occupied(adjacent_position + pos - 1):
+                                    jump_checkers.append(checker)
+                            else:
+                                if not self.square_occupied(adjacent_position + pos + 1):
+                                    jump_checkers.append(checker)
+        return jump_checkers
 
     def checker_of_player(self, position, player):
         """Chequea si la ficha de la posicion es del jugador"""
@@ -90,30 +132,28 @@ class Table:
         else:
             return checker.position in self.crown_player2
 
-    def increment_pos(self, checker, player):
+    def increment_pos(self, position, player):
         """Devuelve la lista a sumar a la posicion actual de la ficha
         del jugador para obtener las posiciones adyacentes"""
         if player == 1:
-            if self.wall_left_positions.get(checker.position, False) \
-            or self.wall_right_positions.get(checker.position, False):
-                print "esta a la izquierda o derecha"
+            if self.column1_positions.get(position, False) \
+            or self.column8_positions.get(position, False):
                 return [4]
-            if not self.even_column(checker):
+            if not self.even_column(position):
                 return [3, 4]
             return [4, 5]
         else:
-            if self.wall_left_positions.get(checker.position, False) \
-            or self.wall_right_positions.get(checker.position, False):
-                print "esta a la izquierda o derecha"
+            if self.column1_positions.get(position, False) \
+            or self.column8_positions.get(position, False):
                 return [-4]
-            elif self.even_column(checker):
-                return [-3, -4]
+            if self.even_column(position):
+                return [-4, -3]
             else:
-                return [-4, -5]
+                return [-5, -4]
 
-    def even_column(self, checker):
+    def even_column(self, position):
         """Indica si la ficha esta en un columna par"""
-        return checker.position in self.squares_even_column
+        return position in self.squares_even_column
 
     def my_turn(self, player):
         """Indica si es el turno del jugador"""

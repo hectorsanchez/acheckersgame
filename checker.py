@@ -79,7 +79,7 @@ class Checker(Sprite):
             self.table.positions[self.position] = False
             self.table.positions[destination_index] = True
             self.position = destination_index
-            #self.table.forced_jump(self.player)
+            print "Piezas que comen:", self.table.forced_jump(self.table.player_move)
             if self.table.crown(self, self.player):
                 # llamar a la funcion de coronar
                 print "Coronaste!"
@@ -89,3 +89,6 @@ class Checker(Sprite):
 
     def can_drag_me_actual_player(self):
         return self.table.my_turn(self.player)
+    
+    def __repr__(self):
+      return str(self.position)
