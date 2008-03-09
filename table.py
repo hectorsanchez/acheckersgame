@@ -22,6 +22,8 @@ class Table:
 
     # Casilleros en los que las columnas son pares
     squares_even_column = [1,2,3,4,9,10,11,12,17,18,19,20,25,26,27,28]
+    
+    #diag = 
 
     def __init__(self, group, theme, turn):
         """Inicializador de la clase"""
@@ -67,8 +69,54 @@ class Table:
         print "Casillas adyacentes libres:", result
         return result
 
+    def forced_jump_one_checker(self, checker):
+        # obtiene los valores a sumar para adquirir los
+        # adyacentes
+        result = []
+        increment_pos = self.increment_pos(checker.position, checker.player)
+        for pos in increment_pos:
+            # compruebo que si estoy en la columna dos no puedo comer
+            # para la izquiera y si estoy en la columna 7 no puedo comer
+            # a la derecha
+            if checker.position in self.column2_positions:
+                if checker.player == 1 and pos == 4:
+                    continue
+                elif checker.player == 2 and pos == -4:
+                    continue
+            elif checker.position in self.column7_positions:
+                if checker.player == 1 and pos == 4:
+                    continue
+                elif checker.player == 2 and pos == -4:
+                    continue
+            adjacent_position = checker.position + pos
+            
+            # comprobar que no se vaya del tablero
+            #print "adj + pos", adjacent_position + pos
+            if not adjacent_position + pos in range(1,33):
+                continue
+                
+            # si el casillero adyacente esta ocupado y
+            # si no es una ficha del jugador en turno y
+            # si el siguiente adyacente esta libre
+            # esta ficha se agrega a la lista de fichas que
+            # pueden comer
+            if self.square_occupied(adjacent_position) \
+                and not self.checker_of_player(adjacent_position, checker.player):
+                    if not self.even_column(adjacent_position):
+                        if not self.square_occupied(adjacent_position + pos - 1):
+                            result.append(dict(checker=checker,
+                                        direction=pos,
+                                        jumped_checker=self.get_checker_at_index(adjacent_position),
+                                        destination=adjacent_position + pos - 1))
+                    else:
+                        if not self.square_occupied(adjacent_position + pos + 1):
+                            result.append(dict(checker=checker,
+                                        direction=pos,
+                                        jumped_checker=self.get_checker_at_index(adjacent_position),
+                                        destination=adjacent_position + pos + 1))
+        return result
 
-    def forced_jump(self, player):
+    def forced_jump_all_checkers(self, player):
         """Devuelve una lista de piezas que pueden comer"""
         #print "Comprobando para: ",
         #print "Blanco" if player == 1 else "Negro"
@@ -78,43 +126,14 @@ class Table:
         # en el turno
         for checker in self.checkers:
             if checker.player == player:
-                # obtiene los valores a sumar para adquirir los
-                # adyacentes
-                increment_pos = self.increment_pos(checker.position, player)
-                for pos in increment_pos:
-                    # compruebo que si estoy en la columna dos no puedo comer
-                    # para la izquiera y si estoy en la columna 7 no puedo comer
-                    # a la derecha
-                    if checker.position in self.column2_positions:
-                        if player == 1 and pos == 4:
-                            continue
-                        elif player == 2 and pos == -4:
-                            continue
-                    elif checker.position in self.column7_positions:
-                        if player == 1 and pos == 4:
-                            continue
-                        elif player == 2 and pos == -4:
-                            continue
-                    adjacent_position = checker.position + pos
-                    
-                    # comprobar que no se vaya del tablero
-                    #print "adj + pos", adjacent_position + pos
-                    if not adjacent_position + pos in range(1,33):
-                        continue
-                        
-                    # si el casillero adyacente esta ocupado y
-                    # si no es una ficha del jugador en turno y
-                    # si el siguiente adyacente esta libre
-                    # esta ficha se agrega a la lista de fichas que
-                    # pueden comer
-                    if self.square_occupied(adjacent_position) \
-                       and not self.checker_of_player(adjacent_position, player):
-                            if not self.even_column(adjacent_position):
-                                if not self.square_occupied(adjacent_position + pos - 1):
-                                    jump_checkers.append(checker)
-                            else:
-                                if not self.square_occupied(adjacent_position + pos + 1):
-                                    jump_checkers.append(checker)
+                can_jump = self.forced_jump_one_checker(checker)
+                if can_jump:
+                    jump_checkers.append(can_jump)
+        
+        
+        
+        
+        
         return jump_checkers
 
     def checker_of_player(self, position, player):
@@ -222,3 +241,20 @@ class Table:
             self.checkers.append(c)
 
         self.group.add(self.checkers)
+
+    def get_checker_at_index(self, index):
+        """Retorna la ficha que se encuentra en la
+        posicion de index"""
+        for checker in self.checkers:
+            if checker.position == index:
+                return checker
+
+    def get_jump_way(self):
+        """Obtiene el camino mas largo en la direccion
+        de destination_position"""
+        # NO FUNCIONA, no se utiliza actualmente
+        # ficha -> lista
+        # camino -> diccionario
+        for ficha in self.forced_jump_all_checkers(1):
+            for camino in self.ficha:
+                pass
