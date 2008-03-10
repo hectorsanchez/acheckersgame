@@ -2,14 +2,14 @@
 import pygame
 from pygame.sprite import Sprite
 from config import PIECE_POSITIONS, THEME
-from common import load_image
+from common import load_image, debug
 from states import *
 
 NORMAL, OVER, DRAG = 0, 1, 2
 
 class Checker(Sprite):
-    "Representa un pieza del juego."
-    
+    """Representa un pieza del juego."""
+
     def __init__(self, player, initial_position, table):
         Sprite.__init__(self)
         self.player = player
@@ -33,7 +33,7 @@ class Checker(Sprite):
 
     def _move(self, position):
         """Mueve la ficha a la posicion indicada por position. Las posiciones
-        corresponden al numero en el tablero"""
+        corresponden a la fila y columna de la matriz"""
         self.position = position
         self.rect.x, self.rect.y = PIECE_POSITIONS[position]
 
@@ -60,8 +60,11 @@ class Checker(Sprite):
         self.show_image(NORMAL)
 
     def on_mouse_drag_start(self):
+        debug("posicion de la pieza", self.position)
         self.last_rect = pygame.Rect(self.rect)
         self.show_image(DRAG)
+        #debug("player_move == self.player", self.table.player_move == self.player)
+        jump_checkers = self.table.forced_jump_all_checkers(self.table.player_move)
     
     def on_mouse_drag(self, dx, dy):
         self.rect.move_ip(dx, dy)
@@ -70,20 +73,21 @@ class Checker(Sprite):
         to_x, to_y = self.rect.x, self.rect.y
         from_x, from_y = self.last_rect.x, self.last_rect.y
 
+        #debug("posicion de la pieza", self.rect)
         destination_index = self.table.get_index_at(self.rect.center)
+        
 
         if destination_index and \
            self.table.my_turn(self.player) and \
-           destination_index in self.table.squares_possible(self, self.player):
+           destination_index in self.table.squares_adyacent_possibles(self):
             self.table.change_turn()
             self.rect.topleft = PIECE_POSITIONS[destination_index]
-            self.table.positions[self.position] = False
-            self.table.positions[destination_index] = True
+            self.table.move(self.position, destination_index)
             self.position = destination_index
-            print "Piezas que comen:", self.table.forced_jump_all_checkers(self.table.player_move)
-            if self.table.crown(self, self.player):
+            #debug("piezas que comen", self.table.forced_jump_all_checkers(self.table.player_move))
+            if self.table.crown(self):
                 # llamar a la funcion de coronar
-                print "Coronaste!"
+                debug("coronaste")
                 self.crown = True
         else:
             # regresa a su posicion inicial

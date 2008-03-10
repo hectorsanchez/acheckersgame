@@ -1,3 +1,19 @@
+lun mar 10 19:59:31 ARST 2008: <humitos@gmail.com>
+    - Se utiliza una matriz para almacenar las posiciones de las piezas.
+    En cada fila y columna que corresponda al tablero se tiene un objeto de
+    Checker.
+    - Se quito todo lo que usaba increment_pos y se lo sustituyó por
+    squares_adyacent_possibles(checker) que es ella quien se encarga de
+    devolver los adyacentes posibles.
+    - Creación de la función squares_adyacent(checker) que devuelve los
+    adyacentes de dicha ficha.
+    - Restructuracion de checker_of_player(position, player).
+    - get_checker_at_index(index) utiliza la nueva matriz de posiciones.
+
+lun mar 10 13:07:13 ARST 2008: <humitos@gmail.com>
+    - Agregada la funcion debug(*args), que recibe lo que se quiere imprimir,
+    y DEBUG que indica si se ejecuto en forma de Debug o no
+
 dom marzo 09 13:07:13 ART 2008: <humitos@gmail.com>,
 <hsanchez@pressenter.com.ar>
     -Separacion de la funcion jump_focerd en forced_jump_all_checkers y

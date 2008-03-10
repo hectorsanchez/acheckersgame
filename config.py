@@ -6,7 +6,8 @@ THEME = 'classic'
 WINDOW_TITLE = 'Another Checkers Game - beta'
 WINDOW_SIZE = (640, 480)
 MOTION_STEPS = 4.0
-DEBUG = False
+#DEBUG = False
+DEBUG = True
 
 
 PIECE_POSITIONS = {

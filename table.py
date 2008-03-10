@@ -3,27 +3,22 @@ import pygame
 import config
 import common
 from checker import Checker
+from common import debug
+
+match_position = {
+     1:(0,1),  2:(0,3),  3:(0,5),  4:(0,7),
+     5:(1,0),  6:(1,2),  7:(1,4),  8:(1,6),
+     9:(2,1), 10:(2,3), 11:(2,5), 12:(2,7),
+    13:(3,0), 14:(3,2), 15:(3,4), 16:(3,6),
+    17:(4,1), 18:(4,3), 19:(4,5), 20:(4,7),
+    21:(5,0), 22:(5,2), 23:(5,4), 24:(5,6),
+    25:(6,1), 26:(6,3), 27:(6,5), 28:(6,7),
+    29:(7,0), 30:(7,2), 31:(7,4), 32:(7,6),
+}
 
 class Table:
-    """ Utilizada para el manejo de las piezas en el tablero y consultas sobre su estado"""    
-    
-    # Posiciones de las fichas que se encuentran contra
-    # las paredes. Utilizado para los moviemientos posibles
-    # TODO: cambiar los diccionarios por listas
-    column1_positions = {29:True, 21:True, 13:True, 5:True}
-    column8_positions = {28:True, 20:True, 12:True, 4:True}
-
-    column2_positions = [1,9,17,25]
-    column7_positions = [8,16,24,32]
-
-    # Casilleros en los que coronan los distintos jugadores
-    crown_player1 = [29,30,31,32]
-    crown_player2 = [1,2,3,4]
-
-    # Casilleros en los que las columnas son pares
-    squares_even_column = [1,2,3,4,9,10,11,12,17,18,19,20,25,26,27,28]
-    
-    #diag = 
+    """ Utilizada para el manejo de las piezas en el tablero y
+    consultas sobre su estado"""
 
     def __init__(self, group, theme, turn):
         """Inicializador de la clase"""
@@ -39,140 +34,84 @@ class Table:
         self.player_move = 2
         self.change_turn()
 
-        # setea las posiciones iniciales de las
-        # piezas ocupadas
-        self.positions = {}
-        pos_player1 = range(1, 13)
-        pos_player2 = range(21, 33)
-        for x, y in zip(pos_player1, pos_player2):
-            self.positions[x] = True
-            self.positions[y] = True
-        #print self.positions
-
+    def squares_adyacent(self, checker):
+        """Devuelve los casilleros adyacentes a la pieza"""
+        r, c = checker.position
+        if checker.player == 1:
+            # son blancas
+            return ((r+1,c+1), (r+1,c-1))
+        else:
+            # son negras
+            return ((r-1,c+1), (r-1,c-1))
 
     def square_occupied(self, position):
         """Devuelve si la posicion esta ocupada o no"""
-        return self.positions.get(position, False)
+        checker = self.get_checker_at_position(position)
+        if checker:
+            return True
+        else:
+            return False
 
-
-    def squares_possible(self, checker, player):
-        """Devuelve los casilleros posibles para el jugador player y
-        la pieza checker"""
-        increment_pos = self.increment_pos(checker.position, player)
+    def squares_adyacent_possibles(self, checker):
+        """Devuelve los casilleros posibles para el jugador de la pieza checker"""
         result = []
-        for pos in increment_pos:
-            adjacent_position = checker.position + pos
+        for adjacent_position in self.squares_adyacent(checker):
             if not self.square_occupied(adjacent_position):
                 result.append(adjacent_position)
 
-        print "Posicion de la pieza:", checker.position
-        print "Casillas adyacentes libres:", result
+        #debug("Posicion de la pieza:", checker.position)
+        debug("casillas adyacentes libres", result)
         return result
 
-    def forced_jump_one_checker(self, checker):
-        # obtiene los valores a sumar para adquirir los
-        # adyacentes
-        result = []
-        increment_pos = self.increment_pos(checker.position, checker.player)
-        for pos in increment_pos:
-            # compruebo que si estoy en la columna dos no puedo comer
-            # para la izquiera y si estoy en la columna 7 no puedo comer
-            # a la derecha
-            if checker.position in self.column2_positions:
-                if checker.player == 1 and pos == 4:
-                    continue
-                elif checker.player == 2 and pos == -4:
-                    continue
-            elif checker.position in self.column7_positions:
-                if checker.player == 1 and pos == 4:
-                    continue
-                elif checker.player == 2 and pos == -4:
-                    continue
-            adjacent_position = checker.position + pos
-            
-            # comprobar que no se vaya del tablero
-            #print "adj + pos", adjacent_position + pos
-            if not adjacent_position + pos in range(1,33):
-                continue
-                
-            # si el casillero adyacente esta ocupado y
-            # si no es una ficha del jugador en turno y
-            # si el siguiente adyacente esta libre
-            # esta ficha se agrega a la lista de fichas que
-            # pueden comer
-            if self.square_occupied(adjacent_position) \
-                and not self.checker_of_player(adjacent_position, checker.player):
-                    if not self.even_column(adjacent_position):
-                        if not self.square_occupied(adjacent_position + pos - 1):
-                            result.append(dict(checker=checker,
-                                        direction=pos,
-                                        jumped_checker=self.get_checker_at_index(adjacent_position),
-                                        destination=adjacent_position + pos - 1))
-                    else:
-                        if not self.square_occupied(adjacent_position + pos + 1):
-                            result.append(dict(checker=checker,
-                                        direction=pos,
-                                        jumped_checker=self.get_checker_at_index(adjacent_position),
-                                        destination=adjacent_position + pos + 1))
-        return result
+    def _jump_one_checker(self, checker):
+        """Indica si la pieza puede comer al menos a una ficha"""
+        row = 1 if checker.player == 1 else -1
+        # self.squares_adyacent, devuelve primero para la derecha
+        for adjacent, column in zip(self.squares_adyacent(checker), [1,-1]):
+            #debug("esta pieza cae en", (adjacent[0]+row, adjacent[1]+column))
+            if self.square_occupied(adjacent) \
+                and not self.checker_of_player(adjacent, checker.player) \
+                and not self.square_occupied((adjacent[0]+row, adjacent[1]+column)):
+                    # se puede buscar el camino aca, que ya se sabe que esta pieza
+                    # come
+                    #self.search_jump_way(checker.position)
+                    return True
 
     def forced_jump_all_checkers(self, player):
         """Devuelve una lista de piezas que pueden comer"""
-        #print "Comprobando para: ",
-        #print "Blanco" if player == 1 else "Negro"
         # lista de piezas que pueden comer
         jump_checkers = []
         # para cada una de las piezas del jugador en
         # en el turno
         for checker in self.checkers:
             if checker.player == player:
-                can_jump = self.forced_jump_one_checker(checker)
-                if can_jump:
-                    jump_checkers.append(can_jump)
-        
-        
-        
-        
-        
+                if self._jump_one_checker(checker):
+                    jump_checkers.append(checker)
+        debug("piezas que comen", jump_checkers)
         return jump_checkers
+
+    def checker_forced_jump(self):
+        """Devuelve la pieza que esta obligada a comer. El jugador
+        debe mover esta pieza. Es la que tiene el camino con cantidad
+        y calidad"""
+        pass
 
     def checker_of_player(self, position, player):
         """Chequea si la ficha de la posicion es del jugador"""
-        for checker in self.checkers:
-            if checker.position == position and \
-               checker.player == player:
-                return True
-        return False
+        checker = self.get_checker_at_position(position)
+        if checker.player == player:
+            return True
+        else:
+            return False
 
-    def crown(self, checker, player):
+    def crown(self, checker):
         """Devuelve verdadero si corono o falso en otro caso"""
-        if player == 1:
-            return checker.position in self.crown_player1
+        if checker.player == 1:
+            # pregunta si la fila de la posicion es igual a 0
+            return checker.position[0] == 0
         else:
-            return checker.position in self.crown_player2
-
-    def increment_pos(self, position, player):
-        """Devuelve la lista a sumar a la posicion actual de la ficha
-        del jugador para obtener las posiciones adyacentes"""
-        if player == 1:
-            if self.column1_positions.get(position, False) \
-            or self.column8_positions.get(position, False):
-                return [4]
-            if not self.even_column(position):
-                return [3, 4]
-            return [4, 5]
-        else:
-            if self.column1_positions.get(position, False) \
-            or self.column8_positions.get(position, False):
-                return [-4]
-            if self.even_column(position):
-                return [-4, -3]
-            else:
-                return [-5, -4]
-
-    def even_column(self, position):
-        """Indica si la ficha esta en un columna par"""
-        return position in self.squares_even_column
+            # pregunta si la fila de la posicion es igual a 7
+            return checker.position[0] == 7
 
     def my_turn(self, player):
         """Indica si es el turno del jugador"""
@@ -183,11 +122,12 @@ class Table:
 
     def change_turn(self):
         """Cambia el jugador actual"""
-        if self.player_move == 1:
-            self.player_move = 2
-        else:
-            self.player_move = 1
 
+        self.player_move = ((self.player_move + 2) % 2) + 1
+        #if self.player_move == 1:
+            #self.player_move = 2
+        #else:
+            #self.player_move = 1
         self.turn.change(self.player_move)
 
     def change_theme(self, theme):
@@ -212,14 +152,11 @@ class Table:
     def get_index_at(self, (x, y)):
         """Devuelve el indice de tablero mas cercano a la posición (x,y). 
         Puede devolver None si no está cerca de ningún elemento."""
-        i = 1
         for rect in self.rects:
             if rect.collidepoint(x, y):
-                return i
-            else:
-                i += 1
-        else:
-            return None
+                for k, v in config.PIECE_POSITIONS.iteritems():
+                    if v == (rect.x, rect.y):
+                        return k
 
     def _create_collision_rects(self):
         """Genera rectángulos que representan las zonas de tablero."""
@@ -228,33 +165,47 @@ class Table:
         self.rects = [pygame.Rect(x, y, 50, 50)
                     for x, y in config.PIECE_POSITIONS.values()]
 
+    def bind_position(self, position):
+        """Devuelve la fila y columna de la posicion position del tablero"""
+        r, c = match_position[position]
+        return r, c
+
     def _create_checkers(self):
         """Genera todas las fichas de ambos jugadores"""
+        # lista de fichas
         self.checkers = []
 
+        # creo la matriz de 8 x 8 inicializado a None
+        # TODO: verificar si se puede mejorar esto
+        self.positions = []
+        for x in xrange(8):
+            self.positions.append([None,None,None,None,None,None,None,None])
+
         for position in xrange(1, 13):
-            c = Checker(1, position, self)
-            self.checkers.append(c)
+            r, c = self.bind_position(position)
+            checker = Checker(1, (r,c), self)
+            
+            self.positions[r][c] = checker
+            self.checkers.append(checker)
 
         for position in xrange(21, 33):
-            c = Checker(2, position, self)
-            self.checkers.append(c)
+            r, c = self.bind_position(position)
+            checker = Checker(2, (r,c), self)
+            self.positions[r][c] = checker
+            self.checkers.append(checker)
 
         self.group.add(self.checkers)
 
-    def get_checker_at_index(self, index):
+    def get_checker_at_position(self, (r, c)):
         """Retorna la ficha que se encuentra en la
         posicion de index"""
-        for checker in self.checkers:
-            if checker.position == index:
-                return checker
+        try:
+            return self.positions[r][c]
+        except IndexError:
+            return None
 
-    def get_jump_way(self):
-        """Obtiene el camino mas largo en la direccion
-        de destination_position"""
-        # NO FUNCIONA, no se utiliza actualmente
-        # ficha -> lista
-        # camino -> diccionario
-        for ficha in self.forced_jump_all_checkers(1):
-            for camino in self.ficha:
-                pass
+    def move(self, (rf, cf), (rt, ct)):
+        """Hace un swap entre las dos posiciones en la matriz"""
+        #debug("cambiando pieza")
+        self.positions[rf][cf], self.positions[rt][ct] = \
+            self.positions[rt][ct], self.positions[rf][cf]
