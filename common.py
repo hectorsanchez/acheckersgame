@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 import pygame
 from pygame.locals import *
+from config import DEBUG
 
 MOUSE_EVENTS = [MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION, ACTIVEEVENT]
 MOTION_SPEED = 5.0
@@ -34,3 +35,9 @@ def interpolate((x, y), (to_x, to_y)):
         else:
             yield to_x, to_y
             break
+
+def debug(*args):
+    if DEBUG:
+        for arg in args:
+            print arg,
+        print
