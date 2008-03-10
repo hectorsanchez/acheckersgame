@@ -1,3 +1,11 @@
+dom marzo 09 13:07:13 ART 2008: <humitos@gmail.com>,
+<hsanchez@pressenter.com.ar>
+    -Separacion de la funcion jump_focerd en forced_jump_all_checkers y
+    forced_jump_one_checker. Checker tiene un atributo crown que indica si es
+    corona o no. Agregada la funcion get_checker_at_index de la clase Table
+    -Cambio el nombre del archivo test.py a run.py, se agregaron reglas.
+
+
 dom dic 30 17:27:40 ART 2007: <hugoruscitti@gmail.com>
     - Nuevo objeto 'Turn' que muestra el jugador que debe mover la siguiente
     pieza.
