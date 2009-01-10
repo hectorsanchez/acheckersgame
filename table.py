@@ -26,10 +26,10 @@ class Table:
         self.image = common.load_image('table.png', theme)
         self._create_collision_rects()
         self._create_checkers()
-        
+
         # boton que muestra el jugador en turno
         self.turn = turn
-        
+
         # jugador al que le corresponde mover
         self.player_move = 2
         self.change_turn()
@@ -55,7 +55,7 @@ class Table:
 
     def square_occupied_by_oponent(self, position):
         """Devuelve si la posicion esta ocupada por el otro jugador.
-        
+
         Tener en cuenta que la celda podría estar ocupada por el mismo
         jugador, en cuyo caso devuelve false."""
         checker = self.get_checker_at_position(position)
@@ -77,22 +77,26 @@ class Table:
         return result
 
     def get_squares_path(self, checker):
+        """Arma los caminos posibles para una ficha
+        Lo hace en dos partes, caminos simples que serian los adyacentes libres y
+        caminos complejos, los formados por comer fichas.
+        """
         path = []
 
         fist_path = self.squares_adyacent(checker)
 
-        # caminos simples
+        # caminos simples, adyacentes libres
         for square in fist_path:
             if not self.square_occupied(square):
                 path.append(square)  # primer nivel
 
         print "por camino simple queda:", path
 
-        # caminos comiendo
+        # caminos complejos, comiendo fichas
         second_path = set(fist_path) - set(path)
         second_path = list(second_path)
         print "falta evaluar:", second_path
-                
+
         for square in second_path:
             # se analiza si la pieza a saltar es del otro
             # jugador.
@@ -108,17 +112,15 @@ class Table:
                 if not self.square_occupied(next_square):
                     path.append([square, next_square])
 
-                    
                 else:
                     # no esta libre el casillero, así que no
                     # puede comer la ficha que intentaba.
                     pass
-
-
         return path
 
     def get_next_square(self, checker, square):
-        """Devuelve el siguiente casillero a una pieza si come a otra en square."""
+        """Devuelve el siguiente casillero a una pieza si come
+        a otra en square."""
         r, c = checker.position
         square_column = square[1]
 
@@ -145,8 +147,8 @@ class Table:
             if self.square_occupied(adjacent) \
                 and not self.checker_of_player(adjacent, checker.player) \
                 and not self.square_occupied((adjacent[0]+row, adjacent[1]+column)):
-                    # se puede buscar el camino aca, que ya se sabe que esta pieza
-                    # come
+                    # se puede buscar el camino aca, que ya se sabe
+                    #que esta pieza come
                     #self.search_jump_way(checker.position)
                     return True
 
@@ -199,10 +201,6 @@ class Table:
         """Cambia el jugador actual"""
 
         self.player_move = ((self.player_move + 2) % 2) + 1
-        #if self.player_move == 1:
-            #self.player_move = 2
-        #else:
-            #self.player_move = 1
         self.turn.change(self.player_move)
 
     def change_theme(self, theme):
@@ -225,7 +223,7 @@ class Table:
                     return sprite
 
     def get_index_at(self, (x, y)):
-        """Devuelve el indice de tablero mas cercano a la posición (x,y). 
+        """Devuelve el indice de tablero mas cercano a la posición (x,y).
         Puede devolver None si no está cerca de ningún elemento."""
         for rect in self.rects:
             if rect.collidepoint(x, y):
@@ -259,7 +257,7 @@ class Table:
         for position in xrange(1, 13):
             r, c = self.bind_position(position)
             checker = Checker(1, (r,c), self)
-            
+
             self.positions[r][c] = checker
             self.checkers.append(checker)
 
