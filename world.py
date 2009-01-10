@@ -27,7 +27,7 @@ class World:
     def loop(self):
 
         quit = False
-        
+
         while not quit:
 
             for e in pygame.event.get():
@@ -42,13 +42,13 @@ class World:
                         pygame.display.toggle_fullscreen()
                         self.mouse.visible = True
 
+            self.clock.tick(30)
             self.group.update()
             self._update_view()
 
     def _update_view(self):
         self.group.clear(self.screen, self.background)
         pygame.display.update(self.group.draw(self.screen))
-        self.clock.tick(60)
 
     def _create_ui(self):
         b1 = gui.Button("classic", 520, 45, self.on_classic__clicked)
@@ -67,7 +67,6 @@ class World:
 
     def change_theme(self, new_theme):
         THEME = new_theme
-
         self.table.change_theme(THEME)
         self.table.draw(self.background)
         self.screen.blit(self.background, (0, 0))
