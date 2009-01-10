@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 import pygame
 import gui
 from table import Table
@@ -6,6 +5,7 @@ from common import *
 from config import *
 
 class World:
+
     def __init__(self):
         pygame.display.init()
         pygame.font.init()
@@ -23,6 +23,7 @@ class World:
 
         self.background = self.screen.convert()
         self.change_theme(THEME)
+
 
     def loop(self):
 

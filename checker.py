@@ -8,7 +8,7 @@ from states import *
 NORMAL, OVER, DRAG = 0, 1, 2
 
 class Checker(Sprite):
-    """Representa un pieza del juego."""
+    """Representa una pieza del juego."""
 
     def __init__(self, player, initial_position, table):
         Sprite.__init__(self)
@@ -60,6 +60,7 @@ class Checker(Sprite):
         self.show_image(NORMAL)
 
     def on_mouse_drag_start(self):
+        print
         debug("posicion de la pieza", self.position)
         self.last_rect = pygame.Rect(self.rect)
         self.show_image(DRAG)
@@ -97,4 +98,4 @@ class Checker(Sprite):
         return self.table.my_turn(self.player)
     
     def __repr__(self):
-      return str(self.position)
+        return str(self.position)

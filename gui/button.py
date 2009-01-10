@@ -39,5 +39,3 @@ class Button(Sprite):
         self.normal_image = load_image("%s.png" %label, "buttons")
         self.glass_image = load_image("%s.png" %label, "buttons").convert()
         self.glass_image.set_alpha(128)
-
-
