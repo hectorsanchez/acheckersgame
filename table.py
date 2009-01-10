@@ -90,23 +90,23 @@ class Table:
             if not self.square_occupied(square):
                 path.append(square)  # primer nivel
 
-        print "por camino simple queda:", path
+        print "Por camino simple queda:", path
 
         # caminos complejos, comiendo fichas
         second_path = set(fist_path) - set(path)
         second_path = list(second_path)
-        print "falta evaluar:", second_path
+        print "Falta evaluar:", second_path
 
         for square in second_path:
             # se analiza si la pieza a saltar es del otro
             # jugador.
             if self.square_occupied_by_oponent(square):
-                print "en ese cuadrado hay un oponente"
+                print "En ese cuadrado hay un oponente"
                 # se obtiene el cuadrado de tablero a donde
                 # tendría que ir si como la pieza.
                 next_square = self.get_next_square(checker, square)
 
-                print "el siguiente cuadrado que podría pisar es:", next_square
+                print "El siguiente cuadrado que podría pisar es:", next_square
 
                 # se consulta si está libre ese casillero.
                 if not self.square_occupied(next_square):
@@ -162,8 +162,6 @@ class Table:
             if checker.player == player:
                 if self._jump_one_checker(checker):
                     jump_checkers.append(checker)
-
-        #debug("piezas que comen", jump_checkers)
 
         return jump_checkers
 
