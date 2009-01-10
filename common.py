@@ -42,3 +42,13 @@ def debug(*args):
         for arg in args:
             print arg,
         print
+
+
+def print_positions(list):
+    print [key_name_of(x) for x in list]
+
+def key_name_of(value):
+    import table
+    for key, key_value in table.match_position.items():
+        if key_value == value:
+            return key

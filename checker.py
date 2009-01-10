@@ -2,7 +2,7 @@
 import pygame
 from pygame.sprite import Sprite
 from config import PIECE_POSITIONS, THEME
-from common import load_image, debug
+from common import load_image, debug, print_positions
 from states import *
 
 NORMAL, OVER, DRAG = 0, 1, 2
@@ -61,18 +61,22 @@ class Checker(Sprite):
 
     def on_mouse_drag_start(self):
         print
-        debug("posicion de la pieza", self.position)
+        #debug("posicion de la pieza", self.position)
         self.last_rect = pygame.Rect(self.rect)
         self.show_image(DRAG)
         #debug("player_move == self.player", self.table.player_move == self.player)
         jump_checkers = self.table.forced_jump_all_checkers(self.table.player_move)
+
+        print "Se puede mover a", 
+        #print_positions(self.table.squares_adyacent_possibles(self))
+        print self.table.get_squares_path(self)
     
     def on_mouse_drag(self, dx, dy):
         self.rect.move_ip(dx, dy)
 
     def on_mouse_drag_end(self):
-        to_x, to_y = self.rect.x, self.rect.y
         from_x, from_y = self.last_rect.x, self.last_rect.y
+        to_x, to_y = self.rect.x, self.rect.y
 
         #debug("posicion de la pieza", self.rect)
         destination_index = self.table.get_index_at(self.rect.center)

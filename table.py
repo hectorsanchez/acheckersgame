@@ -39,15 +39,28 @@ class Table:
         r, c = checker.position
         if checker.player == 1:
             # son blancas
-            return ((r+1,c+1), (r+1,c-1))
+            return [(r+1,c+1), (r+1,c-1)]
         else:
             # son negras
-            return ((r-1,c+1), (r-1,c-1))
+            return [(r-1,c+1), (r-1,c-1)]
 
     def square_occupied(self, position):
         """Devuelve si la posicion esta ocupada o no"""
         checker = self.get_checker_at_position(position)
+
         if checker:
+            return True
+        else:
+            return False
+
+    def square_occupied_by_oponent(self, position):
+        """Devuelve si la posicion esta ocupada por el otro jugador.
+        
+        Tener en cuenta que la celda podría estar ocupada por el mismo
+        jugador, en cuyo caso devuelve false."""
+        checker = self.get_checker_at_position(position)
+
+        if checker and checker.player != self.player_move:
             return True
         else:
             return False
@@ -60,8 +73,68 @@ class Table:
                 result.append(adjacent_position)
 
         #debug("Posicion de la pieza:", checker.position)
-        debug("casillas adyacentes libres", result)
+        #debug("casillas adyacentes libres", result)
         return result
+
+    def get_squares_path(self, checker):
+        path = []
+
+        fist_path = self.squares_adyacent(checker)
+
+        # caminos simples
+        for square in fist_path:
+            if not self.square_occupied(square):
+                path.append(square)  # primer nivel
+
+        print "por camino simple queda:", path
+
+        # caminos comiendo
+        second_path = set(fist_path) - set(path)
+        second_path = list(second_path)
+        print "falta evaluar:", second_path
+                
+        for square in second_path:
+            # se analiza si la pieza a saltar es del otro
+            # jugador.
+            if self.square_occupied_by_oponent(square):
+                print "en ese cuadrado hay un oponente"
+                # se obtiene el cuadrado de tablero a donde
+                # tendría que ir si como la pieza.
+                next_square = self.get_next_square(checker, square)
+
+                print "el siguiente cuadrado que podría pisar es:", next_square
+
+                # se consulta si está libre ese casillero.
+                if not self.square_occupied(next_square):
+                    path.append([square, next_square])
+
+                    
+                else:
+                    # no esta libre el casillero, así que no
+                    # puede comer la ficha que intentaba.
+                    pass
+
+
+        return path
+
+    def get_next_square(self, checker, square):
+        """Devuelve el siguiente casillero a una pieza si come a otra en square."""
+        r, c = checker.position
+        square_column = square[1]
+
+        # determina el movimiento horizontal
+        if square_column > c:
+            dt = +2
+        else:
+            dt = -2
+
+        if checker.player == 1:
+            # son blancas
+            return (r+2,c+dt)
+        else:
+            # son negras
+            return (r-2,c+dt)
+
 
     def _jump_one_checker(self, checker):
         """Indica si la pieza puede comer al menos a una ficha"""
@@ -87,7 +160,9 @@ class Table:
             if checker.player == player:
                 if self._jump_one_checker(checker):
                     jump_checkers.append(checker)
-        debug("piezas que comen", jump_checkers)
+
+        #debug("piezas que comen", jump_checkers)
+
         return jump_checkers
 
     def checker_forced_jump(self):
