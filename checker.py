@@ -69,8 +69,13 @@ class Checker(Sprite):
         #print "Fichas que comen: ", jump_checkers
         #print "Se puede mover a: ", self.table.get_squares_path(self)
 
-        print "Mostrando el camino posible para esta pieza:"
-        print self.table.get_path(self.position, self.player)
+        next_squares = self.table.squares_adyacent(self)
+
+        paths = self.table.get_path(self.position, self.player, next_squares)
+
+        for index, path in enumerate(paths):
+            print " -> camino", index, ":", path
+        print ""
 
     def on_mouse_drag(self, dx, dy):
         self.rect.move_ip(dx, dy)

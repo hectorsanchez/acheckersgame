@@ -43,6 +43,27 @@ class Table:
         else:
             # son negras
             return [(r-1,c+1), (r-1,c-1)]
+    
+    def squares_adyacent_by_position(self, position, player):
+        """Devuelve los casilleros adyacentes a la pieza.
+
+        Este método es similar a 'squares_adyacent', pero en
+        lugar de recibir una ficha, recibe una posicion y
+        un jugador. Se construye este metodo porque se quieren
+        los cuadros adyacentes de una pieza no existente, una
+        pieza que 'podría estar' ahí, en la celda indicada
+        por 'position'."""
+
+        # TODO: reutilizar codigo del metodo 'squares_adyacent'.
+       
+        r, c = position
+        if player == 1:
+            # son blancas
+            return [(r+1,c+1), (r+1,c-1)]
+        else:
+            # son negras
+            return [(r-1,c+1), (r-1,c-1)]
+
 
     def square_occupied(self, position):
         """Devuelve si la posicion esta ocupada o no"""
@@ -53,14 +74,17 @@ class Table:
         else:
             return False
 
-    def square_occupied_by_oponent(self, position):
+    def square_occupied_by_oponent(self, position, player=None):
         """Devuelve si la posicion esta ocupada por el otro jugador.
 
         Tener en cuenta que la celda podría estar ocupada por el mismo
         jugador, en cuyo caso devuelve false."""
         checker = self.get_checker_at_position(position)
 
-        if checker and checker.player != self.player_move:
+        if player is None:
+            player = self.player_move
+
+        if checker and checker.player != player:
             return True
         else:
             return False
@@ -117,6 +141,41 @@ class Table:
                     # puede comer la ficha que intentaba.
                     pass
         return path
+
+
+    def get_possible_next_square_by_position(self, square, player, position):
+        """Devuelve el siguente casillero para una ficha que come.
+
+        Este método hace algo similar al método "get_next_square",
+        solo que aquí los argumentos no son un objeto checker, sino
+        una posición y jugador.
+
+        El argumento 'square' es la celda donde se comerá, player
+        es el identificador del jugador que quiere comer y position
+        es la posicion actual de la ficha que come.
+
+        La necesidad de esta rutina surge porque se quiere calcular
+        el movimiento imaginario de varias piezas, y los estados
+        de posición futuros no se almacenan en objetos Checker."""
+
+
+        # TODO: reutilizar el codigo del metodo "get_next_square", o
+        #       que ese metodo reutilice codigo de aquí.
+        r, c = position
+        square_column = square[1]
+
+        # determina el movimiento horizontal
+        if square_column > c:
+            dt = +2
+        else:
+            dt = -2
+
+        if player == 1:
+            # son blancas
+            return (r+2,c+dt)
+        else:
+            # son negras
+            return (r-2,c+dt)
 
     def get_next_square(self, checker, square):
         """Devuelve el siguiente casillero a una pieza si come
@@ -281,5 +340,37 @@ class Table:
         self.positions[rf][cf], self.positions[rt][ct] = \
             self.positions[rt][ct], self.positions[rf][cf]
 
-    def get_path(self, position, player):
-        print position, player
+    def get_path(self, position, player, next_squares, must_jump_to_continue=False, last=[]):
+
+        # evalua cada uno de los posibles cuadrados a pisar.
+        for s in next_squares:
+            if not must_jump_to_continue and not self.square_occupied(s):
+                print "\ten un primer movimiento se puede pisar en", s
+                yield last + [s]
+            elif self.square_occupied_by_oponent(s, player):
+                print "\tcomo", s, "esta ocupada por un rival, se busca saltarla"
+
+                possible_destiny_square = self.get_possible_next_square_by_position(s, player, position)
+                print "\t si la salto tendría que pisar en", possible_destiny_square
+
+                if not self.square_occupied(possible_destiny_square):
+                    print "\t  y esta libre, osea que puedo comer."
+                    yield last + [s, possible_destiny_square]
+
+                    print "\t   pero luego de comer sigue probando desde la", possible_destiny_square
+
+                    new_pos = possible_destiny_square
+                    possible_next_squares = self.squares_adyacent_by_position(new_pos, player)
+
+                    n = self.get_path(new_pos, player, possible_next_squares, True, [s, possible_destiny_square]) 
+
+                    for a in n:
+                        yield a
+
+                    #yield [s, possible_next_squares] + list(self.get_path(new_pos, player, possible_next_squares, must_jump_to_continue=True))
+
+
+
+                else:
+                    print "\tpero como está ocupada se descarta."
+
