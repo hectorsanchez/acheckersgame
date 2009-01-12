@@ -280,3 +280,6 @@ class Table:
         #debug("cambiando pieza")
         self.positions[rf][cf], self.positions[rt][ct] = \
             self.positions[rt][ct], self.positions[rf][cf]
+
+    def get_path(self, position, player):
+        print position, player
