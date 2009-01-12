@@ -64,9 +64,10 @@ class Checker(Sprite):
         self.show_image(DRAG)
 
         jump_checkers = self.table.forced_jump_all_checkers(self.table.player_move)
-        print "Ficha: ", self.position
-        print "Fichas que comen: ", jump_checkers
-        print "Se puede mover a: ", self.table.get_squares_path(self)
+
+        #print "Ficha: ", self.position
+        #print "Fichas que comen: ", jump_checkers
+        #print "Se puede mover a: ", self.table.get_squares_path(self)
 
     def on_mouse_drag(self, dx, dy):
         self.rect.move_ip(dx, dy)

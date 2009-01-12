@@ -3,12 +3,17 @@ import gui
 from table import Table
 from common import *
 from config import *
+import os
 
 class World:
 
-    def __init__(self):
+    def __init__(self, do_center_window):
         pygame.display.init()
         pygame.font.init()
+
+        if do_center_window:
+            os.environ['SDL_VIDEO_WINDOW_POS'] = 'center'
+
         self.screen = pygame.display.set_mode(WINDOW_SIZE)
         self.clock = pygame.time.Clock()
         self.group = pygame.sprite.OrderedUpdates()
