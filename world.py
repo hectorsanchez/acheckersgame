@@ -37,13 +37,13 @@ class World:
                 elif e.type in MOUSE_EVENTS:
                     self.mouse.send_event(e)
                 elif e.type == pygame.KEYDOWN:
-                    if e.key == pygame.K_q:
+                    if e.key in [pygame.K_ESCAPE, pygame.K_q]:
                         quit = True
                     elif e.key == pygame.K_F3:
                         pygame.display.toggle_fullscreen()
                         self.mouse.visible = True
 
-            self.clock.tick(30)
+            self.clock.tick(60)
             self.group.update()
             self._update_view()
 
