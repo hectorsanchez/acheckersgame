@@ -39,10 +39,10 @@ class Table:
         r, c = checker.position
         if checker.player == 1:
             # son blancas
-            return [(r+1,c+1), (r+1,c-1)]
+            return [(r+1,c-1), (r+1,c+1)]
         else:
             # son negras
-            return [(r-1,c+1), (r-1,c-1)]
+            return [(r-1,c-1), (r-1,c+1)]
     
     def squares_adyacent_by_position(self, position, player):
         """Devuelve los casilleros adyacentes a la pieza.
@@ -59,10 +59,10 @@ class Table:
         r, c = position
         if player == 1:
             # son blancas
-            return [(r+1,c+1), (r+1,c-1)]
+            return [(r+1,c-1), (r+1,c+1)]
         else:
             # son negras
-            return [(r-1,c+1), (r-1,c-1)]
+            return [(r-1,c-1), (r-1,c+1)]
 
 
     def square_occupied(self, position):
@@ -344,6 +344,8 @@ class Table:
 
         # evalua cada uno de los posibles cuadrados a pisar.
         for s in next_squares:
+
+            # hace la primer busqueda sin comer
             if not must_jump_to_continue and not self.square_occupied(s):
                 print "\ten un primer movimiento se puede pisar en", s
                 yield last + [s]
@@ -357,20 +359,17 @@ class Table:
                     print "\t  y esta libre, osea que puedo comer."
                     yield last + [s, possible_destiny_square]
 
-                    print "\t   pero luego de comer sigue probando desde la", possible_destiny_square
+                    print "\t   pero luego de comer intento seguir desde la", possible_destiny_square
 
                     new_pos = possible_destiny_square
                     possible_next_squares = self.squares_adyacent_by_position(new_pos, player)
 
-                    n = self.get_path(new_pos, player, possible_next_squares, True, [s, possible_destiny_square]) 
+                    # Obtiene los siguientes movimientos, pero solo buscando
+                    # aquellos que comerán una ficha.
+                    new_paths = self.get_path(new_pos, player, possible_next_squares, True, [s, possible_destiny_square]) 
 
-                    for a in n:
-                        yield a
-
-                    #yield [s, possible_next_squares] + list(self.get_path(new_pos, player, possible_next_squares, must_jump_to_continue=True))
-
-
-
+                    for p in new_paths:
+                        yield p
                 else:
-                    print "\tpero como está ocupada se descarta."
+                    print "\tpero como está ocupada se descarta el camino."
 
