@@ -1,0 +1,93 @@
+Another Checkers Game
+Guia para programadores
+0.1
+
+= Introducción =
+
+Este documento es una reseña breve del funcionamiento del juego
+//Another Checkers Game//.
+
+
+
+== Funcionalidad ==
+
+=== Bucle principal ===
+
+El objeto encargado de contener al bucle principal es ``World``, este objeto
+contiene el método ``loop`` y una referencia a un objeto ``Clock``.
+
+En cada iteración del bucle se obtienen todos los eventos de la aplicación
+y se propagan a otros componentes del sistema.
+
+[ima/loop.png]
+
+=== Eventos de aplicación ===
+
+En el método ``loop`` de ``World`` se capturan todos los eventos de la
+aplicación. Lo eventos mas frecuentes se propagan a la clase ``Mouse``.
+
+==== Al pulsar el botón del mouse ====
+
+Cuando el objeto ``Mouse`` recibe la notificación del evento
+``MOUSEBUTTONDOWN`` intercambia mensajes con los objetos de la
+pantalla, y en caso de que alguno de estos componentes se
+pueda arrastrar, entonces lo almacena internamente.
+
+El método interno de ``Mouse`` almacena en el atributo ``widget_on_drag``
+la referencia a la ficha que espera comenzar a mover.
+
+[ima/mouse_down.png]
+
+La respuesta de ``Table`` en una lista todas los caminos
+posibles para la pieza. 
+
+A continuación se muestran algunos ejemplos:
+
+Si la pieza solo puede avanzar a dos casilleros vacíos:
+
+```
+[[(4, 5)], [(4, 7)]]
+```
+
+Si solo puede avanzar a uno (similar al anterior pero (4, 7)
+está ocupada:
+
+```
+[[(4, 5)]]
+```
+
+Si está en una situación similar a las anteriores, pero una
+pieza en la posición (3, 4) se puede comer:
+
+```
+[[(4, 5), (3, 4)], [(4, 7)]]
+```
+
+Es decir, la lista tiene tantos elementos como caminos posibles. Cada
+camino está representado en una lista de casilleros. Cada casillero
+está representado por dos números: una fila y una columna.
+
+La siguiente imagen muestra cómo están enumeradas cada una de las
+celdas del tablero:
+
+[ima/tablero.png]
+
+==== Al mover el mouse ====
+
+Realiza una tarea similar al evento de pulsar el mouse, solo que aquí
+el evento se utiliza para transmitir significado visual al jugador.
+
+Cuando el usuario mueve el mouse, en todo momento se consulta si
+hay un objeto debajo del cursor, y en caso afirmativo, se consulta
+al objeto que se encuentra bajo el cursor si éste es un objeto que
+se puede //pulsar// (atributo ``can_click``) o //arrastrar// (atributo
+``can_drag``). Estas consultas se realizan para alternar el cursor
+del mouse conforme a estas situaciones. Por ejemplo, si el objeto
+se puede pulsar como un botón, el puntero del mouse se convierte
+en un cursor activo, en caso contrario se coloca un puntero de
+mouse traducional.
+
+[ima/mouse_motion.png]
+
+Si el objeto ``Mouse`` ya ha detectado con anterioridad la
+pulsación sobre un elemento entonces comienza a arrastrarlo.

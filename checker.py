@@ -63,10 +63,11 @@ class Checker(Sprite):
         self.last_rect = pygame.Rect(self.rect)
         self.show_image(DRAG)
 
-        jump_checkers = self.table.forced_jump_all_checkers(self.table.player_move)
-        next_squares = self.table.squares_adyacent(self)
+        #jump_checkers = self.table.forced_jump_all_checkers(self.table.player_move)
 
+        next_squares = self.table.squares_adyacent(self)
         paths = self.table.get_path(self.position, self.player, next_squares)
+        print list(paths)
 
         # paths es el generador con todos los movimentos que
         # se pueden realizar.

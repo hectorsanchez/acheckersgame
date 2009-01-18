@@ -1,0 +1,6 @@
+loop while not quit
+    World -> Mouse : send_event
+    World -> Clock : tick
+    World -> Group : update
+    World -> World : _update_view
+end
