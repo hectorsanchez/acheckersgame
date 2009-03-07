@@ -37,13 +37,23 @@ class Table:
     def squares_adyacent(self, checker):
         """Devuelve los casilleros adyacentes a la pieza"""
         r, c = checker.position
+        adyacentes = []
         if checker.player == 1:
             # son blancas
-            return [(r+1,c-1), (r+1,c+1)]
+            if (r+1,c-1) in match_position.values():
+                adyacentes.append((r+1,c-1))
+            if (r+1,c+1) in match_position.values():
+                adyacentes.append((r+1,c+1))
+
         else:
             # son negras
-            return [(r-1,c-1), (r-1,c+1)]
-    
+            if (r-1,c-1) in match_position.values():
+                adyacentes.append((r-1,c-1))
+            if (r-1,c+1) in match_position.values():
+                adyacentes.append((r-1,c+1))
+
+        return adyacentes
+
     def squares_adyacent_by_position(self, position, player):
         """Devuelve los casilleros adyacentes a la pieza.
 
@@ -55,7 +65,7 @@ class Table:
         por 'position'."""
 
         # TODO: reutilizar codigo del metodo 'squares_adyacent'.
-       
+
         r, c = position
         if player == 1:
             # son blancas
@@ -93,7 +103,7 @@ class Table:
         """Devuelve los casilleros posibles para el jugador de la pieza checker"""
         result = []
         for adjacent_position in self.squares_adyacent(checker):
-            if not self.square_occupied(adjacent_position):
+            if not self.square_occupied(adjacent_position) and adjacent_position in match_position.values():
                 result.append(adjacent_position)
 
         #debug("Posicion de la pieza:", checker.position)
@@ -202,7 +212,7 @@ class Table:
         row = 1 if checker.player == 1 else -1
         # self.squares_adyacent, devuelve primero para la derecha
         for adjacent, column in zip(self.squares_adyacent(checker), [1,-1]):
-            #debug("esta pieza cae en", (adjacent[0]+row, adjacent[1]+column))
+            debug("esta pieza cae en", (adjacent[0]+row, adjacent[1]+column))
             if self.square_occupied(adjacent) \
                 and not self.checker_of_player(adjacent, checker.player) \
                 and not self.square_occupied((adjacent[0]+row, adjacent[1]+column)):
@@ -343,8 +353,8 @@ class Table:
     def get_path(self, position, player, next_squares, must_jump_to_continue=False, last=[]):
 
         # evalua cada uno de los posibles cuadrados a pisar.
+        print "Proximos squares:", next_squares
         for s in next_squares:
-
             # hace la primer busqueda sin comer
             if not must_jump_to_continue and not self.square_occupied(s):
                 print "\ten un primer movimiento se puede pisar en", s
@@ -355,7 +365,7 @@ class Table:
                 possible_destiny_square = self.get_possible_next_square_by_position(s, player, position)
                 print "\t si la salto tendría que pisar en", possible_destiny_square
 
-                if not self.square_occupied(possible_destiny_square):
+                if not self.square_occupied(possible_destiny_square) and possible_destiny_square in match_position.values():
                     print "\t  y esta libre, osea que puedo comer."
                     yield last + [s, possible_destiny_square]
 
@@ -366,7 +376,7 @@ class Table:
 
                     # Obtiene los siguientes movimientos, pero solo buscando
                     # aquellos que comerán una ficha.
-                    new_paths = self.get_path(new_pos, player, possible_next_squares, True, [s, possible_destiny_square]) 
+                    new_paths = self.get_path(new_pos, player, possible_next_squares, True, [s, possible_destiny_square])
 
                     for p in new_paths:
                         yield p
