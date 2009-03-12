@@ -6,9 +6,9 @@ import common
 
 class Button(Sprite):
 
-    def __init__(self, label, x, y, callback):
+    def __init__(self, label, font, x, y, callback):
         Sprite.__init__(self)
-        self._create_images(label)
+        self._create_images(label, font)
         self.image = self.glass_image
         self.rect = self.image.get_rect()
         self.can_click = True
@@ -35,7 +35,29 @@ class Button(Sprite):
         self.y = self.to_y + 10
         self.callback()
 
-    def _create_images(self, label):
-        self.normal_image = load_image("%s.png" %label, "buttons")
-        self.glass_image = load_image("%s.png" %label, "buttons").convert()
-        self.glass_image.set_alpha(128)
+    def _create_images(self, label, font):
+        white = (255, 255, 255)
+        black = (0, 0, 0)
+        gray = (200, 200, 200)
+
+        text_surface = font.render(label, 1, black)
+        button_size = text_surface.get_rect().inflate(10, 10).size
+
+        button_surface = pygame.Surface(button_size).convert()
+
+        button_surface.fill(white)
+        button_surface.blit(text_surface, (5, 5))
+
+        border_rect = button_surface.get_rect()
+        border_rect.width -= 1
+        border_rect.height -= 1
+
+        pygame.draw.rect(button_surface, black, border_rect, 2)
+        self.normal_image = button_surface
+
+        button_surface = button_surface.convert()
+        button_surface.fill(gray)
+        button_surface.blit(text_surface, (5, 5))
+        pygame.draw.rect(button_surface, black, border_rect, 2)
+
+        self.glass_image = button_surface

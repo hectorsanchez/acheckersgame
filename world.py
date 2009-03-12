@@ -9,7 +9,7 @@ class World:
 
     def __init__(self, do_center_window):
         pygame.display.init()
-        pygame.font.init()
+        self._create_font_system()
 
         if do_center_window:
             os.environ['SDL_VIDEO_WINDOW_POS'] = 'center'
@@ -18,6 +18,7 @@ class World:
         self.clock = pygame.time.Clock()
         self.group = pygame.sprite.OrderedUpdates()
         pygame.display.set_caption(WINDOW_TITLE)
+
         self._create_ui()
 
         self.table = Table(self.group, THEME, self.turn)
@@ -29,6 +30,9 @@ class World:
         self.background = self.screen.convert()
         self.change_theme(THEME)
 
+    def _create_font_system(self):
+        pygame.font.init()
+        self.font = pygame.font.Font(None, 25)
 
     def loop(self):
 
@@ -57,8 +61,8 @@ class World:
         pygame.display.update(self.group.draw(self.screen))
 
     def _create_ui(self):
-        b1 = gui.Button("classic", 520, 45, self.on_classic__clicked)
-        b2 = gui.Button("beach", 520, 100, self.on_beach__clicked)
+        b1 = gui.Button("Theme: classic", self.font, 500, 45, self.on_classic__clicked)
+        b2 = gui.Button("Theme: beach", self.font, 500, 100, self.on_beach__clicked)
         self.group.add(b1, b2)
 
         # genera el visor de turnos
@@ -71,10 +75,12 @@ class World:
     def on_beach__clicked(self):
         self.change_theme("beach")
 
-    def change_theme(self, new_theme):
-        THEME = new_theme
+    def change_theme(self, theme):
+        THEME = theme
+        self.update_view(THEME)
+
+    def update_view(self, THEME):
         self.table.change_theme(THEME)
         self.table.draw(self.background)
         self.screen.blit(self.background, (0, 0))
-        self._update_view()
         pygame.display.flip()
