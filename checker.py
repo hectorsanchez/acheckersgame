@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+"""Modulo para manejo de fichas"""
 import pygame
 from pygame.sprite import Sprite
 from config import PIECE_POSITIONS, THEME
@@ -48,7 +49,7 @@ class Checker(Sprite):
 
     def _load_images(self, player, theme):
         """Carga todas las imagenes del tema"""
-        prefix = "p%d_"%player
+        prefix = "p%d_"% player
         names =  ['normal', 'over', 'drag']
         filenames = [prefix + name + '.png' for name in names]
         self.images = [load_image(name, theme) for name in filenames]
@@ -103,4 +104,5 @@ class Checker(Sprite):
             self.change_state(states.Moving(self, from_x, from_y))
 
     def can_drag_me_actual_player(self):
+        """ Chequea si el usuario de turno puede hacer drag en la ficha"""
         return self.table.my_turn(self.player)
