@@ -4,6 +4,7 @@ from config import PIECE_POSITIONS
 
 class Starting(object):
     """Realiza el efecto de interpolacion al iniciar el juego"""
+
     def __init__(self, checker, position, player):
         self.checker = checker
         to_x, to_y = PIECE_POSITIONS[position]

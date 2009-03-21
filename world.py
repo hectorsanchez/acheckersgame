@@ -6,6 +6,10 @@ from config import *
 import os
 
 class World(object):
+    """Representa el objeto principal del juego.
+
+    Su responsabilidad es asegurar la velocidad constante del
+    juego y propagar eventos."""
 
     def __init__(self, do_center_window):
         pygame.display.init()

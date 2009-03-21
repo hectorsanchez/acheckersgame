@@ -101,6 +101,3 @@ class Checker(Sprite):
 
     def can_drag_me_actual_player(self):
         return self.table.my_turn(self.player)
-
-    def __repr__(self):
-        return str(self.position)
