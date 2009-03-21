@@ -2,8 +2,13 @@
 import pygame
 import config
 import common
+
 from checker import Checker
 from common import debug
+
+from IPython.Shell import IPShellEmbed
+ipshell = IPShellEmbed()
+#ipshell() # this call anywhere in your program will start IPython
 
 match_position = {
      1:(0,1),  2:(0,3),  3:(0,5),  4:(0,7),
@@ -64,8 +69,6 @@ class Table:
         pieza que 'podría estar' ahí, en la celda indicada
         por 'position'."""
 
-        # TODO: reutilizar codigo del metodo 'squares_adyacent'.
-
         r, c = position
         if player == 1:
             # son blancas
@@ -73,7 +76,6 @@ class Table:
         else:
             # son negras
             return [(r-1,c-1), (r-1,c+1)]
-
 
     def square_occupied(self, position):
         """Devuelve si la posicion esta ocupada o no"""
@@ -138,7 +140,7 @@ class Table:
                 print "En ese cuadrado hay un oponente"
                 # se obtiene el cuadrado de tablero a donde
                 # tendría que ir si como la pieza.
-                next_square = self.get_next_square(checker, square)
+                next_square = self.get_next_square_by_position(checker.position, square, checker.player)
 
                 print "El siguiente cuadrado que podría pisar es:", next_square
 
@@ -156,10 +158,6 @@ class Table:
     def get_possible_next_square_by_position(self, square, player, position):
         """Devuelve el siguente casillero para una ficha que come.
 
-        Este método hace algo similar al método "get_next_square",
-        solo que aquí los argumentos no son un objeto checker, sino
-        una posición y jugador.
-
         El argumento 'square' es la celda donde se comerá, player
         es el identificador del jugador que quiere comer y position
         es la posicion actual de la ficha que come.
@@ -168,9 +166,6 @@ class Table:
         el movimiento imaginario de varias piezas, y los estados
         de posición futuros no se almacenan en objetos Checker."""
 
-
-        # TODO: reutilizar el codigo del metodo "get_next_square", o
-        #       que ese metodo reutilice codigo de aquí.
         r, c = position
         square_column = square[1]
 
@@ -186,26 +181,6 @@ class Table:
         else:
             # son negras
             return (r-2,c+dt)
-
-    def get_next_square(self, checker, square):
-        """Devuelve el siguiente casillero a una pieza si come
-        a otra en square."""
-        r, c = checker.position
-        square_column = square[1]
-
-        # determina el movimiento horizontal
-        if square_column > c:
-            dt = +2
-        else:
-            dt = -2
-
-        if checker.player == 1:
-            # son blancas
-            return (r+2,c+dt)
-        else:
-            # son negras
-            return (r-2,c+dt)
-
 
     def _jump_one_checker(self, checker):
         """Indica si la pieza puede comer al menos a una ficha"""
@@ -319,7 +294,7 @@ class Table:
         # TODO: verificar si se puede mejorar esto
         self.positions = []
         for x in xrange(8):
-            self.positions.append([None,None,None,None,None,None,None,None])
+            self.positions.append([None, None, None, None, None, None, None, None])
 
         for position in xrange(1, 13):
             r, c = self.bind_position(position)
@@ -354,6 +329,7 @@ class Table:
 
         # evalua cada uno de los posibles cuadrados a pisar.
         print "Proximos squares:", next_squares
+
         for s in next_squares:
             # hace la primer busqueda sin comer
             if not must_jump_to_continue and not self.square_occupied(s):
