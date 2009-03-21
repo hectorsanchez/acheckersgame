@@ -1,40 +1,49 @@
 # -*- coding: utf-8 -*-
+""" Manejo de los botones del juego"""
 import pygame
 from pygame.sprite import Sprite
 import common
 
 class Button(Sprite):
-
-    def __init__(self, label, font, x, y, callback):
+    """Clase para manejo de botones """
+    def __init__(self, label, font, pos_x, pos_y, callback):
         Sprite.__init__(self)
+        self.glass_image = None
+        self.normal_image = None
         self._create_images(label, font)
         self.image = self.glass_image
         self.rect = self.image.get_rect()
         self.can_click = True
         self.can_drag = False
-        self.x = 640
-        self.y = y
-        self.to_x = x
-        self.to_y = y
+        self.pos_x = 640
+        self.pos_y = pos_y
+        self.to_x = pos_x
+        self.to_y = pos_y
         self.callback = callback
 
+
     def update(self):
-        self.x += (self.to_x - self.x) / common.MOTION_SPEED
-        self.y += (self.to_y - self.y) / common.MOTION_SPEED
-        self.rect.topleft = int(self.x), int(self.y)
+        """ Actualiza el estado del boton"""
+        self.pos_x += (self.to_x - self.pos_x) / common.MOTION_SPEED
+        self.pos_y += (self.to_y - self.pos_y) / common.MOTION_SPEED
+        self.rect.topleft = int(self.pos_x), int(self.pos_y)
 
     def on_mouse_move(self):
+        """Cambia la imagen al mover el mouse sobre el boton"""
         self.image = self.normal_image
 
     def on_mouse_leave(self):
+        """Cambia la imagen al mover el mouse fuera del boton"""
         self.image = self.glass_image
 
     def on_mouse_click(self):
-        self.x = self.to_x + 10
-        self.y = self.to_y + 10
+        """Mueve el boton, y recarla la pantalla """
+        self.pos_x = self.to_x + 10
+        self.pos_y = self.to_y + 10
         self.callback()
 
     def _create_images(self, label, font):
+        """ Carga las imagenes del juego"""
         white = (255, 255, 255)
         black = (0, 0, 0)
         gray = (200, 200, 200)
