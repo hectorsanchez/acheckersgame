@@ -2,7 +2,7 @@
 import common
 from config import PIECE_POSITIONS
 
-class Starting:
+class Starting(object):
     """Realiza el efecto de interpolacion al iniciar el juego"""
 
     def __init__(self, checker, position, player):
@@ -15,10 +15,10 @@ class Starting:
 
         if player == 1:
             checker.rect.y = -100
-        else: 
+        else:
             checker.rect.y = 710
 
-        self.moves = common.interpolate(checker.rect.topleft, to) 
+        self.moves = common.interpolate(checker.rect.topleft, to)
 
     def update(self):
         """Redibuja la ficha en el tablero"""
@@ -29,7 +29,7 @@ class Starting:
             self.checker.change_state(Normal(self.checker))
 
 
-class Normal:
+class Normal(object):
     """Estado normal de las piezas"""
     def __init__(self, checker):
         self.checker = checker
@@ -39,14 +39,14 @@ class Normal:
         pass
 
 
-class Moving:
+class Moving(object):
     """Realiza al interpolacion al moverce la ficha """
     def __init__(self, checker, to_x, to_y):
         self.checker = checker
         to = to_x, to_y
         self.moves = common.interpolate(checker.rect.topleft, to)
         self.checker.can_drag = False
-        
+
     def update(self):
         try:
             self.checker.rect.topleft = self.moves.next()

@@ -20,7 +20,7 @@ match_position = {
     29:(7,0), 30:(7,2), 31:(7,4), 32:(7,6),
 }
 
-class Table:
+class Table(object):
     """ Utilizada para el manejo de las piezas en el tablero y
     consultas sobre su estado"""
 

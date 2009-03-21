@@ -2,7 +2,7 @@
 import pygame
 from pygame.sprite import Sprite
 from config import PIECE_POSITIONS, THEME
-from common import load_image 
+from common import load_image
 import states
 
 NORMAL, OVER, DRAG = 0, 1, 2

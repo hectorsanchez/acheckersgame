@@ -5,7 +5,7 @@ from common import *
 from config import *
 import os
 
-class World:
+class World(object):
 
     def __init__(self, do_center_window):
         pygame.display.init()
