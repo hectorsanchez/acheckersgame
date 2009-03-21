@@ -4,7 +4,6 @@ import config
 import common
 
 from checker import Checker
-from common import debug
 
 from IPython.Shell import IPShellEmbed
 ipshell = IPShellEmbed()
@@ -108,8 +107,6 @@ class Table:
             if not self.square_occupied(adjacent_position) and adjacent_position in match_position.values():
                 result.append(adjacent_position)
 
-        #debug("Posicion de la pieza:", checker.position)
-        #debug("casillas adyacentes libres", result)
         return result
 
     def get_squares_path(self, checker):
@@ -181,39 +178,6 @@ class Table:
         else:
             # son negras
             return (r-2,c+dt)
-
-    def _jump_one_checker(self, checker):
-        """Indica si la pieza puede comer al menos a una ficha"""
-        row = 1 if checker.player == 1 else -1
-        # self.squares_adyacent, devuelve primero para la derecha
-        for adjacent, column in zip(self.squares_adyacent(checker), [1,-1]):
-            debug("esta pieza cae en", (adjacent[0]+row, adjacent[1]+column))
-            if self.square_occupied(adjacent) \
-                and not self.checker_of_player(adjacent, checker.player) \
-                and not self.square_occupied((adjacent[0]+row, adjacent[1]+column)):
-                    # se puede buscar el camino aca, que ya se sabe
-                    #que esta pieza come
-                    #self.search_jump_way(checker.position)
-                    return True
-
-    def forced_jump_all_checkers(self, player):
-        """Devuelve una lista de piezas que pueden comer"""
-        # lista de piezas que pueden comer
-        jump_checkers = []
-        # para cada una de las piezas del jugador en
-        # en el turno
-        for checker in self.checkers:
-            if checker.player == player:
-                if self._jump_one_checker(checker):
-                    jump_checkers.append(checker)
-
-        return jump_checkers
-
-    def checker_forced_jump(self):
-        """Devuelve la pieza que esta obligada a comer. El jugador
-        debe mover esta pieza. Es la que tiene el camino con cantidad
-        y calidad"""
-        pass
 
     def checker_of_player(self, position, player):
         """Chequea si la ficha de la posicion es del jugador"""
@@ -321,7 +285,6 @@ class Table:
 
     def move(self, (rf, cf), (rt, ct)):
         """Hace un swap entre las dos posiciones en la matriz"""
-        #debug("cambiando pieza")
         self.positions[rf][cf], self.positions[rt][ct] = \
             self.positions[rt][ct], self.positions[rf][cf]
 

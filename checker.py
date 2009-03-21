@@ -2,13 +2,17 @@
 import pygame
 from pygame.sprite import Sprite
 from config import PIECE_POSITIONS, THEME
-from common import load_image, debug, print_positions
+from common import load_image 
 from states import *
 
 NORMAL, OVER, DRAG = 0, 1, 2
 
 class Checker(Sprite):
-    """Representa una pieza del juego."""
+    """Representa una pieza del juego.
+
+    Interactúa con el objeto Mouse para realizar cambios de posición, e
+    interactúa con el objeto Table para conocer donde puede ocupar
+    posiciones dentro del tablero."""
 
     def __init__(self, player, initial_position, table):
         Sprite.__init__(self)
@@ -94,7 +98,7 @@ class Checker(Sprite):
             self.position = destination_index
             if self.table.crown(self):
                 # llamar a la funcion de coronar
-                debug("coronaste")
+                print "has coronado"
                 self.crown = True
         else:
             # regresa a su posicion inicial
