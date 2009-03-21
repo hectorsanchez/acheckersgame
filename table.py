@@ -109,49 +109,6 @@ class Table(object):
 
         return result
 
-    def get_squares_path(self, checker):
-        """Arma los caminos posibles para una ficha
-        Lo hace en dos partes, caminos simples que serian los adyacentes libres y
-        caminos complejos, los formados por comer fichas.
-        """
-        path = []
-
-        fist_path = self.squares_adyacent(checker)
-
-        # caminos simples, adyacentes libres
-        for square in fist_path:
-            if not self.square_occupied(square):
-                path.append(square)  # primer nivel
-
-        print "Por camino simple queda:", path
-
-        # caminos complejos, comiendo fichas
-        second_path = set(fist_path) - set(path)
-        second_path = list(second_path)
-        print "Falta evaluar:", second_path
-
-        for square in second_path:
-            # se analiza si la pieza a saltar es del otro
-            # jugador.
-            if self.square_occupied_by_oponent(square):
-                print "En ese cuadrado hay un oponente"
-                # se obtiene el cuadrado de tablero a donde
-                # tendría que ir si como la pieza.
-                next_square = self.get_next_square_by_position(checker.position, square, checker.player)
-
-                print "El siguiente cuadrado que podría pisar es:", next_square
-
-                # se consulta si está libre ese casillero.
-                if not self.square_occupied(next_square):
-                    path.append([square, next_square])
-
-                else:
-                    # no esta libre el casillero, así que no
-                    # puede comer la ficha que intentaba.
-                    pass
-        return path
-
-
     def get_possible_next_square_by_position(self, square, player, position):
         """Devuelve el siguente casillero para una ficha que come.
 
@@ -218,7 +175,7 @@ class Table(object):
             if sprite.rect.x < x < (sprite.rect.x + sprite.rect.w):
                 if sprite.rect.y < y < (sprite.rect.y + sprite.rect.h):
                     return sprite
-
+                    
     def get_index_at(self, (x, y)):
         """Devuelve el indice de tablero mas cercano a la posición (x,y).
         Puede devolver None si no está cerca de ningún elemento."""
@@ -282,7 +239,7 @@ class Table(object):
     def get_path(self, position, player, next_squares, must_jump_to_continue=False, last=[]):
 
         # evalua cada uno de los posibles cuadrados a pisar.
-        print "Proximos squares:", next_squares
+        print "Proximos casilleros:", next_squares
 
         for s in next_squares:
             # hace la primer busqueda sin comer
