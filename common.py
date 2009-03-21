@@ -17,7 +17,6 @@ def bring_to_front(sprite):
         g.remove(sprite)
         g.add(sprite)
 
-
 def interpolate((x, y), (to_x, to_y)):
     """Retorna un generador que aproxima gradualmente un punto a otro."""
 

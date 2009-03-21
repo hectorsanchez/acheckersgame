@@ -57,6 +57,7 @@ class Checker(Sprite):
         """Asigna la nueva imagen a la ficha"""
         self.image = self.images[index]
 
+    # Eventos relacionados con señales del mouse.
     def on_mouse_move(self):
         self.show_image(OVER)
 
@@ -72,6 +73,7 @@ class Checker(Sprite):
         next_squares = self.table.squares_adyacent(self)
         paths = self.table.get_path(self.position, self.player, next_squares)
         print list(paths)
+        print "-----------"
 
         # paths es el generador con todos los movimentos que
         # se pueden realizar.
@@ -108,4 +110,4 @@ class Checker(Sprite):
         return self.table.my_turn(self.player)
 
     def __repr__(self):
-        return str(self.position)
+        return "Pieza en la posicion:", str(self.position)
