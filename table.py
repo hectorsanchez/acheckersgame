@@ -131,10 +131,10 @@ class Table(object):
 
         if player == 1:
             # son blancas
-            return (r+2,c+dt)
+            return (r+2, c+dt)
         else:
             # son negras
-            return (r-2,c+dt)
+            return (r-2, c+dt)
 
     def checker_of_player(self, position, player):
         """Chequea si la ficha de la posicion es del jugador"""
@@ -220,8 +220,12 @@ class Table(object):
             checker = Checker(2, (r,c), self)
             self.positions[r][c] = checker
             self.checkers.append(checker)
-
+        
         self.group.add(self.checkers)
+
+    def get_all_checkers_from_player(self, player):
+        """Retorna una lista con todas las fichas de un player"""
+        return [checker for checker in self.checkers if checker.player == player]
 
     def get_checker_at_position(self, (r, c)):
         """Retorna la ficha que se encuentra en la
@@ -236,8 +240,9 @@ class Table(object):
         self.positions[rf][cf], self.positions[rt][ct] = \
             self.positions[rt][ct], self.positions[rf][cf]
 
-    def get_path(self, position, player, next_squares, must_jump_to_continue=False, last=[]):
 
+    def get_path(self, position, player, next_squares, must_jump_to_continue=False, last=[]):
+        """ Retorna todos los caminos posibles para una ficha """
         # evalua cada uno de los posibles cuadrados a pisar.
         print "Proximos casilleros:", next_squares
 
