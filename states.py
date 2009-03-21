@@ -4,7 +4,6 @@ from config import PIECE_POSITIONS
 
 class Starting(object):
     """Realiza el efecto de interpolacion al iniciar el juego"""
-
     def __init__(self, checker, position, player):
         self.checker = checker
         to_x, to_y = PIECE_POSITIONS[position]
@@ -15,10 +14,10 @@ class Starting(object):
 
         if player == 1:
             checker.rect.y = -100
-        else:
+        else: 
             checker.rect.y = 710
 
-        self.moves = common.interpolate(checker.rect.topleft, to)
+        self.moves = common.interpolate(checker.rect.topleft, to) 
 
     def update(self):
         """Redibuja la ficha en el tablero"""
@@ -46,9 +45,10 @@ class Moving(object):
         to = to_x, to_y
         self.moves = common.interpolate(checker.rect.topleft, to)
         self.checker.can_drag = False
-
+        
     def update(self):
         try:
             self.checker.rect.topleft = self.moves.next()
         except StopIteration:
             self.checker.change_state(Normal(self.checker))
+

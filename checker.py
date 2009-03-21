@@ -2,7 +2,7 @@
 import pygame
 from pygame.sprite import Sprite
 from config import PIECE_POSITIONS, THEME
-from common import load_image
+from common import load_image 
 import states
 
 NORMAL, OVER, DRAG = 0, 1, 2
@@ -25,6 +25,7 @@ class Checker(Sprite):
         self.can_click = False
         self.table = table
         self.change_state(states.Starting(self, initial_position, player))
+        self.crown = False
 
     def update(self):
         """Actualiza el estado de la ficha"""
@@ -56,7 +57,6 @@ class Checker(Sprite):
         """Asigna la nueva imagen a la ficha"""
         self.image = self.images[index]
 
-    # Eventos relacionados con señales del mouse.
     def on_mouse_move(self):
         self.show_image(OVER)
 
@@ -76,6 +76,7 @@ class Checker(Sprite):
         # paths es el generador con todos los movimentos que
         # se pueden realizar.
 
+        print "Caminos posibles para esta pieza:"
         for index, path in enumerate(paths):
             print " -> camino", index, ":", path
         print ""
@@ -87,8 +88,6 @@ class Checker(Sprite):
         from_x, from_y = self.last_rect.x, self.last_rect.y
         to_x, to_y = self.rect.x, self.rect.y
         destination_index = self.table.get_index_at(self.rect.center)
-        
-        print 'desitantion_index', destination_index
 
         if destination_index and \
            self.table.my_turn(self.player) and \
@@ -97,6 +96,10 @@ class Checker(Sprite):
             self.rect.topleft = PIECE_POSITIONS[destination_index]
             self.table.move(self.position, destination_index)
             self.position = destination_index
+            if self.table.crown(self):
+                # llamar a la funcion de coronar
+                print "has coronado"
+                self.crown = True
         else:
             # regresa a su posicion inicial
             self.change_state(states.Moving(self, from_x, from_y))
@@ -105,4 +108,4 @@ class Checker(Sprite):
         return self.table.my_turn(self.player)
 
     def __repr__(self):
-        return "Pieza en la posicion:", str(self.position)
+        return str(self.position)
