@@ -1,14 +1,15 @@
-# -*- encoding: utf-8 -*-
+# -*- encoding: utf-8 --
 import pygame
-from pygame.locals import MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION, ACTIVEEVENT
+from pygame.locals import MOUSEBUTTONDOWN, MOUSEBUTTONUP
+from pygame.locals import MOUSEMOTION, ACTIVEEVENT
 
 MOUSE_EVENTS = [MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION, ACTIVEEVENT]
 MOTION_SPEED = 5.0
 
 
-def load_image(file, theme):
+def load_image(imagefile, theme):
     """Carga una imagen dentro del tema indicado."""
-    image = pygame.image.load('ima/%s/%s' %(theme, file))
+    image = pygame.image.load('ima/%s/%s' %(theme, imagefile))
     return image.convert_alpha()
 
 def bring_to_front(sprite):
