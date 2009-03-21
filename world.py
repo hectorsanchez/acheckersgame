@@ -1,7 +1,7 @@
 import pygame
 import gui
 from table import Table
-from common import *
+import common
 from config import *
 import os
 
@@ -43,7 +43,7 @@ class World(object):
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     quit = True
-                elif e.type in MOUSE_EVENTS:
+                elif e.type in common.MOUSE_EVENTS:
                     self.mouse.send_event(e)
                 elif e.type == pygame.KEYDOWN:
                     if e.key in [pygame.K_ESCAPE, pygame.K_q]:

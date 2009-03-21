@@ -87,6 +87,8 @@ class Checker(Sprite):
         from_x, from_y = self.last_rect.x, self.last_rect.y
         to_x, to_y = self.rect.x, self.rect.y
         destination_index = self.table.get_index_at(self.rect.center)
+        
+        print 'desitantion_index', destination_index
 
         if destination_index and \
            self.table.my_turn(self.player) and \

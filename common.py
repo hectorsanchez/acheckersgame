@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 import pygame
-from pygame.locals import *
+from pygame.locals import MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION, ACTIVEEVENT
 
 MOUSE_EVENTS = [MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION, ACTIVEEVENT]
 MOTION_SPEED = 5.0
