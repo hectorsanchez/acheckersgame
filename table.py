@@ -187,15 +187,6 @@ class Table(object):
         else:
             return False
 
-    def crown(self, checker):
-        """Devuelve verdadero si corono o falso en otro caso"""
-        if checker.player == 1:
-            # pregunta si la fila de la posicion es igual a 0
-            return checker.position[0] == 0
-        else:
-            # pregunta si la fila de la posicion es igual a 7
-            return checker.position[0] == 7
-
     def my_turn(self, player):
         """Indica si es el turno del jugador"""
         if player == self.player_move:

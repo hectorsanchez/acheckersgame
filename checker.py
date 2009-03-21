@@ -25,7 +25,6 @@ class Checker(Sprite):
         self.can_click = False
         self.table = table
         self.change_state(states.Starting(self, initial_position, player))
-        self.crown = False
 
     def update(self):
         """Actualiza el estado de la ficha"""
@@ -96,10 +95,6 @@ class Checker(Sprite):
             self.rect.topleft = PIECE_POSITIONS[destination_index]
             self.table.move(self.position, destination_index)
             self.position = destination_index
-            if self.table.crown(self):
-                # llamar a la funcion de coronar
-                print "has coronado"
-                self.crown = True
         else:
             # regresa a su posicion inicial
             self.change_state(states.Moving(self, from_x, from_y))
