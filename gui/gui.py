@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import pygame
 from pygame.sprite import Group
 
 class Gui(Group):

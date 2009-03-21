@@ -3,8 +3,6 @@ import pygame
 from pygame.sprite import Sprite
 import common
 from config import THEME
-import pygame
-
 
 class Turn(Sprite):
     """Representa un visor de turnos, indicando que jugador debe mover la 

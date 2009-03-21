@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import pygame
 from pygame.sprite import Sprite
-from common import load_image
 import common
 
 class Button(Sprite):
