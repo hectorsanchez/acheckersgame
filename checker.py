@@ -26,6 +26,7 @@ class Checker(Sprite):
         self.table = table
         self.change_state(states.Starting(self, initial_position, player))
 
+
     def update(self):
         """Actualiza el estado de la ficha"""
         self.state.update()
@@ -47,7 +48,7 @@ class Checker(Sprite):
 
     def _load_images(self, player, theme):
         """Carga todas las imagenes del tema"""
-        prefix = "p%d_" %player
+        prefix = "p%d_"%player
         names =  ['normal', 'over', 'drag']
         filenames = [prefix + name + '.png' for name in names]
         self.images = [load_image(name, theme) for name in filenames]
@@ -57,16 +58,17 @@ class Checker(Sprite):
         self.image = self.images[index]
 
     def on_mouse_move(self):
+        """Se esta moviendo el mouse"""
         self.show_image(OVER)
 
     def on_mouse_leave(self):
+        """Se suelta el mouse"""
         self.show_image(NORMAL)
 
     def on_mouse_drag_start(self):
+        """Comienza a realizar el drag con el mouse"""
         self.last_rect = pygame.Rect(self.rect)
         self.show_image(DRAG)
-
-        #jump_checkers = self.table.forced_jump_all_checkers(self.table.player_move)
 
         next_squares = self.table.squares_adyacent(self)
         paths = self.table.get_path(self.position, self.player, next_squares)
@@ -80,17 +82,18 @@ class Checker(Sprite):
             print " -> camino", index, ":", path
         print ""
 
-    def on_mouse_drag(self, dx, dy):
-        self.rect.move_ip(dx, dy)
+    def on_mouse_drag(self, pos_dx, pos_dy):
+        """Realizando el drag con el mouse"""
+        self.rect.move_ip(pos_dx, pos_dy)
 
     def on_mouse_drag_end(self):
+        """Finaliza el drag con el mouse"""
         from_x, from_y = self.last_rect.x, self.last_rect.y
-        to_x, to_y = self.rect.x, self.rect.y
         destination_index = self.table.get_index_at(self.rect.center)
 
-        if destination_index and \
+        if (destination_index and \
            self.table.my_turn(self.player) and \
-           destination_index in self.table.squares_adyacent_possibles(self):
+           destination_index in self.table.squares_adyacent_possibles(self)):
             self.table.change_turn()
             self.rect.topleft = PIECE_POSITIONS[destination_index]
             self.table.move(self.position, destination_index)
