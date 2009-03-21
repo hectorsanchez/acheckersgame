@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+"""Modulo para manejor de turnos"""
 import pygame
 from pygame.sprite import Sprite
 import common
 from config import THEME
 
 class Turn(Sprite):
-    """Representa un visor de turnos, indicando que jugador debe mover la 
+    """Representa un visor de turnos, indicando que jugador debe mover la
     siguiente pieza del juego."""
 
     def __init__(self):
@@ -23,17 +24,20 @@ class Turn(Sprite):
     def change(self, player):
         "Altera el mensaje de texto indicado el jugador con turno."
         self.image = self.base_image.copy()
-        text = "Turno del jugador: %d" %(player)
+        text = "Turno del jugador: %d" % (player)
         text_image = self.font.render(text, 1, (0, 0, 0))
         self.image.blit(text_image, (5, 5))
 
     def on_mouse_move(self):
+        """ Cuando se muevoe el mouse"""
         pass
 
     def on_mouse_leave(self):
+        """ Al dejar al mouse"""
         pass
 
     def update_normal(self):
+        """ Estado normal"""
         pass
 
     def update_starting(self):
