@@ -1,9 +1,10 @@
 World -> Mouse: send_event
 Mouse -> Mouse: on_mouse_button_down
 Mouse -> GUI: on_mouse_move
+GUI -> Mouse: instancia de objeto Checker
 Mouse -> Checker: on_mouse_drag_start
 
 note right of Mouse: y comienza a almacenar una referencia a esa ficha.
 
 Checker -> Table : get_path
-Table --> Checker: [posisiones]
+Table --> Checker: [posiciones]

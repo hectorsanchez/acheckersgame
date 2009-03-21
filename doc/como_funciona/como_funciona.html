@@ -21,7 +21,6 @@
     <LI><A HREF="#toc2">Funcionalidad</A>
       <UL>
       <LI><A HREF="#toc3">Bucle principal</A>
-      <LI><A HREF="#toc4">Eventos de aplicación</A>
       </UL>
     </UL>
   </UL>
@@ -32,30 +31,45 @@
 <H1>Introducción</H1>
 <P>
 Este documento es una reseña breve del funcionamiento del juego
-<I>Another Checkers Game</I>.
+<I>Another Checkers Game</I>. Se utiliza como punto de partida para
+nuevos programadores y para investigar la forma de mejorar su
+funcionalidad.
+</P>
+<P>
+Si quiere realizar camibios en el código del programa le recomendamos
+leer este documento y consultar el código a la vez; dado que ambos
+tratan sobre la misma estrategia pero en diferente profundidad.
 </P>
 <A NAME="toc2"></A>
 <H2>Funcionalidad</H2>
 <A NAME="toc3"></A>
 <H3>Bucle principal</H3>
 <P>
-El objeto encargado de contener al bucle principal es <CODE>World</CODE>, este objeto
-contiene el método <CODE>loop</CODE> y una referencia a un objeto <CODE>Clock</CODE>.
+Como se busca que el videojuego sea totalmente interactivo, mostrando
+animaciones o transiciones, se ha optado por actualizar la pantalla
+de juego en base a un bucle, como en los juegos de acción.
 </P>
 <P>
-En cada iteración del bucle se obtienen todos los eventos de la aplicación
-y se propagan a otros componentes del sistema.
+El objeto encargado de contener al bucle principal es <CODE>World</CODE>, este objeto
+contiene el método <CODE>loop</CODE> y una referencia a un objeto <CODE>Clock</CODE> para
+mantener la velocidad constante en diferentes equipos.
+</P>
+<P>
+En la jerarquía de objetos, <CODE>World</CODE> es responsable de actualizar la
+pantalla, mantener la velocidad constante del juego y propagar eventos.
+</P>
+<P>
+El siguiente diagrama muestra el orden de las llamadas e interacción
+entre objetos del bucle principal:
 </P>
 <P>
 <IMG ALIGN="middle" SRC="ima/loop.png" BORDER="0" ALT="">
 </P>
-<A NAME="toc4"></A>
-<H3>Eventos de aplicación</H3>
 <P>
-En el método <CODE>loop</CODE> de <CODE>World</CODE> se capturan todos los eventos de la
-aplicación. Lo eventos mas frecuentes se propagan a la clase <CODE>Mouse</CODE>.
+La mayor parte del comportamiento del programa se encuentra inspeccionando
+el método <CODE>send_event</CODE> de la clase <CODE>Mouse</CODE>.
 </P>
-<H4>Al pulsar el botón del mouse</H4>
+<H4>Caso de ejemplo: Al pulsar el botón del mouse</H4>
 <P>
 Cuando el objeto <CODE>Mouse</CODE> recibe la notificación del evento
 <CODE>MOUSEBUTTONDOWN</CODE> intercambia mensajes con los objetos de la
@@ -70,8 +84,21 @@ la referencia a la ficha que espera comenzar a mover.
 <IMG ALIGN="middle" SRC="ima/mouse_down.png" BORDER="0" ALT="">
 </P>
 <P>
-La respuesta de <CODE>Table</CODE> en una lista todas los caminos
-posibles para la pieza. 
+Siguiendo el diagrama anterior, imagine una situación donde el usuario
+hace <CODE>click</CODE> sobre una ficha. El objeto <CODE>World</CODE> envía el mensaje
+<CODE>send_event</CODE> a <CODE>Mouse</CODE>. <CODE>Mouse</CODE> detecta que ha seleccionado una
+ficha cuando le responde <CODE>GUI</CODE> le devuelve una instancia a objeto
+<CODE>Checker</CODE>.
+</P>
+<P>
+Luego, <CODE>Mouse</CODE> busca conocer a que posiciones podrá mover esa pieza. Para
+ello sirve la llamada al método <CODE>get_path</CODE> del objeto <CODE>Table</CODE>.
+</P>
+<P>
+La respuesta de <CODE>Table</CODE> menciona todas las posiciones en donde podrá
+colocar esta pieza en caso de realizar un movimiento. Es importante observar
+la estructura de este valor. Es una lista con todos los casilleros que puede
+utilizar.
 </P>
 <P>
 A continuación se muestran algunos ejemplos:
@@ -93,7 +120,8 @@ está ocupada:
 <P></P>
 <P>
 Si está en una situación similar a las anteriores, pero una
-pieza en la posición (3, 4) se puede comer:
+pieza en la posición (3, 4) se puede comer. La repuesta
+podría ser de la siguiente forma:
 </P>
 <PRE>
 [[(4, 5), (3, 4)], [(4, 7)]]
@@ -111,10 +139,17 @@ celdas del tablero:
 <P>
 <IMG ALIGN="middle" SRC="ima/tablero.png" BORDER="0" ALT="">
 </P>
-<H4>Al mover el mouse</H4>
 <P>
-Realiza una tarea similar al evento de pulsar el mouse, solo que aquí
-el evento se utiliza para transmitir significado visual al jugador.
+Dentro del juego resultan útiles las dos numeraciones, note que las
+celdas que se pueden ocupar se identifican por un solo número. Mientras
+todas las posiciones de la tabla, independientemente de si se pueden
+utilizar o no, se identifican por tuplas de la forma (fila, columna).
+</P>
+<H4>Caso de ejemplo: Al mover el mouse</H4>
+<P>
+Realiza una tarea similar al evento de pulsar el <CODE>Mouse</CODE>, solo
+que aquí el evento se utiliza para transmitir significado visual
+al jugador.
 </P>
 <P>
 Cuando el usuario mueve el mouse, en todo momento se consulta si
@@ -133,6 +168,10 @@ mouse traducional.
 <P>
 Si el objeto <CODE>Mouse</CODE> ya ha detectado con anterioridad la
 pulsación sobre un elemento entonces comienza a arrastrarlo.
+</P>
+<H4>Caso de ejemplo: Al solar una ficha</H4>
+<P>
+....
 </P>
 </DIV>
 

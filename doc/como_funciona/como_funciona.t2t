@@ -5,28 +5,40 @@ Guia para programadores
 = Introducción =
 
 Este documento es una reseña breve del funcionamiento del juego
-//Another Checkers Game//.
+//Another Checkers Game//. Se utiliza como punto de partida para
+nuevos programadores y para investigar la forma de mejorar su
+funcionalidad.
 
+Si quiere realizar camibios en el código del programa le recomendamos
+leer este documento y consultar el código a la vez; dado que ambos
+tratan sobre la misma estrategia pero en diferente profundidad.
 
 
 == Funcionalidad ==
 
 === Bucle principal ===
 
-El objeto encargado de contener al bucle principal es ``World``, este objeto
-contiene el método ``loop`` y una referencia a un objeto ``Clock``.
+Como se busca que el videojuego sea totalmente interactivo, mostrando
+animaciones o transiciones, se ha optado por actualizar la pantalla
+de juego en base a un bucle, como en los juegos de acción.
 
-En cada iteración del bucle se obtienen todos los eventos de la aplicación
-y se propagan a otros componentes del sistema.
+El objeto encargado de contener al bucle principal es ``World``, este objeto
+contiene el método ``loop`` y una referencia a un objeto ``Clock`` para
+mantener la velocidad constante en diferentes equipos.
+
+En la jerarquía de objetos, ``World`` es responsable de actualizar la
+pantalla, mantener la velocidad constante del juego y propagar eventos.
+
+El siguiente diagrama muestra el orden de las llamadas e interacción
+entre objetos del bucle principal:
 
 [ima/loop.png]
 
-=== Eventos de aplicación ===
+La mayor parte del comportamiento del programa se encuentra inspeccionando
+el método ``send_event`` de la clase ``Mouse``.
 
-En el método ``loop`` de ``World`` se capturan todos los eventos de la
-aplicación. Lo eventos mas frecuentes se propagan a la clase ``Mouse``.
+==== Caso de ejemplo: Al pulsar el botón del mouse ====
 
-==== Al pulsar el botón del mouse ====
 
 Cuando el objeto ``Mouse`` recibe la notificación del evento
 ``MOUSEBUTTONDOWN`` intercambia mensajes con los objetos de la
@@ -38,8 +50,19 @@ la referencia a la ficha que espera comenzar a mover.
 
 [ima/mouse_down.png]
 
-La respuesta de ``Table`` en una lista todas los caminos
-posibles para la pieza. 
+Siguiendo el diagrama anterior, imagine una situación donde el usuario
+hace ``click`` sobre una ficha. El objeto ``World`` envía el mensaje
+``send_event`` a ``Mouse``. ``Mouse`` detecta que ha seleccionado una
+ficha cuando le responde ``GUI`` le devuelve una instancia a objeto
+``Checker``.
+
+Luego, ``Mouse`` busca conocer a que posiciones podrá mover esa pieza. Para
+ello sirve la llamada al método ``get_path`` del objeto ``Table``.
+
+La respuesta de ``Table`` menciona todas las posiciones en donde podrá
+colocar esta pieza en caso de realizar un movimiento. Es importante observar
+la estructura de este valor. Es una lista con todos los casilleros que puede
+utilizar.
 
 A continuación se muestran algunos ejemplos:
 
@@ -57,7 +80,8 @@ está ocupada:
 ```
 
 Si está en una situación similar a las anteriores, pero una
-pieza en la posición (3, 4) se puede comer:
+pieza en la posición (3, 4) se puede comer. La repuesta
+podría ser de la siguiente forma:
 
 ```
 [[(4, 5), (3, 4)], [(4, 7)]]
@@ -72,10 +96,16 @@ celdas del tablero:
 
 [ima/tablero.png]
 
-==== Al mover el mouse ====
+Dentro del juego resultan útiles las dos numeraciones, note que las
+celdas que se pueden ocupar se identifican por un solo número. Mientras
+todas las posiciones de la tabla, independientemente de si se pueden
+utilizar o no, se identifican por tuplas de la forma (fila, columna).
 
-Realiza una tarea similar al evento de pulsar el mouse, solo que aquí
-el evento se utiliza para transmitir significado visual al jugador.
+==== Caso de ejemplo: Al mover el mouse ====
+
+Realiza una tarea similar al evento de pulsar el ``Mouse``, solo
+que aquí el evento se utiliza para transmitir significado visual
+al jugador.
 
 Cuando el usuario mueve el mouse, en todo momento se consulta si
 hay un objeto debajo del cursor, y en caso afirmativo, se consulta
@@ -91,3 +121,8 @@ mouse traducional.
 
 Si el objeto ``Mouse`` ya ha detectado con anterioridad la
 pulsación sobre un elemento entonces comienza a arrastrarlo.
+
+
+==== Caso de ejemplo: Al solar una ficha ====
+
+....
