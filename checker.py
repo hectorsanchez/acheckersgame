@@ -3,7 +3,7 @@ import pygame
 from pygame.sprite import Sprite
 from config import PIECE_POSITIONS, THEME
 from common import load_image 
-from states import *
+import states
 
 NORMAL, OVER, DRAG = 0, 1, 2
 
@@ -24,7 +24,7 @@ class Checker(Sprite):
         self.can_drag = True
         self.can_click = False
         self.table = table
-        self.change_state(Starting(self, initial_position, player))
+        self.change_state(states.Starting(self, initial_position, player))
         self.crown = False
 
     def update(self):
@@ -73,12 +73,10 @@ class Checker(Sprite):
         next_squares = self.table.squares_adyacent(self)
         paths = self.table.get_path(self.position, self.player, next_squares)
         print list(paths)
-        print "-----------"
 
         # paths es el generador con todos los movimentos que
         # se pueden realizar.
 
-        print "Caminos posibles para esta pieza:"
         for index, path in enumerate(paths):
             print " -> camino", index, ":", path
         print ""
@@ -104,7 +102,7 @@ class Checker(Sprite):
                 self.crown = True
         else:
             # regresa a su posicion inicial
-            self.change_state(Moving(self, from_x, from_y))
+            self.change_state(states.Moving(self, from_x, from_y))
 
     def can_drag_me_actual_player(self):
         return self.table.my_turn(self.player)
