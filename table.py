@@ -159,8 +159,6 @@ class Table(object):
 
         self._create_path_dictionary()
 
-        #print "en el metodo 'change_turn'..."
-        #print "Cambia de turno",
         print "En 'change_turn' se genera este diccionario:"
 
         for k, v in self._path_dictionary.items():
@@ -374,9 +372,10 @@ class Table(object):
             path_selected = [p for p in paths if destination == p[0]]
         else:
             path_selected = [p for p in paths if destination == p[1]]
-            self.remove_checker_at(path[0])
+            self.remove_checker_at(paths[0][0])
 
         self._path_dictionary[checker] = path_selected[0][2:]
+        print "El nuevo diccionario es:", self._path_dictionary
 
 
     def check_end_path(self, checker):
