@@ -86,9 +86,15 @@ class Checker(Sprite):
             self.rect.topleft = PIECE_POSITIONS[destination_index]
             self.table.move(self.position, destination_index)
             self.position = destination_index
-            self.table.change_turn()
+
+            if self.table.check_end_path(self):
+                self.table.change_turn()
+                print "Ya ha realizado todos los movimientos posibles"
+            else:
+                print "Tiene que seguir moviendo la ficha..."
         else:
             self.change_state(states.Moving(self, from_x, from_y))
+    
 
     def can_drag_me_actual_player(self):
         """ Chequea si el usuario de turno puede hacer drag en la ficha"""
