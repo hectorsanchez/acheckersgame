@@ -161,6 +161,17 @@ class Table(object):
         self.player_move = ((self.player_move + 2) % 2) + 1
         self.turn.change(self.player_move)
 
+        self._create_path_dictionary()
+
+        print "Cambia de turno",
+        print "y genera este diccionario:", self._path_dictionary
+
+    def _create_path_dictionary(self):
+        all_checkers = self.get_all_checkers_from_player(self.player_move)
+
+        self._path_dictionary = dict([(checker, self._get_best_path_for_a_checker(checker)) for checker in all_checkers])
+
+
     def change_theme(self, theme):
         """Cambia el tema del juego completo"""
         self.image = common.load_image('table.png', theme)
@@ -228,16 +239,19 @@ class Table(object):
         self.group.add(self.checkers)
 
 
-    #creo que se tendria que llamar algo asi
-    #dict([checker, _get_best_path_a_checker(checker) for checker in lista_checher)]))
-
-    def _get_best_path_a_checker(self, checker):
+    def _get_best_path_for_a_checker(self, checker):
+        """Obtiene el mejor camino para una ficha."""
         next_squares = self.squares_adyacent(checker)
-        path_list = self._get_path(checker.position, checker.player, next_squares)
+        path_list = list(self._get_path(checker.position, checker.player, next_squares))
 
-        best_length = max([len(path) for path in path_list])
+        try:
+            best_length = max([len(path) for path in path_list])
+            print 'best_length en get_best...', best_length
+        except ValueError:
+            best_path = []
+
         best_path = [path for path in path_list if len(path) == best_length]
-
+        print vars()
         return best_path
 
         

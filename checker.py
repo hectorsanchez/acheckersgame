@@ -109,3 +109,6 @@ class Checker(Sprite):
     def can_drag_me_actual_player(self):
         """ Chequea si el usuario de turno puede hacer drag en la ficha"""
         return self.table.my_turn(self.player)
+
+    def __repr__(self):
+        return "<Checker at %s>" %str(self.position)
