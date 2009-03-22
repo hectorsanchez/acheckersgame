@@ -262,7 +262,6 @@ class Table(object):
         best_path = [path for path in path_list if len(path) == best_length]
         return best_path
 
-
     def _get_all_checkers_from_player(self, player):
         """Retorna una lista con todas las fichas de un player"""
         return [checker for checker in self.checkers if checker.player == player]
@@ -279,7 +278,6 @@ class Table(object):
         """Hace un swap entre las dos posiciones en la matriz"""
         self.positions[rf][cf], self.positions[rt][ct] = \
             self.positions[rt][ct], self.positions[rf][cf]
-
 
     def _get_path(self, position, player, next_squares, must_jump_to_continue=False, last=[]):
         """ Retorna todos los caminos posibles para una ficha """
@@ -319,3 +317,13 @@ class Table(object):
 
     def are_checker_in_path(self, checker):
         return self._path_dictionary.has_key(checker)
+
+    def remove_checker_at(self, (row, column)):
+        checker = self.get_checker_at_position((row, column))
+
+        if not checker:
+            raise ValueError("There is no checker in this position.")
+
+        self.positions[row][column] = None
+        checker.kill()
+        self.checkers.remove(checker)
