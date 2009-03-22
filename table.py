@@ -270,7 +270,6 @@ class Table(object):
     def get_checker_at_position(self, (r, c)):
         """Retorna la ficha que se encuentra en la
         posicion de index"""
-        print self.positions
         try:
             return self.positions[r][c]
         except IndexError:
