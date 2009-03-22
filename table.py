@@ -6,8 +6,8 @@ import common
 
 from checker import Checker
 
-from IPython.Shell import IPShellEmbed
-ipshell = IPShellEmbed()
+#from IPython.Shell import IPShellEmbed
+#ipshell = IPShellEmbed()
 #ipshell() # this call anywhere in your program will start IPython
 
 match_position = {
@@ -172,15 +172,35 @@ class Table(object):
         for k, v in self._path_dictionary.items():
             print "\t", k, ":", v
 
-
     def _create_path_dictionary(self):
         all_checkers = self._get_all_checkers_from_player(self.player_move)
         all_paths = [(checker, self._get_best_path_for_a_checker(checker)) for checker in all_checkers]
 
-        # remove empty paths
-        #best_paths = [(checker, paths) for checker, paths in all_paths if paths]
-
+        all_paths = self._filter_only_the_best_paths(all_paths)
         self._path_dictionary = dict(all_paths)
+
+    def _lenght_of_best_path(self, paths):
+        """Determina los caminos mas largos para una pieza."""
+        lenghts = [len(path) for path in paths]
+
+        if lenghts:
+            return lenghts[0]
+        else:
+            return 0
+
+    def _filter_only_the_best_paths(self, paths_list):
+        """Filtra los mejores movimientos de las piezas.
+        
+        Este filtro se utiliza para generar un diccionario de los mejores
+        movimientos permitidos."""
+
+        long_paths = [self._lenght_of_best_path(paths) for checker, paths in paths_list]
+        best_lenght = max(long_paths)
+
+        longest_paths = [(ckecker, path) for ckecker, path in paths_list
+                if self._lenght_of_best_path(path) == best_lenght]
+
+        return longest_paths
 
     def change_theme(self, theme):
         """Cambia el tema del juego completo"""
