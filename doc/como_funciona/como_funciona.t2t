@@ -123,6 +123,28 @@ Si el objeto ``Mouse`` ya ha detectado con anterioridad la
 pulsación sobre un elemento entonces comienza a arrastrarlo.
 
 
-==== Caso de ejemplo: Al solar una ficha ====
+== Propuesta para comer fichas ==
 
-....
+
+=== Como resolver caminos ===
+
+El jugador solo podrá realizar el mejor movimiento
+permitido. Para asegurar esta funcionalidad se
+sigue la siguiente estrategia:
+
+
+==== Al iniciar el turno ====
+
+  - Recorrer todas las fichas del jugador que tiene turno.
+    - Recolectar todos los caminos posibles para cada una de estas fichas.
+    - Seleccionar solo los mejores movimientos de las mejores fichas.
+    - Almacenar el resultado de la anterior en un diccionario de Table.
+
+Así, cuando el jugador inicia su turno, ya se creará un diccionario
+con los mejores movimientos para realizar.
+
+Este diccionario tendrá la siguiente apariencia:
+
+```
+{
+<Piece instance>: 
