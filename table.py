@@ -45,7 +45,6 @@ class Table(object):
                 adyacentes.append((r+1,c-1))
             if (r+1,c+1) in match_position.values():
                 adyacentes.append((r+1,c+1))
-
         else:
             # son negras
             if (r-1,c-1) in match_position.values():
@@ -372,5 +371,7 @@ class Table(object):
         for path in paths:
             es_impar = len(path) % 2 == 1
 
-            if not es_impar:
+            if es_impar:
+                pass
+            else:
                 self.remove_checker_at(path[0])

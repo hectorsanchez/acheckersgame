@@ -82,36 +82,13 @@ class Checker(Sprite):
         print "Queriendo colocar la pieza en la posicion:", destination_index
 
         if self.table.can_move_to_this_position(self, destination_index):
-            print "Puedo mover"
             self.table.do_this_checker_motion(self, destination_index)
             self.rect.topleft = PIECE_POSITIONS[destination_index]
             self.table.move(self.position, destination_index)
             self.position = destination_index
             self.table.change_turn()
         else:
-            print "No puedo mover, ni se porque..."
             self.change_state(states.Moving(self, from_x, from_y))
-
-
-        """
-
-
-
-
-        if (destination_index and \
-           self.table.my_turn(self.player) and \
-           destination_index in self.table.squares_adyacent_possibles(self)):
-
-            self.rect.topleft = PIECE_POSITIONS[destination_index]
-            self.table.move(self.position, destination_index)
-            self.position = destination_index
-            self.table.change_turn()
-
-        else:
-            # regresa a su posicion inicial
-            print "Cancelando el movimiento"
-            self.change_state(states.Moving(self, from_x, from_y))
-        """
 
     def can_drag_me_actual_player(self):
         """ Chequea si el usuario de turno puede hacer drag en la ficha"""
