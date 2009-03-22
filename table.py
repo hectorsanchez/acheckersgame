@@ -142,7 +142,9 @@ class Table(object):
 
     def checker_of_player(self, position, player):
         """Chequea si la ficha de la posicion es del jugador"""
+
         checker = self.get_checker_at_position(position)
+
         if checker.player == player:
             return True
         else:
@@ -172,13 +174,13 @@ class Table(object):
 
 
     def _create_path_dictionary(self):
-        all_checkers = self.get_all_checkers_from_player(self.player_move)
+        all_checkers = self._get_all_checkers_from_player(self.player_move)
         all_paths = [(checker, self._get_best_path_for_a_checker(checker)) for checker in all_checkers]
 
         # remove empty paths
-        best_paths = [(checker, paths) for checker, paths in all_paths if paths]
+        #best_paths = [(checker, paths) for checker, paths in all_paths if paths]
 
-        self._path_dictionary = dict(best_paths)
+        self._path_dictionary = dict(all_paths)
 
     def change_theme(self, theme):
         """Cambia el tema del juego completo"""
@@ -261,13 +263,14 @@ class Table(object):
         return best_path
 
         
-    def get_all_checkers_from_player(self, player):
+    def _get_all_checkers_from_player(self, player):
         """Retorna una lista con todas las fichas de un player"""
         return [checker for checker in self.checkers if checker.player == player]
 
     def get_checker_at_position(self, (r, c)):
         """Retorna la ficha que se encuentra en la
         posicion de index"""
+        print self.positions
         try:
             return self.positions[r][c]
         except IndexError:
@@ -287,6 +290,7 @@ class Table(object):
         for square in next_squares:
             # hace la primer busqueda sin comer
             if not must_jump_to_continue and not self.square_occupied(square):
+                print "Esta ocupado el", square, "?:", self.square_occupied(square)
                 print "\ten un primer movimiento se puede pisar en", square
                 yield last + [square]
             elif self.square_occupied_by_oponent(square, player):
