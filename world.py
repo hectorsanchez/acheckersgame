@@ -66,6 +66,15 @@ class World(object):
                         # verificar que este dentro del diccionario
                         # realizar el movimiento de la ficha
                         self.update_view(self.theme)
+                    elif event.key == pygame.K_d:
+                        mov = ask(self.screen, "Movimiento:")
+                        r, _, c = tuple(mov)
+                        self.table.remove_checker_at((int(r),int(c)))
+                        #TODO
+                        # validar el movimiento ingresado, el formato: 10, 14
+                        # verificar que este dentro del diccionario
+                        # realizar el movimiento de la ficha
+                        self.update_view(self.theme)
 
             self.clock.tick(60)
             self.group.update()
