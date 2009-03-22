@@ -227,6 +227,20 @@ class Table(object):
 
         self.group.add(self.checkers)
 
+
+    #creo que se tendria que llamar algo asi
+    #dict([checker, _get_best_path_a_checker(checker) for checker in lista_checher)]))
+
+    def _get_best_path_a_checker(self, checker):
+        next_squares = self.squares_adyacent(checker)
+        path_list = self._get_path(checker.position, checker.player, next_squares)
+
+        best_length = max([len(path) for path in path_list])
+        best_path = [path for path in path_list if len(path) == best_length]
+
+        return best_path
+
+        
     def get_all_checkers_from_player(self, player):
         """Retorna una lista con todas las fichas de un player"""
         return [checker for checker in self.checkers if checker.player == player]
@@ -245,7 +259,7 @@ class Table(object):
             self.positions[rt][ct], self.positions[rf][cf]
 
 
-    def get_path(self, position, player, next_squares, must_jump_to_continue=False, last=[]):
+    def _get_path(self, position, player, next_squares, must_jump_to_continue=False, last=[]):
         """ Retorna todos los caminos posibles para una ficha """
         # evalua cada uno de los posibles cuadrados a pisar.
         print "Proximos casilleros:", next_squares
@@ -273,7 +287,7 @@ class Table(object):
 
                     # Obtiene los siguientes movimientos, pero solo buscando
                     # aquellos que comerán una ficha.
-                    new_paths = self.get_path(new_pos, player, possible_next_squares, True, [square, possible_destiny_square])
+                    new_paths = self._get_path(new_pos, player, possible_next_squares, True, [square, possible_destiny_square])
 
                     for path in new_paths:
                         yield path
