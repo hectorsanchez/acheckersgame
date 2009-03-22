@@ -23,17 +23,17 @@ class World(object):
         self.clock = pygame.time.Clock()
         self.group = pygame.sprite.OrderedUpdates()
         pygame.display.set_caption(WINDOW_TITLE)
-
+        self.theme = THEME
         self._create_ui()
 
-        self.table = Table(self.group, THEME, self.turn)
+        self.table = Table(self.group, self.theme, self.turn)
 
         self.gui = gui.Gui(self.group.sprites())
         self.mouse = gui.Mouse(self.gui)
         self.group.add(self.mouse)
 
         self.background = self.screen.convert()
-        self.change_theme(THEME)
+        self.change_theme(self.theme)
 
     def _create_font_system(self):
         pygame.font.init()
@@ -59,6 +59,7 @@ class World(object):
                     elif e.key == pygame.K_k:
                         mov = ask(self.screen, "Movimiento:")
                         print mov
+                        self.update_view(self.theme)
 
             self.clock.tick(60)
             self.group.update()
@@ -78,10 +79,12 @@ class World(object):
         self.group.add(self.turn)
 
     def on_classic__clicked(self):
-        self.change_theme("classic")
+        self.theme = "classic"
+        self.change_theme(self.theme)
 
     def on_beach__clicked(self):
-        self.change_theme("beach")
+        self.theme = "beach"
+        self.change_theme(self.theme)
 
     def change_theme(self, theme):
         THEME = theme

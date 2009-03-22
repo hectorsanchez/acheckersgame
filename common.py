@@ -5,7 +5,7 @@ import pygame, pygame.font, pygame.event, pygame.draw, string
 
 from pygame.locals import MOUSEBUTTONDOWN, MOUSEBUTTONUP
 from pygame.locals import MOUSEMOTION, ACTIVEEVENT
-from pygame.locals import K_MINUS , K_RETURN, K_BACKSPACE, KEYDOWN
+from pygame.locals import K_MINUS , K_RETURN, K_BACKSPACE, KEYDOWN, K_ESCAPE
 
 
 MOUSE_EVENTS = [MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION, ACTIVEEVENT]
@@ -73,7 +73,7 @@ def ask(screen, question):
         inkey = get_key()
         if inkey == K_BACKSPACE:
             current_string = current_string[0:-1]
-        elif inkey == K_RETURN:
+        elif inkey in [K_RETURN, K_ESCAPE]:
             break
         elif inkey == K_MINUS:
             current_string.append("_")
