@@ -162,7 +162,7 @@ class Table(object):
         #print "en el metodo 'change_turn'..."
         #print "Cambia de turno",
         print "En 'change_turn' se genera este diccionario:"
-        
+
         for k, v in self._path_dictionary.items():
             print "\t", k, ":", v
 
@@ -184,7 +184,7 @@ class Table(object):
 
     def _filter_only_the_best_paths(self, paths_list):
         """Filtra los mejores movimientos de las piezas.
-        
+
         Este filtro se utiliza para generar un diccionario de los mejores
         movimientos permitidos."""
 
@@ -375,3 +375,16 @@ class Table(object):
                 pass
             else:
                 self.remove_checker_at(path[0])
+
+
+    def check_end_path(self, checker):
+        """ Verifica si tengo que seguir haciendo movimientos
+        en base al camino """
+
+        #verifico el largo del camino
+        if self._path_dictionary[checker]:
+            return False
+        else:
+            return True
+
+
