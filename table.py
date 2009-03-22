@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+""" Modulo para manejar la tabla """
 import pygame
 import config
 import common
@@ -101,10 +102,12 @@ class Table(object):
             return False
 
     def squares_adyacent_possibles(self, checker):
-        """Devuelve los casilleros posibles para el jugador de la pieza checker"""
+        """Devuelve los casilleros posibles para
+        el jugador de la pieza checker"""
         result = []
         for adjacent_position in self.squares_adyacent(checker):
-            if not self.square_occupied(adjacent_position) and adjacent_position in match_position.values():
+            if (not self.square_occupied(adjacent_position) and \
+                    adjacent_position in match_position.values()):
                 result.append(adjacent_position)
 
         return result
@@ -175,7 +178,7 @@ class Table(object):
             if sprite.rect.x < x < (sprite.rect.x + sprite.rect.w):
                 if sprite.rect.y < y < (sprite.rect.y + sprite.rect.h):
                     return sprite
-                    
+
     def get_index_at(self, (x, y)):
         """Devuelve el indice de tablero mas cercano a la posición (x,y).
         Puede devolver None si no está cerca de ningún elemento."""
@@ -220,7 +223,7 @@ class Table(object):
             checker = Checker(2, (r,c), self)
             self.positions[r][c] = checker
             self.checkers.append(checker)
-        
+
         self.group.add(self.checkers)
 
     def get_all_checkers_from_player(self, player):
