@@ -368,13 +368,15 @@ class Table(object):
     def do_this_checker_motion(self, checker, destination):
         paths = self._path_dictionary[checker]
 
-        for path in paths:
-            es_impar = len(path) % 2 == 1
+        es_impar = len(paths[0]) % 2 == 1
 
-            if es_impar:
-                pass
-            else:
-                self.remove_checker_at(path[0])
+        if es_impar:
+            path_selected = [p for p in paths if destination == p[0]]
+        else:
+            path_selected = [p for p in paths if destination == p[1]]
+            self.remove_checker_at(path[0])
+
+        self._path_dictionary[checker] = path_selected[0][2:]
 
 
     def check_end_path(self, checker):
@@ -386,5 +388,3 @@ class Table(object):
             return False
         else:
             return True
-
-
