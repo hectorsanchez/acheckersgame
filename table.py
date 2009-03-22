@@ -262,7 +262,7 @@ class Table(object):
         best_path = [path for path in path_list if len(path) == best_length]
         return best_path
 
-        
+
     def _get_all_checkers_from_player(self, player):
         """Retorna una lista con todas las fichas de un player"""
         return [checker for checker in self.checkers if checker.player == player]

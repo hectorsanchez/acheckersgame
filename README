@@ -11,7 +11,21 @@ Cambios generales:
     posiciones en una matriz, pero ahora definimos esto de otra manera: sólo
     enumeramos las celdas que se pueden utilizar.
     
-    
+Nuevos cambios
+    Reuniones en Bs As:
+        Nos detuvimos a pensar un poco mejor el juego, y definitivamente 
+        decidimos utilizar una matriz, ya que nos permite realizar algunos
+         calculos que de otra manera son muy complejos.
+        También comenzamos a realizar varias funciones que permiten hacer 
+        la misma funcionalidad a la fecha, pero trabajando con matrices.
+    PyCamp 2009:
+        Comenzamos corrigiendo el codigo, con la ayuda de pylint,
+         quitando funciones obsoletas, y reutilizando otras, refactorizando
+         varias partes.
+        Tambien pensamos en agregar nuevos features, y la logica para poder 
+        terminar en estos dias una version jugable, agregando funcionalidad 
+        que faltaba.
+
 Ejecutar en Linux:
     cd acheckersgame
     python run.py
