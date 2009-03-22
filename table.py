@@ -39,6 +39,7 @@ class Table(object):
         self.player_move = 2
         self.change_turn()
 
+
     def squares_adyacent(self, checker):
         """Devuelve los casilleros adyacentes a la pieza"""
         r, c = checker.position

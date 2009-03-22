@@ -71,6 +71,8 @@ class Checker(Sprite):
         self.last_rect = pygame.Rect(self.rect)
         self.show_image(DRAG)
 
+        # TODO: Soluciona el cambio de estrategia.
+        '''
         next_squares = self.table.squares_adyacent(self)
         paths = self.table.get_path(self.position, self.player, next_squares)
         print list(paths)
@@ -82,6 +84,7 @@ class Checker(Sprite):
         for index, path in enumerate(paths):
             print " -> camino", index, ":", path
         print ""
+        '''
 
     def on_mouse_drag(self, pos_dx, pos_dy):
         """Realizando el drag con el mouse"""
