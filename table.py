@@ -6,10 +6,6 @@ import common
 
 from checker import Checker
 
-#from IPython.Shell import IPShellEmbed
-#ipshell = IPShellEmbed()
-#ipshell() # this call anywhere in your program will start IPython
-
 match_position = {
      1:(0,1),  2:(0,3),  3:(0,5),  4:(0,7),
      5:(1,0),  6:(1,2),  7:(1,4),  8:(1,6),
@@ -165,9 +161,9 @@ class Table(object):
 
         self._create_path_dictionary()
 
-        print "en el metodo 'change_turn'..."
-        print "Cambia de turno",
-        print "y genera este diccionario:"
+        #print "en el metodo 'change_turn'..."
+        #print "Cambia de turno",
+        print "En 'change_turn' se genera este diccionario:"
         
         for k, v in self._path_dictionary.items():
             print "\t", k, ":", v
@@ -302,26 +298,25 @@ class Table(object):
     def _get_path(self, position, player, next_squares, must_jump_to_continue=False, last=[]):
         """ Retorna todos los caminos posibles para una ficha """
         # evalua cada uno de los posibles cuadrados a pisar.
-        print "Proximos casilleros:", next_squares
+        #print "Proximos casilleros:", next_squares
 
         for square in next_squares:
             # hace la primer busqueda sin comer
             if not must_jump_to_continue and not self.square_occupied(square):
-                print "Esta ocupado el", square, "?:", self.square_occupied(square)
-                print "\ten un primer movimiento se puede pisar en", square
+                #print "\ten un primer movimiento se puede pisar en", square
                 yield last + [square]
             elif self.square_occupied_by_oponent(square, player):
-                print "\tcomo", square, "esta ocupada por un rival, se busca saltarla"
+                #print "\tcomo", square, "esta ocupada por un rival, se busca saltarla"
 
                 possible_destiny_square = self.get_possible_next_square_by_position(square, player, position)
-                print "\t si la salto tendría que pisar en", possible_destiny_square
+                #print "\t si la salto tendría que pisar en", possible_destiny_square
 
                 if (not self.square_occupied(possible_destiny_square) and \
                         possible_destiny_square in match_position.values()):
-                    print "\t  y esta libre, osea que puedo comer."
+                    #print "\t  y esta libre, osea que puedo comer."
                     yield last + [square, possible_destiny_square]
 
-                    print "\t   pero luego de comer intento seguir desde la", possible_destiny_square
+                    #print "\t   pero luego de comer intento seguir desde la", possible_destiny_square
 
                     new_pos = possible_destiny_square
                     possible_next_squares = self.squares_adyacent_by_position(new_pos, player)
@@ -333,7 +328,8 @@ class Table(object):
                     for path in new_paths:
                         yield path
                 else:
-                    print "\tpero como está ocupada se descarta el camino."
+                    pass
+                    #print "\tpero como está ocupada se descarta el camino."
 
     def are_checker_in_path(self, checker):
         return self._path_dictionary.has_key(checker)
