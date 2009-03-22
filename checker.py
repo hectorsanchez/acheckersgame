@@ -86,7 +86,7 @@ class Checker(Sprite):
            destination_index in self.table.squares_adyacent_possibles(self)):
 
             self.rect.topleft = PIECE_POSITIONS[destination_index]
-            self.table.move(self.position, destination_indestination_index)
+            self.table.move(self.position, destination_index)
             self.position = destination_index
             self.table.change_turn()
 
