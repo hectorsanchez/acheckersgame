@@ -1,0 +1,21 @@
+Eliminar fichas del tablero
+
+Recibo un diccionario con todos los caminos posibles, ya filtrados.
+
+Por cada movimiento del usuario, tomo la posicion donde solto la ficha
+y elimino todos los caminos que no tengan esa posicion.
+
+ 03, 07, 09, 11
+ 03, 07, 10, 15
+
+--- 04, 08
+
+De uno de los que quedaron, elimino la ficha del tablero, que esta en la posicion 0 del
+diccionario
+
+
+09, 11
+10, 15
+
+Y ahora vuelvo utilizar el mismo proceso, y como origen utilizo el diccionario resultante
+
