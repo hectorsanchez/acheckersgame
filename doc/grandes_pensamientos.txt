@@ -5,17 +5,21 @@ Recibo un diccionario con todos los caminos posibles, ya filtrados.
 Por cada movimiento del usuario, tomo la posicion donde solto la ficha
 y elimino todos los caminos que no tengan esa posicion.
 
- 03, 07, 09, 11
- 03, 07, 10, 15
+{
+'Pieza1': 03, 07, 09, 11
+'Pieza1': 03, 07, 10, 15
+'Pieza2': 04, 08, 02, 10
+}
 
---- 04, 08
 
 De uno de los que quedaron, elimino la ficha del tablero, que esta en la posicion 0 del
 diccionario
 
 
-09, 11
-10, 15
+{
+'Pieza1': 09, 11
+'Pieza1': 10, 15
+}
 
 Y ahora vuelvo utilizar el mismo proceso, y como origen utilizo el diccionario resultante
 
