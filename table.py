@@ -35,7 +35,6 @@ class Table(object):
         self.player_move = 2
         self.change_turn()
 
-
     def squares_adyacent(self, checker):
         """Devuelve los casilleros adyacentes a la pieza"""
         r, c = checker.position
@@ -164,7 +163,7 @@ class Table(object):
         #print "en el metodo 'change_turn'..."
         #print "Cambia de turno",
         print "En 'change_turn' se genera este diccionario:"
-
+        
         for k, v in self._path_dictionary.items():
             print "\t", k, ":", v
 
@@ -186,7 +185,7 @@ class Table(object):
 
     def _filter_only_the_best_paths(self, paths_list):
         """Filtra los mejores movimientos de las piezas.
-
+        
         Este filtro se utiliza para generar un diccionario de los mejores
         movimientos permitidos."""
 
@@ -332,9 +331,6 @@ class Table(object):
                     #print "\tpero como está ocupada se descarta el camino."
 
     def are_checker_in_path(self, checker):
-        """Verifica si la pieza se puede mover o no, esto es utilizado por la
-        funcion del mouse que cambia el icono de verde a rojo en la mano"""
-
         return self._path_dictionary.has_key(checker)
 
     def remove_checker_at(self, (row, column)):
