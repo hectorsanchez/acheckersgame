@@ -9,7 +9,7 @@ Este documento es una reseña breve del funcionamiento del juego
 nuevos programadores y para investigar la forma de mejorar su
 funcionalidad.
 
-Si quiere realizar camibios en el código del programa le recomendamos
+Si quiere realizar cambios en el código del programa le recomendamos
 leer este documento y consultar el código a la vez; dado que ambos
 tratan sobre la misma estrategia pero en diferente profundidad.
 
@@ -140,6 +140,8 @@ sigue la siguiente estrategia:
     - Seleccionar solo los mejores movimientos de las mejores fichas.
     - Almacenar el resultado de la anterior en un diccionario de Table.
 
+
+
 Así, cuando el jugador inicia su turno, ya se creará un diccionario
 con los mejores movimientos para realizar.
 
@@ -147,4 +149,49 @@ Este diccionario tendrá la siguiente apariencia:
 
 ```
 {
-<Piece instance>: 
+<Piece instance>: [[(1, 2)], [(2, 3)]],
+<Piece instance>: [[(2, 3)], [(2, 5)]]
+}
+```
+
+
+Note que solo encontrará caminos para los mejores movimientos, si un
+jugador puede mover 5 fichas, pero solo con 2 realiza los mejores
+movimientos, entonces el diccionario solo tendrá 2 elementos.
+
+
+==== Cuando el usuario pasa con el mouse sobre la ficha ====
+
+En una segunda instancia, se consulta el diccionario para saber
+que movimientos se permiten.
+
+  - si la pieza no está dentro del diccionario, no dejará moverla.
+  - si la pieza está en el diccionario:
+
+
+
+
+Estas decisiones se verán en la interfaz del juego, si no se permite
+mover una ficha el cursor del mouse mostrará una marca roja, y cuando
+se pueda mover el mouse tendrá una marca verde:
+
+[ima/cursores.png]
+
+
+==== Cuando el usuario suelta la pieza ====
+
+  - ¿ el camino tiene elementos pares ?:
+    - SI:
+      - significa que tiene que comer en la primer posición. Así que tiene que
+        eliminar al enemigo de esa posición.
+      - luego tiene que mover a la siguiente posición de donde comió.
+      - tiene que eliminar del camino a las dos posiciones en donde avanzó.
+    - NO:
+      - deja mover la pieza solamente a los primeros casilleros de los caminos.
+      - quita el primer elemento de este camino.
+  - ¿ la lista de camino está vacía ?
+    - SI:
+      - dar el turno al otro jugador.
+    - NO:
+      - retener el turno y quedar en el estado "cuando el usuario pasa con el
+        mouse sobre la ficha".
