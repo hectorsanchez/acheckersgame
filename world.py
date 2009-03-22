@@ -1,9 +1,10 @@
+""" Modulo para manejo del tablero """
 import pygame
 import gui
 from table import Table
 import common
 from config import *
-from common import get_key, display_box, ask
+from common import ask
 import os
 
 class World(object):
@@ -36,27 +37,28 @@ class World(object):
         self.change_theme(self.theme)
 
     def _create_font_system(self):
+        """ Inicializa las fonts"""
         pygame.font.init()
         self.font = pygame.font.Font(None, 25)
 
     def loop(self):
 
-        quit = False
+        end_game = False
 
-        while not quit:
+        while not end_game:
 
-            for e in pygame.event.get():
-                if e.type == pygame.QUIT:
-                    quit = True
-                elif e.type in common.MOUSE_EVENTS:
-                    self.mouse.send_event(e)
-                elif e.type == pygame.KEYDOWN:
-                    if e.key in [pygame.K_ESCAPE, pygame.K_q]:
-                        quit = True
-                    elif e.key == pygame.K_F3:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    end_game = True
+                elif event.type in common.MOUSE_EVENTS:
+                    self.mouse.send_event(event)
+                elif event.type == pygame.KEYDOWN:
+                    if event.key in [pygame.K_ESCAPE, pygame.K_q]:
+                        end_game = True
+                    elif event.key == pygame.K_F3:
                         pygame.display.toggle_fullscreen()
                         self.mouse.visible = True
-                    elif e.key == pygame.K_k:
+                    elif event.key == pygame.K_k:
                         mov = ask(self.screen, "Movimiento:")
                         print mov
                         self.update_view(self.theme)
@@ -66,32 +68,40 @@ class World(object):
             self._update_view()
 
     def _update_view(self):
+        """ Actualiza la vista"""
         self.group.clear(self.screen, self.background)
         pygame.display.update(self.group.draw(self.screen))
 
     def _create_ui(self):
-        b1 = gui.Button("Theme: classic", self.font, 500, 45, self.on_classic__clicked)
-        b2 = gui.Button("Theme: beach", self.font, 500, 100, self.on_beach__clicked)
-        self.group.add(b1, b2)
+        """Crea la interfaz del juego """
+        label = "Theme: classic"
+        but1 = gui.Button(label, self.font, 500, 45, self.on_classic__clicked)
+        label = "Theme: beach"
+        but2 = gui.Button(label, self.font, 500, 100, self.on_beach__clicked)
+        self.group.add(but1, but2)
 
         # genera el visor de turnos
         self.turn = gui.Turn()
         self.group.add(self.turn)
 
     def on_classic__clicked(self):
+        """ Click en el boton estilo classic """
         self.theme = "classic"
         self.change_theme(self.theme)
 
     def on_beach__clicked(self):
+        """ Click en el boton estilo beach """
         self.theme = "beach"
         self.change_theme(self.theme)
 
     def change_theme(self, theme):
-        THEME = theme
-        self.update_view(THEME)
+        """ Cambio de thema """
+        self.theme = theme
+        self.update_view(self.theme)
 
-    def update_view(self, THEME):
-        self.table.change_theme(THEME)
+    def update_view(self, theme):
+        """ Actualiza la vista"""
+        self.table.change_theme(theme)
         self.table.draw(self.background)
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()

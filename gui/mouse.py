@@ -6,7 +6,7 @@ from pygame import MOUSEBUTTONUP, MOUSEBUTTONDOWN, MOUSEMOTION, ACTIVEEVENT
 
 class Mouse(Sprite):
     """Representa al puntero del mouse, conoce todos los elementos
-    de la interfaz y administrar las funcionalidades de 
+    de la interfaz y administrar las funcionalidades de
     'arrastrar/soltar' y 'seleccionar'."""
 
     def __init__(self, gui):

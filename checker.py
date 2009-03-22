@@ -27,7 +27,6 @@ class Checker(Sprite):
         self.table = table
         self.change_state(states.Starting(self, initial_position, player))
 
-
     def update(self):
         """Actualiza el estado de la ficha"""
         self.state.update()
@@ -37,8 +36,8 @@ class Checker(Sprite):
         self.state = new_state
 
     def _move(self, position):
-        """Mueve la ficha a la posicion indicada por position. Las posiciones
-        corresponden a la fila y columna de la matriz"""
+        """Mueve la ficha a la posicion indicada por position.
+        Las posiciones corresponden a la fila y columna de la matriz"""
         self.position = position
         self.rect.x, self.rect.y = PIECE_POSITIONS[position]
 
@@ -99,5 +98,6 @@ class Checker(Sprite):
         return "<Checker at %s>" %str(self.position)
 
     def are_in_path_dictionary(self):
-        """Consulta si esta ficha esta en el diccionario de los movimientos posibles."""
+        """Consulta si esta ficha esta en el diccionario
+        de los movimientos posibles."""
         return self.table.are_checker_in_path(self)
