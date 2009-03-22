@@ -249,20 +249,21 @@ class Table(object):
         # evalua cada uno de los posibles cuadrados a pisar.
         print "Proximos casilleros:", next_squares
 
-        for s in next_squares:
+        for square in next_squares:
             # hace la primer busqueda sin comer
-            if not must_jump_to_continue and not self.square_occupied(s):
-                print "\ten un primer movimiento se puede pisar en", s
-                yield last + [s]
-            elif self.square_occupied_by_oponent(s, player):
-                print "\tcomo", s, "esta ocupada por un rival, se busca saltarla"
+            if not must_jump_to_continue and not self.square_occupied(square):
+                print "\ten un primer movimiento se puede pisar en", square
+                yield last + [square]
+            elif self.square_occupied_by_oponent(square, player):
+                print "\tcomo", square, "esta ocupada por un rival, se busca saltarla"
 
-                possible_destiny_square = self.get_possible_next_square_by_position(s, player, position)
+                possible_destiny_square = self.get_possible_next_square_by_position(square, player, position)
                 print "\t si la salto tendría que pisar en", possible_destiny_square
 
-                if not self.square_occupied(possible_destiny_square) and possible_destiny_square in match_position.values():
+                if (not self.square_occupied(possible_destiny_square) and \
+                        possible_destiny_square in match_position.values()):
                     print "\t  y esta libre, osea que puedo comer."
-                    yield last + [s, possible_destiny_square]
+                    yield last + [square, possible_destiny_square]
 
                     print "\t   pero luego de comer intento seguir desde la", possible_destiny_square
 
@@ -271,10 +272,10 @@ class Table(object):
 
                     # Obtiene los siguientes movimientos, pero solo buscando
                     # aquellos que comerán una ficha.
-                    new_paths = self.get_path(new_pos, player, possible_next_squares, True, [s, possible_destiny_square])
+                    new_paths = self.get_path(new_pos, player, possible_next_squares, True, [square, possible_destiny_square])
 
-                    for p in new_paths:
-                        yield p
+                    for path in new_paths:
+                        yield path
                 else:
                     print "\tpero como está ocupada se descarta el camino."
 
