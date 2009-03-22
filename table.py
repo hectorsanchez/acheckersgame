@@ -163,14 +163,22 @@ class Table(object):
 
         self._create_path_dictionary()
 
+        print "en el metodo 'change_turn'..."
         print "Cambia de turno",
-        print "y genera este diccionario:", self._path_dictionary
+        print "y genera este diccionario:"
+        
+        for k, v in self._path_dictionary.items():
+            print "\t", k, ":", v
+
 
     def _create_path_dictionary(self):
         all_checkers = self.get_all_checkers_from_player(self.player_move)
+        all_paths = [(checker, self._get_best_path_for_a_checker(checker)) for checker in all_checkers]
 
-        self._path_dictionary = dict([(checker, self._get_best_path_for_a_checker(checker)) for checker in all_checkers])
+        # remove empty paths
+        best_paths = [(checker, paths) for checker, paths in all_paths if paths]
 
+        self._path_dictionary = dict(best_paths)
 
     def change_theme(self, theme):
         """Cambia el tema del juego completo"""
@@ -246,12 +254,10 @@ class Table(object):
 
         try:
             best_length = max([len(path) for path in path_list])
-            print 'best_length en get_best...', best_length
         except ValueError:
             best_path = []
 
         best_path = [path for path in path_list if len(path) == best_length]
-        print vars()
         return best_path
 
         
@@ -308,3 +314,5 @@ class Table(object):
                 else:
                     print "\tpero como está ocupada se descarta el camino."
 
+    def are_checker_in_path(self, checker):
+        return self._path_dictionary.has_key(checker)

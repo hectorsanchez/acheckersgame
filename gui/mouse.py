@@ -59,7 +59,7 @@ class Mouse(Sprite):
                 if obj.can_click:
                     self.image = self.over_click_image
                 elif obj.can_drag:
-                    if obj.can_drag_me_actual_player():
+                    if obj.are_in_path_dictionary():
                         self.image = self.over_drag_image
                     else:
                         self.image = self.over_cant_image

@@ -97,3 +97,7 @@ class Checker(Sprite):
 
     def __repr__(self):
         return "<Checker at %s>" %str(self.position)
+
+    def are_in_path_dictionary(self):
+        """Consulta si esta ficha esta en el diccionario de los movimientos posibles."""
+        return self.table.are_checker_in_path(self)
