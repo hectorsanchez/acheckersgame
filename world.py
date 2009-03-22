@@ -3,6 +3,7 @@ import gui
 from table import Table
 import common
 from config import *
+from common import get_key, display_box, ask
 import os
 
 class World(object):
@@ -55,6 +56,9 @@ class World(object):
                     elif e.key == pygame.K_F3:
                         pygame.display.toggle_fullscreen()
                         self.mouse.visible = True
+                    elif e.key == pygame.K_k:
+                        mov = ask(self.screen, "Movimiento:")
+                        print mov
 
             self.clock.tick(60)
             self.group.update()
