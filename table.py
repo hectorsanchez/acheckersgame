@@ -342,3 +342,35 @@ class Table(object):
         self.positions[row][column] = None
         checker.kill()
         self.checkers.remove(checker)
+
+    def can_move_to_this_position(self, checker, position):
+        """Informa si se puede mover una ficha a una determinada posición."""
+
+        if not self.are_checker_in_path(checker):
+            return False
+
+        paths = self._path_dictionary[checker]
+
+        for path in paths:
+            es_impar = len(path) % 2 == 1
+
+            if es_impar:
+                if path[0] == position:
+                    return True
+            else:
+                if path[1] == position:
+                    return True
+
+        print paths
+        print "y quiero mover a", position
+
+        return False
+
+    def do_this_checker_motion(self, checker, destination):
+        paths = self._path_dictionary[checker]
+
+        for path in paths:
+            es_impar = len(path) % 2 == 1
+
+            if not es_impar:
+                self.remove_checker_at(path[0])
