@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 --
+""" Funciones comunes"""
 import pygame
 from pygame.locals import MOUSEBUTTONDOWN, MOUSEBUTTONUP
 from pygame.locals import MOUSEMOTION, ACTIVEEVENT
@@ -14,23 +15,23 @@ def load_image(imagefile, theme):
 
 def bring_to_front(sprite):
     """Trae un sprite al frente del grupo."""
-    for g in sprite.groups():
-        g.remove(sprite)
-        g.add(sprite)
+    for group in sprite.groups():
+        group.remove(sprite)
+        group.add(sprite)
 
-def interpolate((x, y), (to_x, to_y)):
+def interpolate((pos_x, pos_y), (to_x, to_y)):
     """Retorna un generador que aproxima gradualmente un punto a otro."""
 
     while True:
-        dist_x = to_x - x
-        dist_y = to_y - y
-        dx = dist_x / MOTION_SPEED
-        dy = dist_y / MOTION_SPEED
+        dist_x = to_x - pos_x
+        dist_y = to_y - pos_y
+        dta_x = dist_x / MOTION_SPEED
+        dta_y = dist_y / MOTION_SPEED
 
         if abs(dist_x) >= 1 or abs(dist_y) >= 1:
-            x += dx
-            y += dy
-            yield int(x), int(y)
+            pos_x += dta_x
+            pos_y += dta_y
+            yield int(pos_x), int(pos_y)
         else:
             yield to_x, to_y
             break
