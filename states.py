@@ -3,7 +3,14 @@ import common
 from config import PIECE_POSITIONS
 import pygame
 
-class Starting(object):
+
+class State(object):
+    """Representa un estado de comportamiento de Checker."""
+
+    def update(self):
+        pass
+
+class Starting(State):
     """Realiza el efecto de interpolacion al iniciar el juego"""
 
     def __init__(self, checker, position, player):
@@ -30,8 +37,9 @@ class Starting(object):
             self.checker.change_state(Normal(self.checker))
 
 
-class Normal(object):
+class Normal(State):
     """Estado normal de las piezas"""
+
     def __init__(self, checker):
         self.checker = checker
         self.checker.can_drag = True
@@ -40,8 +48,9 @@ class Normal(object):
         pass
 
 
-class Moving(object):
+class Moving(State):
     """Realiza al interpolacion al moverce la ficha """
+
     def __init__(self, checker, to_x, to_y):
         self.checker = checker
         to = to_x, to_y
@@ -54,7 +63,7 @@ class Moving(object):
         except StopIteration:
             self.checker.change_state(Normal(self.checker))
 
-class WhenDie(object):
+class WhenDie(State):
     """Representa la animacion de eliminación de ficha."""
 
     def __init__(self, checker):
