@@ -172,6 +172,12 @@ class Table(object):
         all_paths = self._filter_only_the_best_paths(all_paths)
         self._path_dictionary = dict(all_paths)
 
+    def blink_checkers_that_can_move(self):
+        """Hace destellar las piezas que se pueden mover en este turno."""
+        for checker in self._path_dictionary.keys():
+            if checker.can_drag:
+                checker.do_blink()
+
     def _lenght_of_best_path(self, paths):
         """Determina los caminos mas largos para una pieza."""
         lenghts = [len(path) for path in paths]

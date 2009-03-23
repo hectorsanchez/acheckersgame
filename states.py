@@ -30,7 +30,6 @@ class Starting(State):
 
     def update(self):
         """Redibuja la ficha en el tablero"""
-        self.checker.image.set_alpha(100)
         try:
             self.checker.rect.topleft = self.moves.next()
         except StopIteration:
@@ -85,3 +84,20 @@ class WhenDie(State):
 
             self.checker.rect = self.checker.image.get_rect()
             self.checker.rect.center = self.center.center
+
+class Blinking(State):
+
+    def __init__(self, checker):
+        self.checker = checker
+        self.counter = 100
+
+    def update(self):
+        self.counter -= 1
+
+        if self.counter < 0:
+            self.checker.change_state(Normal(self.checker))
+        else:
+            if self.counter % 20 < 10:
+                self.checker.show_image(0)
+            else:
+                self.checker.show_image(1)

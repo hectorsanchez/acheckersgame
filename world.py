@@ -58,6 +58,8 @@ class World(object):
                     elif event.key == pygame.K_F3:
                         pygame.display.toggle_fullscreen()
                         self.mouse.visible = True
+                    elif event.key == pygame.K_b:
+                        self.table.blink_checkers_that_can_move()
                     elif event.key == pygame.K_k:
                         mov = ask(self.screen, "Movimiento:")
                         print mov

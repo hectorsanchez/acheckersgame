@@ -112,3 +112,6 @@ class Checker(Sprite):
 
     def remove_from_groups(self):
         Sprite.kill(self)
+
+    def do_blink(self):
+        self.change_state(states.Blinking(self))
