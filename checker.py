@@ -69,6 +69,8 @@ class Checker(Sprite):
         """Comienza a realizar el drag con el mouse"""
         self.last_rect = pygame.Rect(self.rect)
         self.show_image(DRAG)
+        if self.table.are_checker_in_path(self):
+            self.table.filter_only_path_checker(self)
 
     def on_mouse_drag(self, pos_dx, pos_dy):
         """Realizando el drag con el mouse"""

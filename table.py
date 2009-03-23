@@ -187,6 +187,12 @@ class Table(object):
         else:
             return 0
 
+    def filter_only_path_checker(self, checker_mov):
+        """ Elimina los caminos de otra ficha """
+        for checker in self._path_dictionary.keys():
+            if checker_mov != checker:
+                del(self._path_dictionary[checker])
+
     def _filter_only_the_best_paths(self, paths_list):
         """Filtra los mejores movimientos de las piezas.
 
