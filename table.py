@@ -5,6 +5,7 @@ import config
 import common
 
 from checker import Checker
+from king import King
 
 match_position = {
      1:(0,1),  2:(0,3),  3:(0,5),  4:(0,7),
@@ -385,10 +386,6 @@ class Table(object):
                 if path[1] == position:
                     return True
 
-        print "No permito el movimiento, porque quiero ir a", position,
-        print "y mis caminos son", paths
-        print "y estoy en", checker.position
-
         return False
 
     def do_this_checker_motion(self, checker, destination):
@@ -423,3 +420,9 @@ class Table(object):
 
         if self.check_end_path(checker):
             self.change_turn()
+
+    def convert_to_king(self, position):
+        checker = self.get_checker_at_position(position)
+
+        new_king = King(checker.player, checker.position, self)
+
