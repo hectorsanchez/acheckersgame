@@ -246,7 +246,6 @@ class Table(object):
 
     def bind_position(self, position):
         """Devuelve la fila y columna de la posicion position del tablero"""
-        print "position", position
         r, c = match_position[position]
         return r, c
 
@@ -398,14 +397,7 @@ class Table(object):
             path_selected = [p for p in paths if destination == p[1]]
             self.remove_checker_at(path_selected[0][0])
 
-        print "Los caminos que incluyen el movimiento son:", path_selected
-
         self._path_dictionary[checker] = [path[2:] for path in path_selected]
-
-        print "Pero me quedo solo con:", self._path_dictionary
-
-
-        print "El nuevo diccionario es:", self._path_dictionary
 
 
     def check_end_path(self, checker):
@@ -418,13 +410,10 @@ class Table(object):
         else:
             return True
 
-    def move_this_checker_to(self, checker, destination_index):
+    def move_this_checker_to(self, checker, destination_index, interpolate=False):
         self.do_this_checker_motion(checker, destination_index)
         self.move(checker.position, destination_index)
-        checker.set_position(destination_index)
+        checker.set_position(destination_index, interpolate)
 
         if self.check_end_path(checker):
             self.change_turn()
-            print "Ya ha realizado todos los movimientos posibles"
-        else:
-            print "Tiene que seguir moviendo la ficha..."

@@ -84,8 +84,10 @@ class Checker(Sprite):
         else:
             self.change_state(states.Moving(self, from_x, from_y))
 
-    def set_position(self, position, inmediate=True):
-        if inmediate:
+    def set_position(self, position, interpolate=False):
+        if interpolate:
+            pass
+        else:
             self.rect.topleft = PIECE_POSITIONS[position]
 
         # TODO: Contemplar el caso de 'inmediate' == False.
