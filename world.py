@@ -82,10 +82,26 @@ class World(object):
                         self.update_view(self.theme)
 
                     elif event.key == pygame.K_d:
-                        mov = ask(self.screen, "Movimiento:")
-                        r, _, c = tuple(mov)
-                        self.table.remove_checker_at((int(r),int(c)))
-                        self.update_view(self.theme)
+                        mov = ask(self.screen, "Ficha a borrar:")
+                        #No hago mucho checkeo porque es una opcion para debug
+                        if not re.search('\d+,\d+', mov):
+                            message = 'Fichas ' + mov + ' invalida'
+                            display_box(self.screen, message)
+                            self.update_view(self.theme)
+                            pygame.time.delay(1000)
+                        else:
+                            r, _, c = tuple(mov)
+                            try:
+                                self.table.remove_checker_at((int(r),int(c)))
+                            except ValueError, mesg:
+                                print mesg
+     
+                            finally:
+                                self.update_view(self.theme)
+ 
+                        #TODO: esto no esta bien, solo lo hago porque este metodo 
+                        #es para debug
+                        self.table._create_path_dictionary()
 
             self.clock.tick(60)
             self.group.update()
