@@ -419,6 +419,8 @@ class Table(object):
         checker.set_position(destination_index, interpolate)
 
         if self.check_end_path(checker):
+            if (checker.must_crown()):
+                self.convert_to_king(destination_index)
             self.change_turn()
 
     def convert_to_king(self, position):

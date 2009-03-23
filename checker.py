@@ -26,6 +26,7 @@ class Checker(Sprite):
         self.can_click = False
         self.table = table
         self.change_state(states.Starting(self, initial_position, player))
+        self.quality = 5
 
     def update(self):
         """Actualiza el estado de la ficha"""
@@ -118,3 +119,9 @@ class Checker(Sprite):
 
     def do_blink(self):
         self.change_state(states.Blinking(self))
+
+    def must_crown(self):
+        if self.player == 1:
+            return self.position[0] == 7
+        else:
+            return self.position[0] == 0
