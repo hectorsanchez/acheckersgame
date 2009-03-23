@@ -203,7 +203,7 @@ class Table(object):
         else:
             longest_paths = 0
 
-        
+
         longest_paths = [(ckecker, path) for ckecker, path in paths_list
                 if self._lenght_of_best_path(path) == best_lenght]
 
@@ -246,6 +246,7 @@ class Table(object):
 
     def bind_position(self, position):
         """Devuelve la fila y columna de la posicion position del tablero"""
+        print "position", position
         r, c = match_position[position]
         return r, c
 
@@ -284,7 +285,7 @@ class Table(object):
         if path_list == []:
             path_list = [[]]
 
-            
+
         try:
             best_length = max([len(path) for path in path_list])
         except ValueError:
@@ -347,6 +348,7 @@ class Table(object):
                     #print "\tpero como está ocupada se descarta el camino."
 
     def are_checker_in_path(self, checker):
+        print "diccionario:", self._path_dictionary
         return self._path_dictionary.has_key(checker)
 
     def remove_checker_at(self, (row, column)):
@@ -369,7 +371,7 @@ class Table(object):
 
         for path in paths:
             es_impar = len(path) % 2 == 1
-            
+
             print 'paths', paths
 
             if es_impar:

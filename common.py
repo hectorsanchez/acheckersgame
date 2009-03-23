@@ -78,7 +78,10 @@ def ask(screen, question):
         elif inkey == K_MINUS:
             current_string.append("_")
         elif inkey <= 127:
-            current_string.append(chr(inkey))
+            if len(current_string) < 5:
+                current_string.append(chr(inkey))
+
         display_box(screen, question + ": " + string.join(current_string,""))
+
     return string.join(current_string,"")
 
