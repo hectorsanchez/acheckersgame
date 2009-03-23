@@ -74,7 +74,7 @@ class World(object):
                             # verificar que este dentro del diccionario
                             if self.table.are_checker_in_path(checker_ori):
                                 # realizar el movimiento de la ficha
-                                self.table.move_this_checker_to(checker_ori, position_dest)
+                                self.table.move_this_checker_to(checker_ori, position_dest, True)
 
                         self.update_view(self.theme)
 
