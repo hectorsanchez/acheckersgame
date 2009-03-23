@@ -422,7 +422,12 @@ class Table(object):
             self.change_turn()
 
     def convert_to_king(self, position):
+        """Convierte una ficha normal en dama."""
         checker = self.get_checker_at_position(position)
 
         new_king = King(checker.player, checker.position, self)
+        self.remove_checker_at(checker.position)
+        self.checkers.append(new_king)
 
+        row, column = checkers.position
+        self.position[row][column] = new_king
