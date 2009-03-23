@@ -82,16 +82,7 @@ class Checker(Sprite):
         print "Queriendo colocar la pieza en la posicion:", destination_index
 
         if self.table.can_move_to_this_position(self, destination_index):
-            self.table.do_this_checker_motion(self, destination_index)
-            self.rect.topleft = PIECE_POSITIONS[destination_index]
-            self.table.move(self.position, destination_index)
-            self.position = destination_index
-
-            if self.table.check_end_path(self):
-                self.table.change_turn()
-                print "Ya ha realizado todos los movimientos posibles"
-            else:
-                print "Tiene que seguir moviendo la ficha..."
+            self.table.move_this_checker_to(self, destination_index)
         else:
             self.change_state(states.Moving(self, from_x, from_y))
 
