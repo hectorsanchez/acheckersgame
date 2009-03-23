@@ -431,3 +431,4 @@ class Table(object):
         row, column = checker.position
         self.positions[row][column] = new_king
         self.checkers.append(new_king)
+        self.group.add(new_king)

@@ -60,6 +60,26 @@ class World(object):
                         self.mouse.visible = True
                     elif event.key == pygame.K_b:
                         self.table.blink_checkers_that_can_move()
+                    elif event.key == pygame.K_u:
+                        #for DEBUG
+                        mov = ask(self.screen, "Convertir a Dama")
+                        regular = re.compile(r'^(0|1|2|3|4|5|6|7),(0|1|2|3|4|5|6|7)$')
+                        if not regular.match(mov):
+                            message = 'Fichas ' + mov + ' invalida'
+                            self.update_view(self.theme)
+                        else:
+                            r, _, c = tuple(mov)
+                            try:
+                                self.table.convert_to_king((int(r),int(c)))
+                            except ValueError, mesg:
+                                print mesg
+
+                            finally:
+                                self.update_view(self.theme)
+
+                        #TODO: esto no esta bien, solo lo hago porque este metodo
+                        #es para debug
+                        self.table._create_path_dictionary()
                     elif event.key == pygame.K_d:
                         #for DEBUG
                         mov = ask(self.screen, "Borrar")
