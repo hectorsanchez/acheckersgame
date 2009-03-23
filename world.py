@@ -60,32 +60,13 @@ class World(object):
                         self.mouse.visible = True
                     elif event.key == pygame.K_b:
                         self.table.blink_checkers_that_can_move()
-                    elif event.key == pygame.K_k:
-                        mov = ask(self.screen, "Movimiento:")
-                        # validar el movimiento ingresado, el formato: 32,32
-                        regular = re.compile(r'((1|2)?[\d]|3(0|1|2)),((1|2)?[\d]|3(0|1|2))')
-                        if regular.match(mov):
-                            origen, destino = mov.split(",")
-                            position_ori = self.table.bind_position(int(origen))
-                            position_dest = self.table.bind_position(int(destino))
-
-                            checker_ori = self.table.get_checker_at_position(position_ori)
-
-                            # verificar que este dentro del diccionario
-                            if self.table.are_checker_in_path(checker_ori):
-                                # realizar el movimiento de la ficha
-                                self.table.move_this_checker_to(checker_ori, position_dest, True)
-
-                        self.update_view(self.theme)
-
                     elif event.key == pygame.K_d:
-                        mov = ask(self.screen, "Ficha a borrar:")
-                        #No hago mucho checkeo porque es una opcion para debug
-                        if not re.search('\d+,\d+', mov):
+                        #for DEBUG
+                        mov = ask(self.screen, "Borrar")
+                        regular = re.compile(r'^(0|1|2|3|4|5|6|7),(0|1|2|3|4|5|6|7)$')
+                        if not regular.match(mov):
                             message = 'Fichas ' + mov + ' invalida'
-                            display_box(self.screen, message)
                             self.update_view(self.theme)
-                            pygame.time.delay(1000)
                         else:
                             r, _, c = tuple(mov)
                             try:
@@ -99,6 +80,24 @@ class World(object):
                         #TODO: esto no esta bien, solo lo hago porque este metodo
                         #es para debug
                         self.table._create_path_dictionary()
+
+                    elif event.key == pygame.K_m:
+                        mov = ask(self.screen, "Movimiento")
+                        # validar el movimiento ingresado, el formato: 32,32
+                        regular = re.compile(r'^((1|2)?[\d]|3(0|1|2)),((1|2)?[\d]|3(0|1|2))$')
+                        if regular.match(mov):
+                            origen, destino = mov.split(",")
+                            position_ori = self.table.bind_position(int(origen))
+                            position_dest = self.table.bind_position(int(destino))
+
+                            checker_ori = self.table.get_checker_at_position(position_ori)
+
+                            # verificar que este dentro del diccionario
+                            if self.table.are_checker_in_path(checker_ori):
+                                # realizar el movimiento de la ficha
+                                self.table.move_this_checker_to(checker_ori, position_dest, True)
+
+                        self.update_view(self.theme)
 
             self.clock.tick(60)
             self.group.update()
