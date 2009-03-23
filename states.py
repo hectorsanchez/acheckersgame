@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 import common
 from config import PIECE_POSITIONS
+import pygame
 
 class Starting(object):
     """Realiza el efecto de interpolacion al iniciar el juego"""
@@ -52,4 +53,23 @@ class Moving(object):
             self.checker.rect.topleft = self.moves.next()
         except StopIteration:
             self.checker.change_state(Normal(self.checker))
+
+class WhenDie(object):
+    """Representa la animacion de eliminación de ficha."""
+
+    def __init__(self, checker):
+        self.counter = 50
+        self.checker = checker
+        checker.can_drag = False
+        self.last_image = checker.image
+        self.center = checker.rect
+
+    def update(self):
+        self.counter -= 1
+        self.checker.image = pygame.transform.rotozoom(self.last_image, 0, self.counter / 50.0)
+        self.checker.rect = self.checker.image.get_rect()
+        self.checker.rect.center = self.center.center
+
+        if self.counter < 0:
+            self.checker.remove_from_groups()
 

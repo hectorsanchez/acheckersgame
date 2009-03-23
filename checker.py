@@ -94,7 +94,6 @@ class Checker(Sprite):
                 print "Tiene que seguir moviendo la ficha..."
         else:
             self.change_state(states.Moving(self, from_x, from_y))
-    
 
     def can_drag_me_actual_player(self):
         """ Chequea si el usuario de turno puede hacer drag en la ficha"""
@@ -107,3 +106,9 @@ class Checker(Sprite):
         """Consulta si esta ficha esta en el diccionario
         de los movimientos posibles."""
         return self.table.are_checker_in_path(self)
+
+    def kill(self):
+        self.change_state(states.WhenDie(self))
+
+    def remove_from_groups(self):
+        Sprite.kill(self)

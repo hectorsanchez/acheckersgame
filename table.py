@@ -39,6 +39,7 @@ class Table(object):
         """Devuelve los casilleros adyacentes a la pieza"""
         r, c = checker.position
         adyacentes = []
+
         if checker.player == 1:
             # son blancas
             if (r+1,c-1) in match_position.values():
@@ -372,8 +373,9 @@ class Table(object):
                 if path[1] == position:
                     return True
 
-        print paths
-        print "y quiero mover a", position
+        print "No permito el movimiento, porque quiero ir a", position,
+        print "y mis caminos son", paths
+        print "y estoy en", checker.position
 
         return False
 
