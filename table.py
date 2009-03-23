@@ -187,8 +187,16 @@ class Table(object):
         movimientos permitidos."""
 
         long_paths = [self._lenght_of_best_path(paths) for checker, paths in paths_list]
-        best_lenght = max(long_paths)
 
+
+        #Este checkeo lo tenemos que hacer porque sino cuando un jugador gana
+        #se produce una exepcion
+        if long_paths:
+            best_lenght = max(long_paths)
+        else:
+            longest_paths = 0
+
+        
         longest_paths = [(ckecker, path) for ckecker, path in paths_list
                 if self._lenght_of_best_path(path) == best_lenght]
 
@@ -266,10 +274,14 @@ class Table(object):
         next_squares = self.squares_adyacent(checker)
         path_list = list(self._get_path(checker.position, checker.player, next_squares))
 
+        if path_list == []:
+            path_list = [[]]
+
+            
         try:
             best_length = max([len(path) for path in path_list])
         except ValueError:
-            best_path = []
+            best_path = [[]]
 
         best_path = [path for path in path_list if len(path) == best_length]
         return best_path
@@ -350,6 +362,8 @@ class Table(object):
 
         for path in paths:
             es_impar = len(path) % 2 == 1
+            
+            print 'paths', paths
 
             if es_impar:
                 if path[0] == position:
@@ -366,15 +380,16 @@ class Table(object):
     def do_this_checker_motion(self, checker, destination):
         paths = self._path_dictionary[checker]
 
+        #TODO ver si hay algo que hace esto
         es_impar = len(paths[0]) % 2 == 1
 
         if es_impar:
             path_selected = [p for p in paths if destination == p[0]]
         else:
             path_selected = [p for p in paths if destination == p[1]]
-            self.remove_checker_at(paths[0][0])
+            self.remove_checker_at(path_selected[0][0])
 
-        self._path_dictionary[checker] = path_selected[0][2:]
+        self._path_dictionary[checker] = [path_selected[0][2:]]
         print "El nuevo diccionario es:", self._path_dictionary
 
 
@@ -383,7 +398,7 @@ class Table(object):
         en base al camino """
 
         #verifico el largo del camino
-        if self._path_dictionary[checker]:
+        if self._path_dictionary[checker][0]:
             return False
         else:
             return True
