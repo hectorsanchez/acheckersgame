@@ -427,7 +427,7 @@ class Table(object):
 
         new_king = King(checker.player, checker.position, self)
         self.remove_checker_at(checker.position)
-        self.checkers.append(new_king)
 
-        row, column = checkers.position
-        self.position[row][column] = new_king
+        row, column = checker.position
+        self.positions[row][column] = new_king
+        self.checkers.append(new_king)
