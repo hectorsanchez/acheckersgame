@@ -25,3 +25,5 @@ REGLAS
 
     - Ley de calidad: y la cantida es igual, se debe comer la mayor cantidad de damas.
 
+http://www.ludoteka.com/damas_clasicas.html
+http://www.terra.es/personal2/jlgsanz/damas/reglas.htm
