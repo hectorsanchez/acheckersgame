@@ -348,7 +348,6 @@ class Table(object):
                     #print "\tpero como está ocupada se descarta el camino."
 
     def are_checker_in_path(self, checker):
-        print "diccionario:", self._path_dictionary
         return self._path_dictionary.has_key(checker)
 
     def remove_checker_at(self, (row, column)):
@@ -418,3 +417,14 @@ class Table(object):
             return False
         else:
             return True
+
+    def move_this_checker_to(self, checker, destination_index):
+        self.do_this_checker_motion(checker, destination_index)
+        self.move(checker.position, destination_index)
+        checker.set_position(destination_index)
+
+        if self.check_end_path(checker):
+            self.change_turn()
+            print "Ya ha realizado todos los movimientos posibles"
+        else:
+            print "Tiene que seguir moviendo la ficha..."

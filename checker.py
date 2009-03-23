@@ -79,12 +79,17 @@ class Checker(Sprite):
         from_x, from_y = self.last_rect.x, self.last_rect.y
         destination_index = self.table.get_index_at(self.rect.center)
 
-        print "Queriendo colocar la pieza en la posicion:", destination_index
-
         if self.table.can_move_to_this_position(self, destination_index):
             self.table.move_this_checker_to(self, destination_index)
         else:
             self.change_state(states.Moving(self, from_x, from_y))
+
+    def set_position(self, position, inmediate=True):
+        if inmediate:
+            self.rect.topleft = PIECE_POSITIONS[position]
+
+        # TODO: Contemplar el caso de 'inmediate' == False.
+        self.position = position
 
     def can_drag_me_actual_player(self):
         """ Chequea si el usuario de turno puede hacer drag en la ficha"""

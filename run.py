@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- encoding: utf-8 -*-
 from world import World
 
