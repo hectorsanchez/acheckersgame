@@ -399,7 +399,13 @@ class Table(object):
             path_selected = [p for p in paths if destination == p[1]]
             self.remove_checker_at(path_selected[0][0])
 
-        self._path_dictionary[checker] = [path_selected[0][2:]]
+        print "Los caminos que incluyen el movimiento son:", path_selected
+
+        self._path_dictionary[checker] = [path[2:] for path in path_selected]
+
+        print "Pero me quedo solo con:", self._path_dictionary
+
+
         print "El nuevo diccionario es:", self._path_dictionary
 
 
