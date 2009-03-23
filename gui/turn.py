@@ -17,7 +17,7 @@ class Turn(Sprite):
 
         self.font = pygame.font.Font("font/DejaVuSans.ttf", 17)
         self.update = self.update_starting
-        self.movement = common.interpolate((640, 200), (445, 200))
+        self.movement = common.interpolate((445, 600), (445, 45))
         self.image = self.base_image.copy()
         self.rect = self.image.get_rect()
 

@@ -88,10 +88,10 @@ class World(object):
     def _create_ui(self):
         """Crea la interfaz del juego """
         label = "Theme: classic"
-        but1 = gui.Button(label, self.font, 500, 45, self.on_classic__clicked)
+        #but1 = gui.Button(label, self.font, 500, 45, self.on_classic__clicked)
         label = "Theme: beach"
-        but2 = gui.Button(label, self.font, 500, 100, self.on_beach__clicked)
-        self.group.add(but1, but2)
+        #but2 = gui.Button(label, self.font, 500, 100, self.on_beach__clicked)
+        #self.group.add(but1, but2)
 
         # genera el visor de turnos
         self.turn = gui.Turn()
