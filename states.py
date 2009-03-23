@@ -58,7 +58,7 @@ class WhenDie(object):
     """Representa la animacion de eliminación de ficha."""
 
     def __init__(self, checker):
-        self.counter = 50
+        self.counter = 20
         self.checker = checker
         checker.can_drag = False
         self.last_image = checker.image
@@ -66,10 +66,13 @@ class WhenDie(object):
 
     def update(self):
         self.counter -= 1
-        self.checker.image = pygame.transform.rotozoom(self.last_image, 0, self.counter / 50.0)
-        self.checker.rect = self.checker.image.get_rect()
-        self.checker.rect.center = self.center.center
 
         if self.counter < 0:
             self.checker.remove_from_groups()
+        else:
+            zoom_factor = self.counter / 20.0
+            new = pygame.transform.rotozoom(self.last_image, 0, zoom_factor)
+            self.checker.image = new
 
+            self.checker.rect = self.checker.image.get_rect()
+            self.checker.rect.center = self.center.center
