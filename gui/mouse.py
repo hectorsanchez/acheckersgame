@@ -77,7 +77,7 @@ class Mouse(Sprite):
                 obj.on_mouse_drag_start()
                 self.widget_on_drag = obj
                 common.bring_to_front(obj)
-                common.bring_to_front(self)
+                self.bring_to_front()
 
     def on_mouse_active(self, event):
         self.visible = event.gain
@@ -96,3 +96,6 @@ class Mouse(Sprite):
         self.click_image = load("click.png", 'mouse')
         self.drag_image = load("drag.png", 'mouse')
         self.hide = load("hide.png", 'mouse')
+
+    def bring_to_front(self):
+        common.bring_to_front(self)
