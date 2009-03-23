@@ -70,14 +70,11 @@ class World(object):
                             position_dest = self.table.bind_position(int(destino))
 
                             checker_ori = self.table.get_checker_at_position(position_ori)
-                            print "checker_ori:", checker_ori
 
                             # verificar que este dentro del diccionario
-                            print "ACAAA"
                             if self.table.are_checker_in_path(checker_ori):
                                 # realizar el movimiento de la ficha
-                                if self.table.can_move_to_this_position(checker_ori, position_dest):
-                                    self.table.do_this_checker_motion(checker_ori, position_dest)
+                                self.table.move_this_checker_to(checker_ori, position_dest)
 
                         self.update_view(self.theme)
 
@@ -95,11 +92,11 @@ class World(object):
                                 self.table.remove_checker_at((int(r),int(c)))
                             except ValueError, mesg:
                                 print mesg
-     
+
                             finally:
                                 self.update_view(self.theme)
- 
-                        #TODO: esto no esta bien, solo lo hago porque este metodo 
+
+                        #TODO: esto no esta bien, solo lo hago porque este metodo
                         #es para debug
                         self.table._create_path_dictionary()
 
