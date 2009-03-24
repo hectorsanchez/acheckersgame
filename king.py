@@ -26,3 +26,6 @@ class King(Checker):
     def must_crown(self):
         """La dama nunca debe coronar."""
         return False
+    
+    def __repr__(self):
+        return "<King at %s>" %str(self.position)
