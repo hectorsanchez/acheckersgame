@@ -87,7 +87,7 @@ class World(object):
                     elif event.key == pygame.K_d:
                         #for DEBUG
                         mov = ask(self.screen, "Borrar")
-                        regular = re.compile(r'^(0|1|2|3|4|5|6|7),(0|1|2|3|4|5|6|7)$')
+                        regular = re.compile(r'^([0-7]),([0-7])$')
                         if not regular.match(mov):
                             message = 'Fichas ' + mov + ' invalida'
                             self.update_view(self.theme)
