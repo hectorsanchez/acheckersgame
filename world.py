@@ -66,7 +66,7 @@ class World(object):
                     elif event.key == pygame.K_u:
                         #for DEBUG
                         mov = ask(self.screen, "Convertir a Dama")
-                        regular = re.compile(r'^(0|1|2|3|4|5|6|7),(0|1|2|3|4|5|6|7)$')
+                        regular = re.compile(r'^([0-7]),([0-7])$')
                         if not regular.match(mov):
                             message = 'Fichas ' + mov + ' invalida'
                             self.update_view(self.theme)
@@ -108,7 +108,8 @@ class World(object):
                     elif event.key == pygame.K_m:
                         mov = ask(self.screen, "Movimiento")
                         # validar el movimiento ingresado, el formato: 32,32
-                        regular = re.compile(r'^((1|2)?[\d]|3(0|1|2)),((1|2)?[\d]|3(0|1|2))$')
+
+                        regular = re.compile(r'(1|2)?(\d|3[0-2]),(\d|3[0-2])')
                         if regular.match(mov):
                             origen, destino = mov.split(",")
                             position_ori = self.table.bind_position(int(origen))
@@ -117,7 +118,8 @@ class World(object):
                             checker_ori = self.table.get_checker_at_position(position_ori)
 
                             # verificar que este dentro del diccionario
-                            if self.table.are_checker_in_path(checker_ori):
+
+                            if self.table.can_move_to_this_position(checker_ori, position_dest):
                                 # realizar el movimiento de la ficha
                                 self.table.move_this_checker_to(checker_ori, position_dest, True)
 
