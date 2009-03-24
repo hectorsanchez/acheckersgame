@@ -73,7 +73,8 @@ class World(object):
                         else:
                             r, _, c = tuple(mov)
                             try:
-                                self.table.convert_to_king((int(r),int(c)))
+                                if self.table.square_occupied((int(r),int(c))):
+                                    self.table.convert_to_king((int(r),int(c)))
                             except ValueError, mesg:
                                 print mesg
 
