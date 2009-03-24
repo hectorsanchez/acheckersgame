@@ -27,9 +27,12 @@ class World(object):
         self.theme = THEME
         self._create_ui()
 
-        self.table = Table(self.group, self.theme, self.turn)
 
-        self.gui = gui.Gui(self.group.sprites())
+        self.gui = gui.Gui()
+        self.table = Table(self.gui, self.group, self.theme, self.turn)
+        self.gui.add_widgets(self.group.sprites())
+
+
         self.mouse = gui.Mouse(self.gui)
         self.group.add(self.mouse)
 
@@ -76,6 +79,7 @@ class World(object):
 
                             finally:
                                 self.update_view(self.theme)
+
 
                         #TODO: esto no esta bien, solo lo hago porque este metodo
                         #es para debug

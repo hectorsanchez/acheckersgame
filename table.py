@@ -22,8 +22,9 @@ class Table(object):
     """ Utilizada para el manejo de las piezas en el tablero y
     consultas sobre su estado"""
 
-    def __init__(self, group, theme, turn):
+    def __init__(self, gui, group, theme, turn):
         """Inicializador de la clase"""
+        self.gui = gui
         self.group = group
         self.image = common.load_image('table.png', theme)
         self._create_collision_rects()
@@ -434,3 +435,4 @@ class Table(object):
         self.positions[row][column] = new_king
         self.checkers.append(new_king)
         self.group.add(new_king)
+        self.gui.add(new_king)
