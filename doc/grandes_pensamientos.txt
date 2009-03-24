@@ -1,4 +1,4 @@
-Eliminar fichas del tablero
+==Eliminar fichas del tablero==
 
 Recibo un diccionario con todos los caminos posibles, ya filtrados.
 
@@ -22,4 +22,31 @@ diccionario
 }
 
 Y ahora vuelvo utilizar el mismo proceso, y como origen utilizo el diccionario resultante
+
+==Obtener los caminos de la DAMA==
+
+#LIMITES: 
+    Hasta llegar al fin del tablero, o dos fichas del oponente seguidas.
+#DESTINO: 
+    Casillero donde dejo la dama, al comer una ficha
+
+PASO0:
+Al cambiar de turno..
+
+PASO1:
+Obtener los adjacentes del casillero de la DAMA
+Por cada adjacente: 
+    Armo los caminos de sus diagonales, hasta llegar a los LIMITES 
+        Luego filtro esos caminos, con los que pueda comer y por calidad 
+            Si NO Comi:
+                el DESTINO de la dama puede ser cualquer casillero entre la dama y el LIMITE,
+                al mover termina el movimiento de la dama y Cambio de turno PASO0
+            Si Comi:
+                el DESTINO de la dama puede ser cualquier casillero entre la ficha del openente que como y el LIMITE 
+
+                Luego por cada uno de LOS casilleros posibles de DESTINO:
+                    tengo que eliminar la ficha del oponente que comi, ( a modo de prueba de escenario)
+                        PASO1:
+                
+
 
