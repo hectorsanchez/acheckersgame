@@ -32,6 +32,13 @@ Y ahora vuelvo utilizar el mismo proceso, y como origen utilizo el diccionario r
 #DESTINO: 
     Casillero donde dejo la dama, al comer una ficha
 
+#COMO ARMO LA DIAGONAL
+metodo squares_adjacent
+   Se puede mofificar, para que tambie calcule
+   los 4 adjacentes, en caso de ser dama
+
+ 
+ALGORITMO DE DAMAS
 PASO0:
 Al cambiar de turno..
 
@@ -51,3 +58,92 @@ Por cada adjacente:
                         VOLVER AL PASO1:
                 
 Filtro por calidad
+Agrego el diccionario resultante al de checkers
+
+NOTA:
+  Con el AlGORITMO DE DAMAS  voy a tener el o los mejores caminos de las damas.
+  En el diccionario de checker voy a tener el o los mejores caminos de las fichas, que salio por otro algoritmo.
+  Cuando los junte, voy a tener ambos caminos juntos, mejores de fichas y mejores de damas.
+  Preguntas:
+    Tiene prioridad de mover la dama? 
+        si la respuesta es SI, entonces descarto los caminos de las fichas
+        si la respuesta es NO. entonces tengo que filtrar para saber cual es mejor camino,
+            (ya que tengo el mejor camino del algoritmo de las damas, mas el mejor del algoritmo de fichas)
+
+    
+
+#COMO SABER SI PUEDO COMER EN UN CAMINO
+(Esto lo puedo utilizar para hacer un primer filtro
+para saber si puedo comer o no en un camino)
+
+    PASO0:
+    Por cada casillero del camino:
+        PASO1:
+        Avanzo un casillero del camino 
+        Verifico si esta ocupado
+        Si esta ocupado:
+            Avanzo otro casillero 
+            Verifico si esta libre
+            Si esta libre:
+                Puedo comer.
+                Desde este casillero, vuelvo al PASO1
+            SiNo:
+                Fin Camino
+        SiNo
+            Vuelvo al PASO0   
+       
+#TODOS LOS CAMINO - FULL
+Esto intenta ver la forma de armar todos los caminos posibles
+del movimiento de una dama, esto se hace por cada adjacente,
+que pueden 4,3,2 o 1
+
+NOTA:
+Hay puntos importantes dentro de un camino que son cuando puedo comer, llamemos un punto de comida,
+de ahora en adelante llamado PC
+
+Cuando encuentro en el camino un PC
+    Hay que borrar del camino anterior los casilleros hasta el PC anterior,
+    y si no hay PC anterior, se borran todos los casilleros anteriores
+
+    ej: voy avanzando sin comer(casilleros libres) y mi camino ya tiene tres casilleros, 
+        pero luego llega un PC, el primer movimiento valido dentro del camino,
+         sería recien este PC, los tres casilleros primeros hay que borrarlosd el camino.
+    
+    Otra cosa que pasa en cada PC, es que tengo que volver a la funcion recursiva, y eliminar
+    temporalmente la ficha que comi, para poder seguir calculando caminos
+.
+
+    PASO0:
+    Por cada adjacente:
+        PASO1:
+        Obtengo el siguiente casillero
+        Si hay casillero:
+            Si esta ocupado por oponente:
+                Avanzo otro casillero 
+                Si esta libre:
+                    Puedo comer.
+                        ##### 
+                        TODO seguir viendo como seguir 
+                        armando el mejor camino 
+                        #####
+                        Borrar del camino, hasta el PC anterior, si no hay PC borro todo
+                        Agrego al camino temporal este PC
+                        Elimino temporalmente la ficha que comi.
+                        Vuelvo al PASO0, pero luego tengo que seguir desde aca, para ver si hay mas casilleros
+                        
+                    
+                SiNo:11
+                    lo agrego al camino temporal
+                    Fin del camino, paso el temporal al master
+                    Vuelvo PASO1
+            Si esta Libre:
+                Lo agrego al camino temporal
+                Vuelvo al PASO1
+            SiNo (esta ocupado por mis fichas)
+                lo agrego al camino temporal
+                Vuelvo al PASO1 
+        SiNo:
+            lo agrego al camino temporal
+            Fin Camino, paso el temporal al master
+            Vuelvo al PASO0
+
