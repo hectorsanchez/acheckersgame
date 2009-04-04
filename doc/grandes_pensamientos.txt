@@ -69,6 +69,9 @@ NOTA:
         si la respuesta es SI, entonces descarto los caminos de las fichas
         si la respuesta es NO. entonces tengo que filtrar para saber cual es mejor camino,
             (ya que tengo el mejor camino del algoritmo de las damas, mas el mejor del algoritmo de fichas)
+        #La respuesta es NO; si la dama tuviera prioridad de movimiento entonces habria jugadas en donde se rompereria
+        #con las reglas de calidad y cantidad. Ademas, si la dama tuviera prioridad, una vez que tengo una dama ya no
+        #podria mover ninguna otra ficha hasta que no me coman la dama.
 
     
 
