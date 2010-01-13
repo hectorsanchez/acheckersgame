@@ -1,0 +1,23 @@
+Reunión 13/01/2010
+
+Hugo Ruscitti
+Hector Sanchez
+
+Se decicidio aplicar un algoritmo de damas que devuelva los caminos posibles para una dama pero solo en sentido de sus adjacentes.
+En la adjacente que no tenga fichas para comer, cada casillero será un camino de longitud uno.
+En los adjacentes donde pueda comer, el camino estará formado por dos elementos, donde el primero siempre será la ficha que come y el segundo el casillero donde termina el movimiento, en caso de comer se vuelve a calcular si tiene caminos, en caso afirmativo, esta obligado a comer, caso contrario se realiza el cambio de turno.
+
+
+ObtengoAdjacentes
+    ArmoCaminoPorAdjacente
+    FiltroCaminosMasLargos #Donde tenga que comer una fichas
+    SiComio
+        EliminoFicha
+        RealizoMovimiento
+        Vuelve recursivamente
+    NoComio
+        RalizoMovimiento
+        CambioDeTurno
+        
+
+
