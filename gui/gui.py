@@ -40,6 +40,9 @@ class Gui(Group):
             self.last_widget_bellow_mouse.on_mouse_leave()
             self.last_widget_bellow_mouse = None
 
+    def set_mouse_on_top(self):
+        print self.sprites()
+
 if __name__ == '__main__':
     from mouse import Mouse
     GUI = Gui()

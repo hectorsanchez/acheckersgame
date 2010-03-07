@@ -6,6 +6,7 @@ import common
 from config import *
 from common import ask
 import os, re
+import group
 
 class World(object):
     """Representa el objeto principal del juego.
@@ -22,7 +23,7 @@ class World(object):
 
         self.screen = pygame.display.set_mode(WINDOW_SIZE)
         self.clock = pygame.time.Clock()
-        self.group = pygame.sprite.OrderedUpdates()
+        self.group = group.Group()
         pygame.display.set_caption(WINDOW_TITLE)
         self.theme = THEME
         self._create_ui()
@@ -32,7 +33,7 @@ class World(object):
         self.gui.add_widgets(self.group.sprites())
 
         self.mouse = gui.Mouse(self.gui)
-        self.group.add(self.mouse)
+        self.group.add_mouse(self.mouse)
 
         self.background = self.screen.convert()
         self.change_theme(self.theme)

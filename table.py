@@ -469,3 +469,4 @@ x x x x
         self.checkers.append(new_king)
         self.group.add(new_king)
         self.gui.add(new_king)
+        self.group.set_mouse_on_top()
