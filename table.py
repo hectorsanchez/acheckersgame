@@ -261,13 +261,42 @@ class Table(object):
         """Genera todas las fichas de ambos jugadores"""
         # lista de fichas
         self.checkers = []
-
         # creo la matriz de 8 x 8 inicializado a None
         # TODO: verificar si se puede mejorar esto
         self.positions = []
+        
+        table =  \
+"""
+ x x x x
+x x x x 
+ x x x x
+
+
+- - - -
+ - - - -
+- - - -
+"""
+
+
         for x in xrange(8):
             self.positions.append([None, None, None, None, None, None, None, None])
 
+        for row, line in enumerate(table.split('\n')):
+            row = row - 1
+
+            for col, item in enumerate(line):
+        
+                if item in ['-', 'x']:
+
+                    if item == '-':
+                        checker = Checker(2, (row,col), self)
+                    elif item == 'x':
+                        checker = Checker(1, (row,col), self)
+
+                    self.positions[row][col] = checker
+                    self.checkers.append(checker)
+
+        """
         for position in xrange(1, 13):
             r, c = self.bind_position(position)
             checker = Checker(1, (r,c), self)
@@ -275,11 +304,15 @@ class Table(object):
             self.positions[r][c] = checker
             self.checkers.append(checker)
 
+        """
+        """
         for position in xrange(21, 33):
             r, c = self.bind_position(position)
             checker = Checker(2, (r,c), self)
             self.positions[r][c] = checker
             self.checkers.append(checker)
+            print r, c
+        """
 
         self.group.add(self.checkers)
 

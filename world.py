@@ -27,11 +27,9 @@ class World(object):
         self.theme = THEME
         self._create_ui()
 
-
         self.gui = gui.Gui()
         self.table = Table(self.gui, self.group, self.theme, self.turn)
         self.gui.add_widgets(self.group.sprites())
-
 
         self.mouse = gui.Mouse(self.gui)
         self.group.add(self.mouse)
