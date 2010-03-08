@@ -23,20 +23,7 @@ class World(object):
 
         self.screen = pygame.display.set_mode(WINDOW_SIZE)
         self.clock = pygame.time.Clock()
-        self.group = group.Group()
         pygame.display.set_caption(WINDOW_TITLE)
-        self.theme = THEME
-        self._create_ui()
-
-        self.gui = gui.Gui()
-        self.table = Table(self.gui, self.group, self.theme, self.turn)
-        self.gui.add_widgets(self.group.sprites())
-
-        self.mouse = gui.Mouse(self.gui)
-        self.group.add_mouse(self.mouse)
-
-        self.background = self.screen.convert()
-        self.change_theme(self.theme)
 
     def _create_font_system(self):
         """ Inicializa las fonts"""
@@ -53,13 +40,16 @@ class World(object):
                 if event.type == pygame.QUIT:
                     end_game = True
                 elif event.type in common.MOUSE_EVENTS:
-                    self.mouse.send_event(event)
+                    #self.mouse.send_event(event)
+                    pass
                 elif event.type == pygame.KEYDOWN:
                     if event.key in [pygame.K_ESCAPE, pygame.K_q]:
                         end_game = True
                     elif event.key == pygame.K_F3:
                         pygame.display.toggle_fullscreen()
-                        self.mouse.visible = True
+                        #self.mouse.visible = True
+                        pass
+                    """
                     elif event.key == pygame.K_b:
                         self.table.blink_checkers_that_can_move()
                     elif event.key == pygame.K_u:
@@ -124,10 +114,14 @@ class World(object):
                                 self.table.move_this_checker_to(checker_ori, position_dest, True)
 
                         self.update_view(self.theme)
+                    """
 
             self.clock.tick(60)
-            self.group.update()
-            self._update_view()
+            self.scene.update()
+            self.scene.draw()
+
+            #self.group.update()
+            #self._update_view()
 
     def _update_view(self):
         """ Actualiza la vista"""
@@ -167,3 +161,6 @@ class World(object):
         self.table.draw(self.background)
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
+
+    def change_scene(self, scene):
+        self.scene = scene
