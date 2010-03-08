@@ -1,10 +1,12 @@
 # -*- encoding: utf-8 -*-
 import group
 import gui
+from common import ask
 from table import Table
 from config import *
 import scene
 import pygame
+import os, re
 import common
 
 class Game(scene.Scene):
@@ -71,7 +73,7 @@ class Game(scene.Scene):
                 self.table.blink_checkers_that_can_move()
             elif event.key == pygame.K_u:
                 #for DEBUG
-                mov = ask(self.screen, "Convertir a Dama")
+                mov = ask(self.world.screen, "Convertir a Dama")
                 regular = re.compile(r'^([0-7]),([0-7])$')
                 if not regular.match(mov):
                     message = 'Fichas ' + mov + ' invalida'
@@ -93,7 +95,7 @@ class Game(scene.Scene):
                 self.table._create_path_dictionary()
             elif event.key == pygame.K_d:
                 #for DEBUG
-                mov = ask(self.screen, "Borrar")
+                mov = ask(self.world.screen, "Borrar")
                 regular = re.compile(r'^([0-7]),([0-7])$')
                 if not regular.match(mov):
                     message = 'Fichas ' + mov + ' invalida'
@@ -113,7 +115,7 @@ class Game(scene.Scene):
                 self.table._create_path_dictionary()
 
             elif event.key == pygame.K_m:
-                mov = ask(self.screen, "Movimiento")
+                mov = ask(self.world.screen, "Movimiento")
                 # validar el movimiento ingresado, el formato: 32,32
 
                 regular = re.compile(r'(1|2)?(\d|3[0-2]),(\d|3[0-2])')

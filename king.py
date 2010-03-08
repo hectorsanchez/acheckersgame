@@ -15,6 +15,7 @@ class King(Checker):
         Checker.__init__(self, player, initial_position, table)
         self._load_images(player, THEME)
         self.quality = 10
+        self.king = True
 
     def _load_images(self, player, theme):
         """Carga todas las imagenes del tema"""

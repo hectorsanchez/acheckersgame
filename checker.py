@@ -27,6 +27,7 @@ class Checker(Sprite):
         self.table = table
         self.change_state(states.Starting(self, initial_position, player))
         self.quality = 5
+        self.king = False
 
     def update(self):
         """Actualiza el estado de la ficha"""

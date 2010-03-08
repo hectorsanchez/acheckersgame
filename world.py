@@ -4,7 +4,6 @@ import gui
 from table import Table
 import common
 from config import *
-from common import ask
 import os, re
 import group
 

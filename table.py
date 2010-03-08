@@ -57,6 +57,63 @@ class Table(object):
 
         return adyacentes
 
+    def squares_adyacent_for_king(self, checker):
+        """Devuelve los casilleros adyacentes para una dama"""
+        r, c = checker.position
+        adyacentes = []
+
+        # intenta obtener las 4 diagonales completas.
+        for x in range(1, 20):
+            if (r+x,c-x) in match_position.values():
+                adyacentes.append((r+x,c-x))
+            if (r+x,c+x) in match_position.values():
+                adyacentes.append((r+x,c+x))
+            if (r-x,c-x) in match_position.values():
+                adyacentes.append((r-x,c-x))
+            if (r-x,c+x) in match_position.values():
+                adyacentes.append((r-x,c+x))
+
+        return adyacentes
+
+    def _get_path_for_king(self, position, player, next_squares, 
+            must_jump_to_continue=False, last=[]):
+        """ Retorna todos los caminos posibles para una ficha """
+        # evalua cada uno de los posibles cuadrados a pisar.
+        #print "Proximos casilleros:", next_squares
+
+        for square in next_squares:
+            # hace la primer busqueda sin comer
+            if not must_jump_to_continue and not self.square_occupied(square):
+                #print "\ten un primer movimiento se puede pisar en", square
+                yield last + [square]
+            elif self.square_occupied_by_oponent(square, player):
+                #print "\tcomo", square, "esta ocupada por un rival, se busca saltarla"
+
+                possible_destiny_square = self.get_possible_next_square_by_position(square, 
+                        player, position)
+                #print "\t si la salto tendría que pisar en", possible_destiny_square
+
+                if (not self.square_occupied(possible_destiny_square) and \
+                        possible_destiny_square in match_position.values()):
+                    #print "\t  y esta libre, osea que puedo comer."
+                    yield last + [square, possible_destiny_square]
+
+                    #print "\t   pero luego de comer intento seguir desde la", possible_destiny_square
+
+                    new_pos = possible_destiny_square
+                    possible_next_squares = self.squares_adyacent_by_position(new_pos, player)
+
+                    # Obtiene los siguientes movimientos, pero solo buscando
+                    # aquellos que comerán una ficha.
+                    new_paths = self._get_path(new_pos, player, possible_next_squares, 
+                            True, [square, possible_destiny_square])
+
+                    for path in new_paths:
+                        yield path
+                else:
+                    pass
+                    #print "\tpero como está ocupada se descarta el camino."
+
     def squares_adyacent_by_position(self, position, player):
         """Devuelve los casilleros adyacentes a la pieza.
 
@@ -130,11 +187,9 @@ class Table(object):
         else:
             dt = -2
 
-        if player == 1:
-            # son blancas
+        if position[0] < square[0]:
             return (r+2, c+dt)
         else:
-            # son negras
             return (r-2, c+dt)
 
     def checker_of_player(self, position, player):
@@ -169,6 +224,7 @@ class Table(object):
 
     def _create_path_dictionary(self):
         all_checkers = self._get_all_checkers_from_player(self.player_move)
+        print "all", all_checkers
         all_paths = [(checker, self._get_best_path_for_a_checker(checker)) for checker in all_checkers]
 
         all_paths = self._filter_only_the_best_paths(all_paths)
@@ -271,9 +327,9 @@ class Table(object):
 x x x x 
  x x x x
 
-
-  - x -
- - - - -
+     -
+  -   -
+ - x - -
 -   - -
 """
 
@@ -301,8 +357,12 @@ x x x x
 
     def _get_best_path_for_a_checker(self, checker):
         """Obtiene el mejor camino para una ficha."""
-        next_squares = self.squares_adyacent(checker)
-        path_list = list(self._get_path(checker.position, checker.player, next_squares))
+        if checker.king:
+            next_squares = self.squares_adyacent_for_king(checker)
+            path_list = list(self._get_path_for_king(checker.position, checker.player, next_squares))
+        else:
+            next_squares = self.squares_adyacent(checker)
+            path_list = list(self._get_path(checker.position, checker.player, next_squares))
 
         if path_list == []:
             path_list = [[]]
@@ -346,7 +406,8 @@ x x x x
             elif self.square_occupied_by_oponent(square, player):
                 #print "\tcomo", square, "esta ocupada por un rival, se busca saltarla"
 
-                possible_destiny_square = self.get_possible_next_square_by_position(square, player, position)
+                possible_destiny_square = self.get_possible_next_square_by_position(square, 
+                        player, position)
                 #print "\t si la salto tendría que pisar en", possible_destiny_square
 
                 if (not self.square_occupied(possible_destiny_square) and \
