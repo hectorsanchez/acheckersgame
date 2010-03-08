@@ -1,6 +1,10 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
-from world import World
+from world import *
 
-WORLD = World(do_center_window=True)
-WORLD.loop()
+def main():
+    world = World(do_center_window=True)
+    world.change_scene(Menu(world))
+
+if __name__ == '__main__':
+    main()
