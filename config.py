@@ -7,7 +7,7 @@ WINDOW_TITLE = 'Another Checkers Game - beta'
 WINDOW_SIZE = (640, 480)
 MOTION_STEPS = 4.0
 MENU_IMAGE = "ima/menu.png"
-MENU_FONT = "fonts/DejaVuSans.ttf"
+MENU_FONT = "font/DejaVuSans.ttf"
 MENU_FONT_SIZE = 18
 KEY_SOUND = "sounds/tecla.wav"
 
