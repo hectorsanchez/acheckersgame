@@ -39,9 +39,6 @@ class World(object):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     end_game = True
-                elif event.type in common.MOUSE_EVENTS:
-                    #self.mouse.send_event(event)
-                    pass
                 elif event.type == pygame.KEYDOWN:
                     if event.key in [pygame.K_ESCAPE, pygame.K_q]:
                         end_game = True
@@ -49,96 +46,12 @@ class World(object):
                         pygame.display.toggle_fullscreen()
                         #self.mouse.visible = True
                         pass
-                    """
-                    elif event.key == pygame.K_b:
-                        self.table.blink_checkers_that_can_move()
-                    elif event.key == pygame.K_u:
-                        #for DEBUG
-                        mov = ask(self.screen, "Convertir a Dama")
-                        regular = re.compile(r'^([0-7]),([0-7])$')
-                        if not regular.match(mov):
-                            message = 'Fichas ' + mov + ' invalida'
-                            self.update_view(self.theme)
-                        else:
-                            r, _, c = tuple(mov)
-                            try:
-                                if self.table.square_occupied((int(r),int(c))):
-                                    self.table.convert_to_king((int(r),int(c)))
-                            except ValueError, mesg:
-                                print mesg
 
-                            finally:
-                                self.update_view(self.theme)
-
-
-                        #TODO: esto no esta bien, solo lo hago porque este metodo
-                        #es para debug
-                        self.table._create_path_dictionary()
-                    elif event.key == pygame.K_d:
-                        #for DEBUG
-                        mov = ask(self.screen, "Borrar")
-                        regular = re.compile(r'^([0-7]),([0-7])$')
-                        if not regular.match(mov):
-                            message = 'Fichas ' + mov + ' invalida'
-                            self.update_view(self.theme)
-                        else:
-                            r, _, c = tuple(mov)
-                            try:
-                                self.table.remove_checker_at((int(r),int(c)))
-                            except ValueError, mesg:
-                                print mesg
-
-                            finally:
-                                self.update_view(self.theme)
-
-                        #TODO: esto no esta bien, solo lo hago porque este metodo
-                        #es para debug
-                        self.table._create_path_dictionary()
-
-                    elif event.key == pygame.K_m:
-                        mov = ask(self.screen, "Movimiento")
-                        # validar el movimiento ingresado, el formato: 32,32
-
-                        regular = re.compile(r'(1|2)?(\d|3[0-2]),(\d|3[0-2])')
-                        if regular.match(mov):
-                            origen, destino = mov.split(",")
-                            position_ori = self.table.bind_position(int(origen))
-                            position_dest = self.table.bind_position(int(destino))
-
-                            checker_ori = self.table.get_checker_at_position(position_ori)
-
-                            # verificar que este dentro del diccionario
-
-                            if self.table.can_move_to_this_position(checker_ori, position_dest):
-                                # realizar el movimiento de la ficha
-                                self.table.move_this_checker_to(checker_ori, position_dest, True)
-
-                        self.update_view(self.theme)
-                    """
+                self.scene.on_event(event)
 
             self.clock.tick(60)
             self.scene.update()
-            self.scene.draw()
-
-            #self.group.update()
-            #self._update_view()
-
-    def _update_view(self):
-        """ Actualiza la vista"""
-        self.group.clear(self.screen, self.background)
-        pygame.display.update(self.group.draw(self.screen))
-
-    def _create_ui(self):
-        """Crea la interfaz del juego """
-        label = "Theme: classic"
-        #but1 = gui.Button(label, self.font, 500, 45, self.on_classic__clicked)
-        label = "Theme: beach"
-        #but2 = gui.Button(label, self.font, 500, 100, self.on_beach__clicked)
-        #self.group.add(but1, but2)
-
-        # genera el visor de turnos
-        self.turn = gui.Turn()
-        self.group.add(self.turn)
+            self.scene.draw(self.screen)
 
     def on_classic__clicked(self):
         """ Click en el boton estilo classic """
@@ -149,18 +62,6 @@ class World(object):
         """ Click en el boton estilo beach """
         self.theme = "beach"
         self.change_theme(self.theme)
-
-    def change_theme(self, theme):
-        """ Cambio de thema """
-        self.theme = theme
-        self.update_view(self.theme)
-
-    def update_view(self, theme):
-        """ Actualiza la vista"""
-        self.table.change_theme(theme)
-        self.table.draw(self.background)
-        self.screen.blit(self.background, (0, 0))
-        pygame.display.flip()
 
     def change_scene(self, scene):
         self.scene = scene
