@@ -5,6 +5,7 @@ import scene
 import sys
 from  config import *
 from pygame.locals import *
+import game
 
 class Menu(scene.Scene):
 
@@ -52,7 +53,6 @@ class Menu(scene.Scene):
                 #self.sonido_menu.play()
                 titulo, funcion = self.opciones[self.seleccionado]
                 funcion()
-                self.actualizar()
         pass
 
     def dibujarOpciones(self):
@@ -84,7 +84,8 @@ class Menu(scene.Scene):
         self.dibujarOpciones()
 
     def jugar(self):
-        pass
+        new_scene = game.Game(self.world)
+        self.world.change_scene(new_scene)
 
     def mostrar_opciones(self):
         pass
@@ -96,6 +97,7 @@ class Menu(scene.Scene):
         pass
 
     def salir_menu(self):
+        sys.exit(0)
         pass
 
     def salir_del_programa(self):

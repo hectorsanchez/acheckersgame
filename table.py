@@ -296,24 +296,6 @@ x x x x
                     self.positions[row][col] = checker
                     self.checkers.append(checker)
 
-        """
-        for position in xrange(1, 13):
-            r, c = self.bind_position(position)
-            checker = Checker(1, (r,c), self)
-
-            self.positions[r][c] = checker
-            self.checkers.append(checker)
-
-        """
-        """
-        for position in xrange(21, 33):
-            r, c = self.bind_position(position)
-            checker = Checker(2, (r,c), self)
-            self.positions[r][c] = checker
-            self.checkers.append(checker)
-            print r, c
-        """
-
         self.group.add(self.checkers)
 
 
