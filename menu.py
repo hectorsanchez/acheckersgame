@@ -6,6 +6,9 @@ import sys
 from  config import *
 from pygame.locals import *
 import game
+import options
+import about
+import help
 
 class Menu(scene.Scene):
 
@@ -22,7 +25,7 @@ class Menu(scene.Scene):
         # self.sonido_menu = pygame.mixer.Sound(KEY_SOUND)
         self.font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
         self.fondo = pygame.image.load(MENU_IMAGE).convert()
-        self.colorEncendido = (200,0,0)
+        self.colorEncendido = (255,255,255)
         self.colorApagado = (0,0,0)
         self.seleccionado = 0
         self.screen = None
@@ -88,17 +91,16 @@ class Menu(scene.Scene):
         self.world.change_scene(new_scene)
 
     def mostrar_opciones(self):
-        pass
+        new_scene = options.Options(self.world)
+        self.world.change_scene(new_scene)
 
     def mostrar_creditos(self):
-        pass
+        new_scene = about.About(self.world)
+        self.world.change_scene(new_scene)
 
     def mostrar_ayuda(self):
-        pass
+        new_scene = help.Help(self.world)
+        self.world.change_scene(new_scene)
 
     def salir_menu(self):
-        sys.exit(0)
-        pass
-
-    def salir_del_programa(self):
         sys.exit(0)
