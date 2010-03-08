@@ -1,7 +1,7 @@
 import pygame
 import scene
 
-class Menu(Scene):
+class Menu(scene.Scene):
 
     def __init__(self, world):
         self.world = world
