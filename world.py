@@ -39,7 +39,7 @@ class World(object):
                 if event.type == pygame.QUIT:
                     end_game = True
                 elif event.type == pygame.KEYDOWN:
-                    if event.key in [pygame.K_ESCAPE, pygame.K_q]:
+                    if event.key == pygame.K_q:
                         end_game = True
                     elif event.key == pygame.K_F3:
                         pygame.display.toggle_fullscreen()

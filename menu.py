@@ -12,7 +12,7 @@ import help
 
 class Menu(scene.Scene):
 
-    def __init__(self, world):
+    def __init__(self, world, initial_position=0):
 
         self.opciones = opciones = [
             ("Jugar", self.jugar),
@@ -27,7 +27,7 @@ class Menu(scene.Scene):
         self.fondo = pygame.image.load(MENU_IMAGE).convert()
         self.colorEncendido = (255,255,255)
         self.colorApagado = (0,0,0)
-        self.seleccionado = 0
+        self.seleccionado = initial_position
         self.screen = None
 
     def update(self):
@@ -59,7 +59,8 @@ class Menu(scene.Scene):
         pass
 
     def dibujarOpciones(self):
-        altura_de_opcion = 60
+        altura_de_opcion = 200
+        interlineado = 40
         x = 250
         y = 80
 
@@ -73,7 +74,7 @@ class Menu(scene.Scene):
                 imagen = imagenes[1]
             else:
                 imagen = imagenes[0]
-            posicion = (x, y + altura_de_opcion * indice)
+            posicion = (x, y + altura_de_opcion + interlineado * indice)
             self.screen.blit(imagen, posicion)
 
     def moverSeleccion(self, direccion ):
