@@ -4,6 +4,7 @@ import pygame
 import scene
 import sys
 from  config import *
+from pygame.locals import *
 
 class Menu(scene.Scene):
 
@@ -23,6 +24,7 @@ class Menu(scene.Scene):
         self.colorEncendido = (200,0,0)
         self.colorApagado = (0,0,0)
         self.seleccionado = 0
+        self.screen = None
 
     def update(self):
         self.imagenes = []
@@ -34,15 +36,26 @@ class Menu(scene.Scene):
         pass
 
     def draw(self, screen):
-        screen.blit(self.fondo, (0,0))
-        self.dibujarOpciones(screen)
+        self.screen = screen
+        self.screen.blit(self.fondo, (0,0))
+        self.dibujarOpciones()
         pygame.display.flip()
         pass
 
-    def on_event(self, event):
+    def on_event(self, e):
+        if e.type == KEYDOWN:
+            if e.key in [K_UP, K_KP8]:
+                self.moverSeleccion(-1)
+            elif e.key in [K_DOWN, K_KP2]:
+                self.moverSeleccion(1)
+            elif e.key in [K_RETURN, K_KP7, K_KP1, K_KP3, K_KP9]:
+                #self.sonido_menu.play()
+                titulo, funcion = self.opciones[self.seleccionado]
+                funcion()
+                self.actualizar()
         pass
 
-    def dibujarOpciones(self, screen):
+    def dibujarOpciones(self):
         altura_de_opcion = 60
         x = 250
         y = 80
@@ -50,7 +63,7 @@ class Menu(scene.Scene):
         for indice, imagenes in enumerate(self.imagenes):
             posicion = (x, y + altura_de_opcion * indice)
             area = imagenes[0].get_rect(topleft=posicion)
-            screen.blit(self.fondo, posicion, area)
+            self.screen.blit(self.fondo, posicion, area)
 
         for indice, imagenes in enumerate(self.imagenes):
             if indice == self.seleccionado:
@@ -58,16 +71,16 @@ class Menu(scene.Scene):
             else:
                 imagen = imagenes[0]
             posicion = (x, y + altura_de_opcion * indice)
-            screen.blit(imagen, posicion)
+            self.screen.blit(imagen, posicion)
 
-    def moverSeleccion(self, direccion):
+    def moverSeleccion(self, direccion ):
         self.seleccionado += direccion
         # procura que el cursor esté entre las opciones permitidas
         if self.seleccionado < 0:
             self.seleccionado = 0
         elif self.seleccionado > len(self.opciones) - 1:
             self.seleccionado = len(self.opciones) - 1
-        self.sonido_menu.play()
+        #self.sonido_menu.play()
         self.dibujarOpciones()
 
     def jugar(self):
