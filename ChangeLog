@@ -1,55 +1,84 @@
-prueba bug4, pasado a github
+vie julio 30 22:00:00 ART 2010: <hsanchez@pressenter.com.ar>, 
+<hugoruscitti@gmail.com>
 
+	- Se migró el projecto a GitHub
+	- Se definieron nuevos issues en el tracker
 
-lun mar 10 19:59:31 ARST 2008: <humitos@gmail.com>
-    - Se utiliza una matriz para almacenar las posiciones de las piezas.
-    En cada fila y columna que corresponda al tablero se tiene un objeto de
-    Checker.
-    - Se quito todo lo que usaba increment_pos y se lo sustituyó por
-    squares_adyacent_possibles(checker) que es ella quien se encarga de
-    devolver los adyacentes posibles.
-    - Creación de la función squares_adyacent(checker) que devuelve los
-    adyacentes de dicha ficha.
-    - Restructuracion de checker_of_player(position, player).
-    - get_checker_at_index(index) utiliza la nueva matriz de posiciones.
+PyCamp 2010:
+	- Se aplicó un manejador de escenas
+	- Se cambió el menú del juego
 
-lun mar 10 13:07:13 ARST 2008: <humitos@gmail.com>
-    - Agregada la funcion debug(*args), que recibe lo que se quiere imprimir,
-    y DEBUG que indica si se ejecuto en forma de Debug o no
+mie Enero 13 19:00:00 ART 2010: <hsanchez@pressenter.com.ar>,
+<hugoruscitti@gmail.com>
+
+	-Se definió realizar el algoritmo de damas simple, el cual le dá más 
+	naturalidad al juego. ver: doc/algoritmo_dama_simple.txt
+
+PyCamp 2009: <hsanchez@pressenter.com.ar>, <hugoruscitti@gmail.com>,
+<humitos@gmail.com>, <leo@kde.org.ar>, <alopezluksenberg@gmail.com>
+
+	La meta fue terminar en estos días una versión jugable, agregando 
+	funcionalidad que faltaba.
+
+	- Comenzamos emprolijando y corrigiendo el código, con la ayuda de pylint,
+	quitando funciones obsoletas, y reutilizando otras, refactorizando varias partes.
+	- Se aplicó el algoritmo de fichas comunes a la lógica del juego
+ 	- Se terminó la función de Coronar
+	- Se agregó la imagen de la dama
+	- Se agregaron nuevos features:
+		.Poder jugar con teclas
+		.Resaltar fichas obligadas a mover
+		.Eliminar ficha del tabler (Para hacer test)
+
+lun marzo 10 19:59:31 ARST 2008: <humitos@gmail.com>
+	- Se utiliza una matriz para almacenar las posiciones de las piezas.
+	En cada fila y columna que corresponda al tablero se tiene un objeto de
+	Checker.
+	- Se quitó todo lo que usaba increment_pos y se lo sustituyó por
+	squares_adyacent_possibles(checker) que es ella quien se encarga de
+	devolver los adyacentes posibles.
+	- Creación de la función squares_adyacent(checker) que devuelve los
+	adyacentes de dicha ficha.
+	- Restructuracion de checker_of_player(position, player).
+	- get_checker_at_index(index) utiliza la nueva matriz de posiciones.
+
+lun marzo 10 13:07:13 ARST 2008: <humitos@gmail.com>
+	- Agregada la función debug(*args), que recibe lo que se quiere imprimir,
+	y DEBUG que indica si se ejecuto en forma de Debug o no
 
 dom marzo 09 13:07:13 ART 2008: <humitos@gmail.com>,
 <hsanchez@pressenter.com.ar>
-    -Separacion de la funcion jump_focerd en forced_jump_all_checkers y
-    forced_jump_one_checker. Checker tiene un atributo crown que indica si es
-    corona o no. Agregada la funcion get_checker_at_index de la clase Table
-    -Cambio el nombre del archivo test.py a run.py, se agregaron reglas.
+	-Separación de la funcion jump_focerd en forced_jump_all_checkers y
+	forced_jump_one_checker. Checker tiene un atributo crown que indica si es
+	corona o no. Agregada la funcion get_checker_at_index de la clase Table
+	-Cambio el nombre del archivo test.py a run.py, se agregaron reglas.
 
 
-dom dic 30 17:27:40 ART 2007: <hugoruscitti@gmail.com>
-    - Nuevo objeto 'Turn' que muestra el jugador que debe mover la siguiente
-    pieza.
-    - Mejoras en el objeto 'Mouse', ahora se puede saber si se permite un
-    movimiento antes de mover. El cursor tiene un pequeño indicador a la
-    derecha del mismo (flecha verde o cruz roja).
-    - Se agrega animación en los botones.
+dom diciembre 30 17:27:40 ART 2007: <hugoruscitti@gmail.com>
+	- Nuevo objeto 'Turn' que muestra el jugador que debe mover la siguiente
+	pieza.
+	- Mejoras en el objeto 'Mouse', ahora se puede saber si se permite un
+	movimiento antes de mover. El cursor tiene un pequeño indicador a la
+	derecha del mismo (flecha verde o cruz roja).
+	- Se agrega animación en los botones.
 
-lun nov 12 16:50:28 ART 2007: <humitos@gmail.com>
-    - Implementando las reglas, sólo se puede mover a casilleros que sean
-    adyacentes y no estén ocupados.
-    - Al arrastrar las piezas no pasan "por debajo" de las otras.
-    - Se eliminó el parpadeo al cambiar de un tema a otro.
-    - Chequea si al mover una pieza, esta corona o no.
-    - Agregado 'Manuel Kaufmann' a AUTHORS
+lun noviembre 12 16:50:28 ART 2007: <humitos@gmail.com>
+	- Implementando las reglas, sólo se puede mover a casilleros que sean
+	adyacentes y no estén ocupados.
+	- Al arrastrar las piezas no pasan "por debajo" de las otras.
+	- Se eliminó el parpadeo al cambiar de un tema a otro.
+	- Chequea si al mover una pieza, esta corona o no.
+	- Agregado 'Manuel Kaufmann' a AUTHORS
 
-sáb nov 10 21:41:30 ART 2007: <hugoruscitti@gmail.com>
-    - Soporte para arrastrar y soltar.
-    - Implementado el módulo "gui" con dos objetos "Mouse" y "Gui".
-    - Nuevas imágenes para las piezas.
-    - La carga de imágenes de piezas se transfiere a la clase Checker.
+sáb noviembre 10 21:41:30 ART 2007: <hugoruscitti@gmail.com>
+	- Soporte para arrastrar y soltar.
+	- Implementado el módulo "gui" con dos objetos "Mouse" y "Gui".
+	- Nuevas imágenes para las piezas.
+	- La carga de imágenes de piezas se transfiere a la clase Checker.
 
-sáb ago 18 00:43:05 ART 2007: <hugoruscitti@gmail.com>,
+sáb agosto 18 00:43:05 ART 2007: <hugoruscitti@gmail.com>,
 <hsanchez@pressenter.com.ar>
-    - Commit Inicial:
+	- Commit Inicial:
 	- Esquema general del juego
 	- Grafica del tablero
 	- Pantalla inicial y ubicación de fichas en el tablero
