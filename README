@@ -1,34 +1,42 @@
+Descripción:
+    Juego de DAMAS para dos jugadores, programado en Python y PyGame.
 
-Como empezamos:
+Características:
+    * No requiere librerias compiladas
+    * Totalmente programado en python y pygame
+    * Soporta dos jugadores
+    * Soporte de temas
 
-    Encarar un modo dos jugadores, dentro de una ventana de pygame. Sin
-    detenernos demasiado en la IA que veníamos planteando. Esto con la 
-    intensión de transladar la 'vista' del tablero ASCII a pygame.
+ChangeLog:
+    Ver el archivo ChangeLog
+
+Licencia:
+    Copyright (C)   Sanchez Héctor < hsanchez@pressenter.com.ar >
+                    Hugo Ruscitti < hugoruscitti@gmail.com >
+                    Manuel Kaufmann < humitos@gmail.com >
+                    [chequear el archiov AUTHORS para más detalles]
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License version 2,
+    as published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     
-Cambios generales:
-    
-    La primera idea del juego fue pensar las posiciones de las fichas como
-    posiciones en una matriz, pero ahora definimos esto de otra manera: sólo
-    enumeramos las celdas que se pueden utilizar.
-    
-Nuevos cambios
-    Reuniones en Bs As:
-        Nos detuvimos a pensar un poco mejor el juego, y definitivamente 
-        decidimos utilizar una matriz, ya que nos permite realizar algunos
-         calculos que de otra manera son muy complejos.
-        También comenzamos a realizar varias funciones que permiten hacer 
-        la misma funcionalidad a la fecha, pero trabajando con matrices.
-    PyCamp 2009:
-        Comenzamos corrigiendo el codigo, con la ayuda de pylint,
-         quitando funciones obsoletas, y reutilizando otras, refactorizando
-         varias partes.
-        Tambien pensamos en agregar nuevos features, y la logica para poder 
-        terminar en estos dias una version jugable, agregando funcionalidad 
-        que faltaba.
+    Ver archivo de licencia LICENSE
 
-Ejecutar en Linux:
-    cd acheckersgame
-    python run.py
+Requerimientos:
+    Python 2.x  http://www.python.org
+    Pygame      http://www.pygame.org
 
+Instalación:
+    Ejecutar en Linux:
+        cd acheckersgame
+        python run.py
 
-alfabetapruning
