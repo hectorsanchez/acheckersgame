@@ -1,3 +1,6 @@
+prueba bug4, pasado a github
+
+
 lun mar 10 19:59:31 ARST 2008: <humitos@gmail.com>
     - Se utiliza una matriz para almacenar las posiciones de las piezas.
     En cada fila y columna que corresponda al tablero se tiene un objeto de
