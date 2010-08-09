@@ -222,6 +222,12 @@ class Table(object):
         for k, v in self._path_dictionary.items():
             print "\t", k, ":", v
 
+        # Si está activada la opcion de mostrar consejos
+        # le dice al jugador que piezas puede mover.
+        if config.show_tips:
+            self.blink_checkers_that_can_move()
+
+
     def _create_path_dictionary(self):
         all_checkers = self._get_all_checkers_from_player(self.player_move)
         print "all", all_checkers

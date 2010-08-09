@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
+import config
+from pygame.locals import *
 import pygame
 import scene
-from config import *
-from pygame.locals import *
 import common
 import menu
 import menu_base
@@ -14,9 +14,11 @@ class Options(scene.Scene):
         self.background = pygame.image.load("ima/options.png")
         opciones = [
             ("Pantalla completa / Ventana", self.toggle_fullscreen),
+            ("Mostrar consejos:", self.toggle_tips),
             ("Regresar", self.return_to_main_menu),
             ]
         self.menu = menu_base.MenuBase(opciones, 0)
+        self.update_show_tips_label()
 
     def update(self):
         pass
@@ -34,5 +36,18 @@ class Options(scene.Scene):
 
     def toggle_fullscreen(self):
         pygame.display.toggle_fullscreen()
+
+    def toggle_tips(self):
+        config.show_tips = not config.show_tips
+        self.update_show_tips_label()
+
     def return_to_main_menu(self):
         self.world.change_scene(menu.Menu(self.world, 1))
+
+    def update_show_tips_label(self):
+        if config.show_tips:
+            new_label = "Mostrar consejos: SI"
+        else:
+            new_label = "Mostrar consejos: NO"
+
+        self.menu.change_text(1, new_label)
