@@ -21,6 +21,13 @@ class MenuBase:
             imagen1 = self.font.render(texto, 1, self.colorEncendido)
             self.imagenes.append( [imagen0, imagen1] )
 
+    def change_text(self, item_index, new_text):
+        "Cambia el texto de una de las opciones del menu."
+        imagen0 = self.font.render(new_text, 1, self.colorApagado)
+        imagen1 = self.font.render(new_text, 1, self.colorEncendido)
+
+        self.imagenes[item_index] = [imagen0, imagen1]
+
     def draw(self, screen, fondo):
         altura_de_opcion = 200
         interlineado = 40

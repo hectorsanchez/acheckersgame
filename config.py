@@ -45,3 +45,6 @@ PIECE_POSITIONS = {
     (7,4) : (209, 396),
     (7,6) : (309, 396)
 }
+
+
+show_tips = False

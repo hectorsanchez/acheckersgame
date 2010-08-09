@@ -25,6 +25,7 @@ class Menu(scene.Scene):
         self.world = world
         # self.sonido_menu = pygame.mixer.Sound(KEY_SOUND)
         self.fondo = pygame.image.load(MENU_IMAGE).convert()
+        self.title = pygame.image.load("ima/title.png")
         self.screen = None
 
     def update(self):
@@ -34,6 +35,7 @@ class Menu(scene.Scene):
         self.screen = screen
         self.screen.blit(self.fondo, (0,0))
         self.menu.draw(self.screen, self.fondo)
+        self.screen.blit(self.title, (150, 80))
         pygame.display.flip()
 
     def on_event(self, e):
