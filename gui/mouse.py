@@ -80,7 +80,7 @@ class Mouse(Sprite):
                 self.bring_to_front()
 
     def on_mouse_active(self, event):
-        self.visible = event.gain
+        self.visible = True
 
     def _drag_widget(self, event):
         dx, dy = event.rel
