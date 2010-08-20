@@ -86,3 +86,13 @@ def ask(screen, question):
 
     return string.join(current_string,"")
 
+
+def full_range(a, b):
+    """Similar a range solo que se asegura de buscar el camino mas corto.
+    
+    Esta funcion retorna una lista con los numeros que van desde 'a' hasta 'b'
+    ya sea realizando incrementos positivos o negativos."""
+    if a > b:
+        return range(a, b-1, -1)
+
+    return range(a, b+1)

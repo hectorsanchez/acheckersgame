@@ -78,41 +78,73 @@ class Table(object):
     def _get_path_for_king(self, position, player, next_squares, 
             must_jump_to_continue=False, last=[]):
         """ Retorna todos los caminos posibles para una ficha """
-        # evalua cada uno de los posibles cuadrados a pisar.
-        #print "Proximos casilleros:", next_squares
 
+        # El formato de la lista next_squares es de la forma
+        #
+        #   [(6, 1), (6, 3), (5, 0), (5, 4), (4, 5), (3, 6), (2, 7)]
+        #
+        # donde cada tupla indica casilleros donde puede pisar
+        # la dama.
+
+        if player == 1:
+            opponent_player = 2
+        else:
+            opponent_player = 1
+
+
+        # Por cada posicion destino:
         for square in next_squares:
-            # hace la primer busqueda sin comer
-            if not must_jump_to_continue and not self.square_occupied(square):
-                #print "\ten un primer movimiento se puede pisar en", square
-                yield last + [square]
-            elif self.square_occupied_by_oponent(square, player):
-                #print "\tcomo", square, "esta ocupada por un rival, se busca saltarla"
 
-                possible_destiny_square = self.get_possible_next_square_by_position(square, 
-                        player, position)
-                #print "\t si la salto tendría que pisar en", possible_destiny_square
+            # full_path es una lista de todas las posiciones
+            # por las que puede pasar la ficha.
+            full_path = self.get_route_to(position, square)
 
-                if (not self.square_occupied(possible_destiny_square) and \
-                        possible_destiny_square in match_position.values()):
-                    #print "\t  y esta libre, osea que puedo comer."
-                    yield last + [square, possible_destiny_square]
+            # Quita la primer casilla porque es la que esta usando
+            # la dama en ese momento.
+            full_path = full_path[1:]
 
-                    #print "\t   pero luego de comer intento seguir desde la", possible_destiny_square
+            # Luego, el camino sirve si se producen dos condiciones
+            #
+            #  - que el ultimo casillero en donde puede pisar este vacio.
+            #  - que en el camino existan 1 o ninguna pieza enemiga.
 
-                    new_pos = possible_destiny_square
-                    possible_next_squares = self.squares_adyacent_by_position(new_pos, player)
+            # Se asegura de analizar un camino existente.
+            if len(full_path) < 1:
+                continue
 
-                    # Obtiene los siguientes movimientos, pero solo buscando
-                    # aquellos que comerán una ficha.
-                    new_paths = self._get_path(new_pos, player, possible_next_squares, 
-                            True, [square, possible_destiny_square])
+            # Se asegura de no pasar por arriba de una pieza de su
+            # equipo.
+            if self.count_pieces_of_player(player, full_path) > 0:
+                print "-- se descarta", full_path, "por tener fichas de su equipo ahi."
+                continue
 
-                    for path in new_paths:
-                        yield path
-                else:
-                    pass
-                    #print "\tpero como está ocupada se descarta el camino."
+            if self.count_pieces_of_player(player, full_path) > 0:
+                print "-- se descarta", full_path, "por tener fichas de su equipo ahi."
+                continue
+
+            if self.count_pieces_of_player(opponent_player, full_path) > 1:
+                print "-- se descarta", full_path, "porque hay mas de un opoente ahi."
+                continue
+
+            if self.square_occupied(full_path[-1]):
+                print "-- se descarta", full_path, "porque esta ocupada la ultima pos."
+                continue
+
+            yield full_path
+
+
+    def count_pieces_of_player(self, player, path):
+        "retorna la cantidad de piezas del jugador indicado por parametros."
+
+        count = 0
+
+        for x in path:
+            checker = self.get_checker_at_position(x)
+
+            if checker and checker.player == player:
+                count += 1
+
+        return count
 
     def squares_adyacent_by_position(self, position, player):
         """Devuelve los casilleros adyacentes a la pieza.
@@ -230,9 +262,15 @@ class Table(object):
 
     def _create_path_dictionary(self):
         all_checkers = self._get_all_checkers_from_player(self.player_move)
-        print "all", all_checkers
-        all_paths = [(checker, self._get_best_path_for_a_checker(checker)) for checker in all_checkers]
 
+        print "all", all_checkers
+
+        # Toma todas las piezas y genera un lista con fichas y los caminos
+        # que puede realizar.
+        all_paths = [(checker, self._get_best_path_for_a_checker(checker)) 
+                        for checker in all_checkers]
+
+        # filtra la lista para que solo esten las fichas que se pueden mover.
         all_paths = self._filter_only_the_best_paths(all_paths)
         self._path_dictionary = dict(all_paths)
 
@@ -374,6 +412,14 @@ x x x x
             path_list = [[]]
 
 
+        # La seleccion de mejores caminos se deshabilita para las
+        # damas, porque tienen mas libertad que las damas.
+        if checker.king:
+            return path_list
+
+
+        # intenta quedarse solamente con los mejores caminos
+        # para recorrer.
         try:
             best_length = max([len(path) for path in path_list])
         except ValueError:
@@ -485,7 +531,6 @@ x x x x
 
         self._path_dictionary[checker] = [path[2:] for path in path_selected]
 
-
     def check_end_path(self, checker):
         """ Verifica si tengo que seguir haciendo movimientos
         en base al camino """
@@ -519,3 +564,24 @@ x x x x
         self.group.add(new_king)
         self.gui.add(new_king)
         self.group.set_mouse_on_top()
+    
+    def get_route_to(self, position, square):
+        "Retorna la ruta completa desde una posición hasta otra."
+        path = []
+        
+        x, y = position
+        to_x, to_y = square
+
+        x_range = common.full_range(x, to_x)
+        y_range = common.full_range(y, to_y)
+
+        return zip(x_range, y_range)
+
+
+
+
+
+#print get_route_to((7,2), (5,0))
+#print get_route_to((7,2), (5,4))
+#print get_route_to((6,3), (5,4))
+#print get_route_to((6,3), (7,2))
