@@ -52,15 +52,5 @@ class World(object):
             self.scene.update()
             self.scene.draw(self.screen)
 
-    def on_classic__clicked(self):
-        """ Click en el boton estilo classic """
-        self.theme = "classic"
-        self.change_theme(self.theme)
-
-    def on_beach__clicked(self):
-        """ Click en el boton estilo beach """
-        self.theme = "beach"
-        self.change_theme(self.theme)
-
     def change_scene(self, scene):
         self.scene = scene

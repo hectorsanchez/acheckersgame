@@ -2,10 +2,15 @@
 PIECE1 = 'p1.png'
 PIECE2 = 'p2.png'
 TABLE = 'table.png'
-THEME = 'classic'
+
+THEMES = ['classic','beach']
+THEME = THEMES[0]
+
 WINDOW_TITLE = 'Another Checkers Game - beta'
 WINDOW_SIZE = (640, 480)
+
 MOTION_STEPS = 4.0
+
 MENU_IMAGE = "ima/menu.png"
 MENU_FONT = "font/DejaVuSans.ttf"
 MENU_FONT_SIZE = 18

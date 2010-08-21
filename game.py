@@ -8,13 +8,14 @@ import scene
 import pygame
 import os, re
 import common
+import config
 
 class Game(scene.Scene):
 
     def __init__(self, world):
         scene.Scene.__init__(self, world)
         self.group = group.Group()
-        self.theme = THEME
+        self.theme = config.THEME
         self._create_ui()
 
         self.gui = gui.Gui()
@@ -29,11 +30,6 @@ class Game(scene.Scene):
 
     def _create_ui(self):
         """Crea la interfaz del juego """
-        label = "Theme: classic"
-        #but1 = gui.Button(label, self.font, 500, 45, self.on_classic__clicked)
-        label = "Theme: beach"
-        #but2 = gui.Button(label, self.font, 500, 100, self.on_beach__clicked)
-        #self.group.add(but1, but2)
 
         # genera el visor de turnos
         self.turn = gui.Turn()
