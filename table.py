@@ -518,9 +518,19 @@ x x x x
         return False
 
     def do_this_checker_motion(self, checker, destination):
-        paths = self._path_dictionary[checker]
+        "Dá la orden de mover la pieza a un camino del path ya verificado."
 
+        if checker.king:
+            print "No se que hacer..."
+        else:
+            self.do_this_checker_normal_motion(checker, destination)
+
+
+    def do_this_checker_normal_motion(self, checker, destination):
+        "Realiza el movimiento si la ficha es normal."
         #TODO ver si hay algo que hace esto
+
+        paths = self._path_dictionary[checker]
         es_impar = len(paths[0]) % 2 == 1
 
         if es_impar:
