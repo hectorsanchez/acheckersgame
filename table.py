@@ -274,6 +274,9 @@ class Table(object):
         all_paths = self._filter_only_the_best_paths(all_paths)
         self._path_dictionary = dict(all_paths)
 
+        import pprint
+        pprint.pprint(all_paths)
+
     def blink_checkers_that_can_move(self):
         """Hace destellar las piezas que se pueden mover en este turno."""
         for checker in self._path_dictionary.keys():
@@ -521,9 +524,37 @@ x x x x
         "Dá la orden de mover la pieza a un camino del path ya verificado."
 
         if checker.king:
-            print "No se que hacer..."
+            self.do_this_checker_king_motion(checker, destination)
         else:
             self.do_this_checker_normal_motion(checker, destination)
+
+
+    def do_this_checker_king_motion(self, checker, destination):
+        paths = self._path_dictionary[checker]
+        selected_path = None
+        eat_any = False
+
+        # Selecciona el path que el usuario va a utilizar.
+        for p in paths:
+            if p[-1] == destination:
+                selected_path = p
+
+        # Elimina todas las fichas que se crucen en su camino.
+        # Si come alguna lo guarda en una variable 'eat_any'.
+        for pos in selected_path:
+            if self.square_occupied(pos):
+                print "Borrando pieza"
+                self.remove_checker_at(pos)
+                eat_any = True
+
+        print "CONCLUSION!!!! he comido:", eat_any
+
+        if eat_any:
+            # Si ha comido calcula nuevamente los caminos que puede
+            # hacer con esa ficha.
+            self._create_path_dictionary()
+        else:
+            self._path_dictionary[checker] = [None]
 
 
     def do_this_checker_normal_motion(self, checker, destination):
