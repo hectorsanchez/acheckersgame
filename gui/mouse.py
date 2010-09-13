@@ -87,15 +87,15 @@ class Mouse(Sprite):
         self.widget_on_drag.on_mouse_drag(dx, dy)
 
     def _load_images(self):
-        load = common.load_image
+        #load = common.load_image
 
-        self.normal_image = load("normal.png", 'mouse')
-        self.over_click_image = load("yes.png", 'mouse')
-        self.over_drag_image = load("yes.png", 'mouse')
-        self.over_cant_image = load("no.png", 'mouse')
-        self.click_image = load("click.png", 'mouse')
-        self.drag_image = load("drag.png", 'mouse')
-        self.hide = load("hide.png", 'mouse')
+        self.normal_image = pygame.image.load("ima/mouse/normal.png")
+        self.over_click_image = pygame.image.load("ima/mouse/yes.png")
+        self.over_drag_image = pygame.image.load("ima/mouse/yes.png")
+        self.over_cant_image = pygame.image.load("ima/mouse/no.png")
+        self.click_image = pygame.image.load("ima/mouse/click.png")
+        self.drag_image = pygame.image.load("ima/mouse/drag.png")
+        self.hide = pygame.image.load("ima/mouse/hide.png")
 
     def bring_to_front(self):
         common.bring_to_front(self)

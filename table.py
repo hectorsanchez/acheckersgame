@@ -26,7 +26,7 @@ class Table(object):
         """Inicializador de la clase"""
         self.gui = gui
         self.group = group
-        self.image = common.load_image('table.png', theme)
+        self.image = common.load_image_theme('table.png', theme)
         self._create_collision_rects()
         self._create_checkers()
 
@@ -75,7 +75,7 @@ class Table(object):
 
         return adyacentes
 
-    def _get_path_for_king(self, position, player, next_squares, 
+    def _get_path_for_king(self, position, player, next_squares,
             must_jump_to_continue=False, last=[]):
         """ Retorna todos los caminos posibles para una ficha """
         # evalua cada uno de los posibles cuadrados a pisar.
@@ -89,7 +89,7 @@ class Table(object):
             elif self.square_occupied_by_oponent(square, player):
                 #print "\tcomo", square, "esta ocupada por un rival, se busca saltarla"
 
-                possible_destiny_square = self.get_possible_next_square_by_position(square, 
+                possible_destiny_square = self.get_possible_next_square_by_position(square,
                         player, position)
                 #print "\t si la salto tendría que pisar en", possible_destiny_square
 
@@ -105,7 +105,7 @@ class Table(object):
 
                     # Obtiene los siguientes movimientos, pero solo buscando
                     # aquellos que comerán una ficha.
-                    new_paths = self._get_path(new_pos, player, possible_next_squares, 
+                    new_paths = self._get_path(new_pos, player, possible_next_squares,
                             True, [square, possible_destiny_square])
 
                     for path in new_paths:
@@ -281,7 +281,7 @@ class Table(object):
 
     def change_theme(self, theme):
         """Cambia el tema del juego completo"""
-        self.image = common.load_image('table.png', theme)
+        self.image = common.load_image_theme('table.png', theme)
 
         for checker in self.checkers:
             checker.change_theme(theme)
@@ -326,11 +326,11 @@ class Table(object):
         # creo la matriz de 8 x 8 inicializado a None
         # TODO: verificar si se puede mejorar esto
         self.positions = []
-        
+
         table =  \
 """
  x x x x
-x x x x 
+x x x x
  x x x x
 
      -
@@ -347,7 +347,7 @@ x x x x
             row = row - 1
 
             for col, item in enumerate(line):
-        
+
                 if item in ['-', 'x']:
 
                     if item == '-':
@@ -412,7 +412,7 @@ x x x x
             elif self.square_occupied_by_oponent(square, player):
                 #print "\tcomo", square, "esta ocupada por un rival, se busca saltarla"
 
-                possible_destiny_square = self.get_possible_next_square_by_position(square, 
+                possible_destiny_square = self.get_possible_next_square_by_position(square,
                         player, position)
                 #print "\t si la salto tendría que pisar en", possible_destiny_square
 

@@ -12,9 +12,9 @@ show_tips = True
 MOUSE_EVENTS = [MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION, ACTIVEEVENT]
 MOTION_SPEED = 5.0
 
-def load_image(imagefile, theme):
+def load_image_theme(imagefile, theme):
     """Carga una imagen dentro del tema indicado."""
-    image = pygame.image.load('ima/%s/%s' %(theme, imagefile))
+    image = pygame.image.load('ima/themes/%s/%s' %(theme, imagefile))
     return image.convert_alpha()
 
 def bring_to_front(sprite):

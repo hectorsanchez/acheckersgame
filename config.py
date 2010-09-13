@@ -3,7 +3,7 @@ PIECE1 = 'p1.png'
 PIECE2 = 'p2.png'
 TABLE = 'table.png'
 
-THEMES = ['classic','beach']
+THEMES = ['classic','beach','debug']
 THEME = THEMES[0]
 
 WINDOW_TITLE = 'Another Checkers Game - beta'

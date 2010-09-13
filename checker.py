@@ -3,7 +3,7 @@
 import pygame
 from pygame.sprite import Sprite
 from config import PIECE_POSITIONS, THEME
-from common import load_image
+from common import load_image_theme
 import states
 
 NORMAL, OVER, DRAG = 0, 1, 2
@@ -53,7 +53,7 @@ class Checker(Sprite):
         prefix = "p%d_"% player
         names =  ['normal', 'over', 'drag']
         filenames = [prefix + name + '.png' for name in names]
-        self.images = [load_image(name, theme) for name in filenames]
+        self.images = [load_image_theme(name, theme) for name in filenames]
 
     def show_image(self, index):
         """Asigna la nueva imagen a la ficha"""
