@@ -22,11 +22,11 @@ class King(Checker):
         prefix = "p%d_"% player
         names =  ['normal', 'over', 'drag']
         filenames = [prefix + name + "_king" + '.png' for name in names]
-        self.images = [common.load_image(name, theme) for name in filenames]
+        self.images = [common.load_image_theme(name, theme) for name in filenames]
 
     def must_crown(self):
         """La dama nunca debe coronar."""
         return False
-    
+
     def __repr__(self):
         return "<King at %s>" %str(self.position)
