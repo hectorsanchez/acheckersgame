@@ -2,7 +2,7 @@
 """Modulo para manejo de fichas"""
 import pygame
 from pygame.sprite import Sprite
-from config import PIECE_POSITIONS, THEME
+import config
 from common import load_image_theme
 import states
 
@@ -18,7 +18,7 @@ class Checker(Sprite):
     def __init__(self, player, initial_position, table):
         Sprite.__init__(self)
         self.player = player
-        self._load_images(player, THEME)
+        self._load_images(player, config.THEME)
         self.show_image(NORMAL)
         self.rect = self.image.get_rect()
         self._move(initial_position)
@@ -41,7 +41,7 @@ class Checker(Sprite):
         """Mueve la ficha a la posicion indicada por position.
         Las posiciones corresponden a la fila y columna de la matriz"""
         self.position = position
-        self.rect.x, self.rect.y = PIECE_POSITIONS[position]
+        self.rect.x, self.rect.y = config.PIECE_POSITIONS[position]
 
     def change_theme(self, theme):
         """Cambia el tema de la ficha"""
@@ -89,7 +89,7 @@ class Checker(Sprite):
             self.change_state(states.Moving(self, from_x, from_y))
 
     def set_position(self, position, interpolate=False):
-        to_x, to_y = PIECE_POSITIONS[position]
+        to_x, to_y = config.PIECE_POSITIONS[position]
 
         if interpolate:
             self.change_state(states.Moving(self, to_x, to_y))
