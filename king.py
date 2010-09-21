@@ -2,7 +2,7 @@
 """Modulo para manejo de fichas reina"""
 from checker import Checker
 import common
-from config import *
+import config
 
 class King(Checker):
     """Representa una pieza reina del juego.
@@ -13,7 +13,7 @@ class King(Checker):
 
     def __init__(self, player, initial_position, table):
         Checker.__init__(self, player, initial_position, table)
-        self._load_images(player, THEME)
+        self._load_images(player, config.THEME)
         self.quality = 10
         self.king = True
 
