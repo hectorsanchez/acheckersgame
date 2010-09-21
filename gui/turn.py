@@ -3,7 +3,7 @@
 import pygame
 from pygame.sprite import Sprite
 import common
-from config import THEME
+import config
 
 class Turn(Sprite):
     """Representa un visor de turnos, indicando que jugador debe mover la
@@ -11,7 +11,7 @@ class Turn(Sprite):
 
     def __init__(self):
         Sprite.__init__(self)
-        self.base_image = common.load_image_theme('turn.png', THEME)
+        self.base_image = common.load_image_theme('turn.png', config.THEME)
         self.can_drag = False
         self.can_click = False
 
@@ -24,7 +24,7 @@ class Turn(Sprite):
     def change(self, player):
         "Altera el mensaje de texto indicado el jugador con turno."
         self.image = self.base_image.copy()
-        self.common_image = common.load_image_theme('p%s_normal.png' % (player), THEME)
+        self.common_image = common.load_image_theme('p%s_normal.png' % (player), config.THEME)
         text = "Turno del jugador: %d" % (player)
         text_image = self.font.render(text, 1, (0, 0, 0))
         self.image.blit(text_image, (5, 5))
