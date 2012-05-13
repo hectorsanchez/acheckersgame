@@ -4,7 +4,7 @@ PIECE2 = 'p2.png'
 TABLE = 'table.png'
 
 THEMES = ['classic','beach','debug']
-THEME = THEMES[0]
+THEME = THEMES[2]
 
 WINDOW_TITLE = 'Another Checkers Game - beta'
 WINDOW_SIZE = (640, 480)
@@ -42,7 +42,7 @@ PIECE_POSITIONS = {
     (5,4) : (209, 296),
     (5,6) : (309, 296),
     (6,1) : (59, 346),
-    (6,3) : (159, 346),
+    (6,3) : (109, 396),
     (6,5) : (259, 346),
     (6,7) : (359, 346),
     (7,0) : (9, 396),

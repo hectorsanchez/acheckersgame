@@ -335,8 +335,8 @@ x x x x
 
      -
   -   -
- - x - -
--   - -
+ - - - -
+- x - -
 """
 
 
@@ -351,15 +351,16 @@ x x x x
                 if item in ['-', 'x']:
 
                     if item == '-':
+                        print "player2: ", row , col
                         checker = Checker(2, (row,col), self)
                     elif item == 'x':
+                        print "player1: ", row , col
                         checker = Checker(1, (row,col), self)
 
                     self.positions[row][col] = checker
                     self.checkers.append(checker)
 
         self.group.add(self.checkers)
-
 
     def _get_best_path_for_a_checker(self, checker):
         """Obtiene el mejor camino para una ficha."""
@@ -508,8 +509,8 @@ x x x x
 
     def convert_to_king(self, position):
         """Convierte una ficha normal en dama."""
-        checker = self.get_checker_at_position(position)
 
+        checker = self.get_checker_at_position(position)
         new_king = King(checker.player, checker.position, self)
         self.remove_checker_at(checker.position)
 
