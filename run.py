@@ -8,5 +8,6 @@ def main():
     world.change_scene(menu.Menu(world))
     world.loop()
 
+
 if __name__ == '__main__':
     main()
