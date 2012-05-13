@@ -331,7 +331,7 @@ class Table(object):
 """
  x x x x
 x x x x
- x x x x
+ x x x
 
      -
   -   -
@@ -351,10 +351,8 @@ x x x x
                 if item in ['-', 'x']:
 
                     if item == '-':
-                        print "player2: ", row , col
                         checker = Checker(2, (row,col), self)
                     elif item == 'x':
-                        print "player1: ", row , col
                         checker = Checker(1, (row,col), self)
 
                     self.positions[row][col] = checker
