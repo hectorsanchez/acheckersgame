@@ -335,8 +335,8 @@ x x x x
 
      -
   -   -
- - - - -
-- x - -
+ X - - -
+-   - -
 """
 
 
@@ -354,9 +354,15 @@ x x x x
                         checker = Checker(2, (row,col), self)
                     elif item == 'x':
                         checker = Checker(1, (row,col), self)
+                    elif item == 'X':
+                        checker = Checker(1, (row,col), self)
 
                     self.positions[row][col] = checker
                     self.checkers.append(checker)
+
+
+                    if item =='X':
+                        checker.convert_to_king((row, col))
 
         self.group.add(self.checkers)
 

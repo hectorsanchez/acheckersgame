@@ -16,6 +16,7 @@ MENU_FONT = "font/DejaVuSans.ttf"
 MENU_FONT_SIZE = 18
 KEY_SOUND = "sounds/tecla.wav"
 
+
 PIECE_POSITIONS = {
     (0,1) : (59, 46),
     (0,3) : (159, 46),
@@ -52,4 +53,4 @@ PIECE_POSITIONS = {
 }
 
 
-show_tips = False
+show_tips = True

@@ -21,10 +21,6 @@ class Starting(State):
         checker.can_drag = False
         checker.rect.x = to_x
 
-        if player == 1:
-            checker.rect.y = -100
-        else:
-            checker.rect.y = 710
 
         self.moves = common.interpolate(checker.rect.topleft, to)
 
