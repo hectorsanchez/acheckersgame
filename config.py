@@ -3,9 +3,6 @@ PIECE1 = 'p1.png'
 PIECE2 = 'p2.png'
 TABLE = 'table.png'
 
-THEMES = ['classic','beach','debug']
-THEME = THEMES[2]
-
 WINDOW_TITLE = 'Another Checkers Game - beta'
 WINDOW_SIZE = (640, 480)
 

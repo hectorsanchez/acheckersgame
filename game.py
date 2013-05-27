@@ -6,7 +6,6 @@ from table import Table
 from config import *
 import scene
 import pygame
-import os, re
 import common
 import config
 
@@ -15,18 +14,17 @@ class Game(scene.Scene):
     def __init__(self, world):
         scene.Scene.__init__(self, world)
         self.group = group.Group()
-        self.theme = config.THEME
         self._create_ui()
 
         self.gui = gui.Gui()
-        self.table = Table(self.gui, self.group, self.theme, self.turn)
+        self.table = Table(self.gui, self.group, self.turn)
         self.gui.add_widgets(self.group.sprites())
 
         self.mouse = gui.Mouse(self.gui)
         self.group.add_mouse(self.mouse)
 
         self.background = world.screen.convert()
-        self.change_theme(self.theme)
+        self.update_view()
 
     def _create_ui(self):
         """Crea la interfaz del juego """
@@ -42,15 +40,8 @@ class Game(scene.Scene):
     def draw(self, screen):
         pass
 
-    def change_theme(self, theme):
-        """ Cambio de thema """
-        self.theme = theme
-        self.update_view(self.theme)
-
-
-    def update_view(self, theme):
+    def update_view(self):
         """ Actualiza la vista"""
-        self.table.change_theme(theme)
         self.table.draw(self.background)
         self.world.screen.blit(self.background, (0, 0))
         pygame.display.flip()
@@ -73,7 +64,7 @@ class Game(scene.Scene):
                 regular = re.compile(r'^([0-7]),([0-7])$')
                 if not regular.match(mov):
                     message = 'Fichas ' + mov + ' invalida'
-                    self.update_view(self.theme)
+                    self.update_view()
                 else:
                     r, _, c = tuple(mov)
                     try:
@@ -83,7 +74,7 @@ class Game(scene.Scene):
                         print mesg
 
                     finally:
-                        self.update_view(self.theme)
+                        self.update_view()
 
 
                 #TODO: esto no esta bien, solo lo hago porque este metodo
@@ -95,7 +86,7 @@ class Game(scene.Scene):
                 regular = re.compile(r'^([0-7]),([0-7])$')
                 if not regular.match(mov):
                     message = 'Fichas ' + mov + ' invalida'
-                    self.update_view(self.theme)
+                    self.update_view()
                 else:
                     r, _, c = tuple(mov)
                     try:
@@ -104,7 +95,7 @@ class Game(scene.Scene):
                         print mesg
 
                     finally:
-                        self.update_view(self.theme)
+                        self.update_view()
 
                 #TODO: esto no esta bien, solo lo hago porque este metodo
                 #es para debug
@@ -128,4 +119,4 @@ class Game(scene.Scene):
                         # realizar el movimiento de la ficha
                         self.table.move_this_checker_to(checker_ori, position_dest, True)
 
-                self.update_view(self.theme)
+                self.update_view()

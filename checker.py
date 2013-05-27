@@ -3,7 +3,7 @@
 import pygame
 from pygame.sprite import Sprite
 import config
-from common import load_image_theme
+from common import load_image
 import states
 
 NORMAL, OVER, DRAG = 0, 1, 2
@@ -18,7 +18,7 @@ class Checker(Sprite):
     def __init__(self, player, initial_position, table):
         Sprite.__init__(self)
         self.player = player
-        self._load_images(player, config.THEME)
+        self._load_images(player)
         self.show_image(NORMAL)
         self.rect = self.image.get_rect()
         self._move(initial_position)
@@ -43,17 +43,12 @@ class Checker(Sprite):
         self.position = position
         self.rect.x, self.rect.y = config.PIECE_POSITIONS[position]
 
-    def change_theme(self, theme):
-        """Cambia el tema de la ficha"""
-        self._load_images(self.player, theme)
-        self.show_image(NORMAL)
-
-    def _load_images(self, player, theme):
+    def _load_images(self, player):
         """Carga todas las imagenes del tema"""
         prefix = "p%d_"% player
         names =  ['normal', 'over', 'drag']
         filenames = [prefix + name + '.png' for name in names]
-        self.images = [load_image_theme(name, theme) for name in filenames]
+        self.images = [load_image(name) for name in filenames]
 
     def show_image(self, index):
         """Asigna la nueva imagen a la ficha"""

@@ -16,7 +16,6 @@ class Options(scene.Scene):
         opciones = [
             ("Pantalla completa / Ventana", self.toggle_fullscreen),
             ("Mostrar consejos:", self.toggle_tips),
-            ("Seleccionar Tema:" + config.THEME, self.change_theme),
             ("Regresar", self.return_to_main_menu),
             ]
         self.menu = menu_base.MenuBase(opciones, 0)
@@ -41,20 +40,6 @@ class Options(scene.Scene):
 
     def return_to_main_menu(self):
         self.world.change_scene(menu.Menu(self.world, 1))
-
-    def change_theme(self):
-        self.update_theme_label()
-
-    def update_theme_label(self):
-        if config.THEMES.index(config.THEME)+1 == len(config.THEMES):
-            next_index = 0
-        else:
-            next_index = config.THEMES.index(config.THEME)+1
-
-        theme = config.THEMES[next_index]
-        config.THEME = theme
-        new_label = 'Seleccionar Tema: ' + theme
-        self.menu.change_text(2, new_label)
 
     def toggle_tips(self):
         config.show_tips = not config.show_tips

@@ -22,11 +22,11 @@ class Table(object):
     """ Utilizada para el manejo de las piezas en el tablero y
     consultas sobre su estado"""
 
-    def __init__(self, gui, group, theme, turn):
+    def __init__(self, gui, group, turn):
         """Inicializador de la clase"""
         self.gui = gui
         self.group = group
-        self.image = common.load_image_theme('table.png', theme)
+        self.image = common.load_image('table.png')
         self._create_collision_rects()
         self._create_checkers()
 
@@ -278,13 +278,6 @@ class Table(object):
                 if self._lenght_of_best_path(path) == best_lenght]
 
         return longest_paths
-
-    def change_theme(self, theme):
-        """Cambia el tema del juego completo"""
-        self.image = common.load_image_theme('table.png', theme)
-
-        for checker in self.checkers:
-            checker.change_theme(theme)
 
     def draw(self, destination):
         """Dibuja el tablero"""

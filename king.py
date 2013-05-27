@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 """Modulo para manejo de fichas reina"""
 from checker import Checker
 import common
@@ -13,16 +12,16 @@ class King(Checker):
 
     def __init__(self, player, initial_position, table):
         Checker.__init__(self, player, initial_position, table)
-        self._load_images(player, config.THEME)
+        self._load_images(player)
         self.quality = 10
         self.king = True
 
-    def _load_images(self, player, theme):
+    def _load_images(self, player):
         """Carga todas las imagenes del tema"""
         prefix = "p%d_"% player
         names =  ['normal', 'over', 'drag']
         filenames = [prefix + name + "_king" + '.png' for name in names]
-        self.images = [common.load_image_theme(name, theme) for name in filenames]
+        self.images = [common.load_image(name) for name in filenames]
 
     def must_crown(self):
         """La dama nunca debe coronar."""
