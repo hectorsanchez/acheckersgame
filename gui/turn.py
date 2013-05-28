@@ -25,9 +25,6 @@ class Turn(Sprite):
         "Altera el mensaje de texto indicado el jugador con turno."
         self.image = self.base_image.copy()
         self.common_image = common.load_image('p%s_normal.png' % (player))
-        text = "Turno del jugador: %d" % (player)
-        text_image = self.font.render(text, 1, (0, 0, 0))
-        self.image.blit(text_image, (5, 5))
         self.image.blit(self.common_image, (64, 25))
 
     def on_mouse_move(self):
