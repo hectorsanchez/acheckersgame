@@ -1,11 +1,13 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 from world import *
-import menu
+import intro1
 
 def main():
     world = World(do_center_window=True)
-    world.change_scene(menu.Menu(world))
+    #new_scene = game.Game(world)
+    new_scene = intro1.Intro1(world)
+    world.change_scene(new_scene)
     world.loop()
 
 
